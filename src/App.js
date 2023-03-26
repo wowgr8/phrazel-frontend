@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Login from './components/Login';
 import { getAllData } from './util/index';
+import { Routes, Route } from "react-router-dom";
+import Login from './components/Login';
+import ProfilePage from './components/ProfilePage';
+import GameLobby from './components/GameLobby';
 
 const URL = 'http://localhost:8000/api/v1/';
 
@@ -22,9 +25,15 @@ function App() {
 //   }, []);
 
   return (
+    // <>
+    //   <h1>{message}</h1>   
+    // </>
     <>
-      {/* <h1>{message}</h1> */}   
-      <Login />
+      <Routes>
+        <Route path='/' exact element={<Login />} />
+        <Route path='ProfilePage' exact element={<ProfilePage />} />
+        <Route path='GameLobby' exact element={<GameLobby />} />
+      </Routes>
     </>
   );
 }
