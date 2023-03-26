@@ -9,12 +9,13 @@ function Login() {
     console.log(showSignUpForm)
   }
 
-  const submitForm = () => {
+  // Will take the user to profile page if they are signing up or game lobby if they signed in.
+  const submitForm = (e) => {
+    e.preventDefault();
     if(showSignUpForm === true){
       console.log("PROFILEPAGE")
       // navigate to ProfilePage
     } else {
-      setShowSignUpForm(!showSignUpForm);
       console.log("GAMELOBBY")
       // navigate to GameLobby 
     }
