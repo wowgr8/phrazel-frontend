@@ -15,18 +15,24 @@ function Login() {
   // Will take the user to profile page if they are signing up or game lobby if they signed in.
   const submitForm = (e) => {
     e.preventDefault();
+
     if(showSignUpForm === true){
-      console.log("PROFILEPAGE");
-      navigate('/ProfilePage')
-      // navigate to ProfilePage
+      navigate('/ProfilePage')  // navigate to ProfilePage
+      console.log("Inside PROFILEPAGE");
     } else {
-      console.log("GAMELOBBY");
-      navigate('/GameLobby')
+      navigate('/GameLobby') // navigate to GameLobby
+      console.log("Inside GAMELOBBY");
     }
   }
 
+  // Will 
+
   return (
     <> 
+      <button >
+        <p>Play now, sign up later! Click here to pick a username and jump right in!</p>
+      </button>
+
       {showSignUpForm 
         ? <>
             <h1>Sign Up</h1>
