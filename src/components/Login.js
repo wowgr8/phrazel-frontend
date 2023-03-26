@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
+
+  let navigate = useNavigate(); 
 
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
@@ -13,11 +16,12 @@ function Login() {
   const submitForm = (e) => {
     e.preventDefault();
     if(showSignUpForm === true){
-      console.log("PROFILEPAGE")
+      console.log("PROFILEPAGE");
+      navigate('/ProfilePage')
       // navigate to ProfilePage
     } else {
-      console.log("GAMELOBBY")
-      // navigate to GameLobby 
+      console.log("GAMELOBBY");
+      navigate('/GameLobby')
     }
   }
 
