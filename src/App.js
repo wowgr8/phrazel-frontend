@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from './components/Login';
 import ProfilePage from './components/ProfilePage';
 import GameLobby from './components/GameLobby';
+import GameRoom from './components/GameRoom';
 
 const URL = 'http://localhost:8000/api/v1/';
 
@@ -33,6 +34,7 @@ function App() {
         <Route path='/' exact element={<Login />} />
         <Route path='ProfilePage' exact element={<ProfilePage />} />
         <Route path='GameLobby' exact element={<GameLobby />} />
+        <Route path='GameRoom' exact element={<GameRoom />} />
       </Routes>
     </>
   );
