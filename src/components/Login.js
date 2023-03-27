@@ -32,9 +32,9 @@ function Login() {
   }
 
   return (
-    <> 
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}> 
       <button onClick={playNow}>
-        <p>Play now, sign up later! Click here to pick a username and jump right in!</p>
+        <p>Sign up later, PLAY NOW!!</p>
       </button>
 
       {showSignUpForm 
@@ -63,7 +63,7 @@ function Login() {
             <button onClick={toggleForm} >Dont have an account? Register </button>
           </> 
       }
-    </>
+    </div>
   )
 }
 
