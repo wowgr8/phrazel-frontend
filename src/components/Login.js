@@ -25,11 +25,15 @@ function Login() {
     }
   }
 
-  // Will 
+  // Will assign random username and send user to GameLobby
+  const playNow = () => {
+    navigate('/GameLobby'); //navigate to GameLobby
+    console.log("PlayNow - inside GAMELOBBY");
+  }
 
   return (
     <> 
-      <button >
+      <button onClick={playNow}>
         <p>Play now, sign up later! Click here to pick a username and jump right in!</p>
       </button>
 
