@@ -3,11 +3,6 @@ import { useNavigate } from "react-router-dom";
 import ScoreBoard from './ScoreBoard';
 
 function GameBoard() {
-
-  // div for user guesses - input field
-    // with submit button
-  // div for chat box
-  // div for Hamburger nav button -  exits to profile page or game lobby
   let navigate = useNavigate(); 
 
   const hamburgerNav = (event) => {
@@ -24,11 +19,22 @@ function GameBoard() {
         </select>
       </div>
       
-      <h1>Room Name Placeholder</h1>
-      <ScoreBoard />
+      <div>
+        <h1>Room Name Placeholder</h1>
+      </div>
+
+      <div>
+        <ScoreBoard />
+      </div>
+
       <div>GameBoard placeholder</div>
-      <div>Guess input field/ form placeholder</div>
-      <div>Chatbox placeholder</div>
+
+      <div>
+        <h4>Guess input field/ form placeholder</h4>
+        <textarea placeholder='Enter guess here'></textarea>
+      </div>
+
+      <h4>Chatbox placeholder</h4>
     </div>
   )
 }
