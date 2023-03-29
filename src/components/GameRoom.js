@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import ScoreBoard from './ScoreBoard';
 
 function GameBoard() {
 
   // div for user guesses - input field
     // with submit button
   // div for chat box
-  // div for scoreboard
-  // Section for gameboard 
   // div for Hamburger nav button -  exits to profile page or game lobby
   let navigate = useNavigate(); 
 
@@ -26,7 +25,7 @@ function GameBoard() {
       </div>
       
       <h1>Room Name Placeholder</h1>
-      <div>SCOREBOARD placeholder</div>
+      <ScoreBoard />
       <div>GameBoard placeholder</div>
       <div>Guess input field/ form placeholder</div>
       <div>Chatbox placeholder</div>
