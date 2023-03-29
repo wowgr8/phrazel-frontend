@@ -65,7 +65,7 @@ function GameLobby() {
           Hint numero uno:{" "}
           <em>
             This is where you can see all of the available games you can join,
-            once they are created. Create the first room to play above!”
+            once they are created. Create the first room above ^^ to play!”
           </em>
         </p>
       </div>
