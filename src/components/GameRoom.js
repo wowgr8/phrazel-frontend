@@ -9,6 +9,12 @@ function GameBoard() {
     event.target.value === 'option1' ? navigate('/ProfilePage') : navigate('/GameLobby');
   }
 
+  const columnStyle = {
+    display: 'inline-block', // Creates column effect
+    width: '30%', // creates spacing in between text
+    verticalAlign: 'top', // each div has the same top starting point
+    };
+
   return (
     <div>
       <div>
@@ -23,18 +29,20 @@ function GameBoard() {
         <h1>Room Name Placeholder</h1>
       </div>
 
-      <div>
+      <div style={columnStyle}>
         <ScoreBoard />
       </div>
 
-      <div>GameBoard placeholder</div>
-
-      <div>
-        <h4>Guess input field/ form placeholder</h4>
-        <textarea placeholder='Enter guess here'></textarea>
+      <div style={columnStyle}>GameBoard placeholder
+        <div>
+          <h4>Guess input field/ form placeholder</h4>
+          <textarea placeholder='Enter guess here'></textarea>
+        </div>
       </div>
 
-      <h4>Chatbox placeholder</h4>
+      <div style={columnStyle} >
+        <h4>Chatbox placeholder</h4>
+      </div>
     </div>
   )
 }
