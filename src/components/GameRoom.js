@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import ScoreBoard from './ScoreBoard';
 
 function GameBoard() {
-
-  // div for user guesses - input field
-    // with submit button
-  // div for chat box
-  // div for scoreboard
-  // Section for gameboard 
-  // div for Hamburger nav button -  exits to profile page or game lobby
   let navigate = useNavigate(); 
 
   const hamburgerNav = (event) => {
     event.target.value === 'option1' ? navigate('/ProfilePage') : navigate('/GameLobby');
   }
+
+  const columnStyle = {
+    display: 'inline-block', // Creates column effect
+    width: '30%', // creates spacing in between text
+    verticalAlign: 'top', // each div has the same top starting point
+    };
 
   return (
     <div>
@@ -25,11 +25,24 @@ function GameBoard() {
         </select>
       </div>
       
-      <h1>Room Name Placeholder</h1>
-      <div>SCOREBOARD placeholder</div>
-      <div>GameBoard placeholder</div>
-      <div>Guess input field/ form placeholder</div>
-      <div>Chatbox placeholder</div>
+      <div>
+        <h1>Room Name Placeholder</h1>
+      </div>
+
+      <div style={columnStyle}>
+        <ScoreBoard />
+      </div>
+
+      <div style={columnStyle}>GameBoard placeholder
+        <div>
+          <h4>Guess input field/ form placeholder</h4>
+          <textarea placeholder='Enter guess here'></textarea>
+        </div>
+      </div>
+
+      <div style={columnStyle} >
+        <h4>Chatbox placeholder</h4>
+      </div>
     </div>
   )
 }
