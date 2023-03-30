@@ -1,25 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+// FUNCTIONING
 function GameLobby() {
+  // Navigation
   let navigate = useNavigate();
-
   const createRoom = () => {
     navigate("/GameRoom"); // Navigate to GameRoom
   };
-
   const joinRoom = () => {
     navigate("/GameRoom"); // Navigate to GameRoom
   };
 
   return (
     <div>
+      <title>Game Lobby</title>
+      <h1>GameLobby</h1>
+      <hr></hr>
       <div>
-        GameLobby
         {/* //////////////////////////////////// */}
         {/* Create a room section */}
         {/* //////////////////////////////////// */}
-        <h1>Create the first room!</h1>
+        <h2>Create the first room!</h2>
         <div>
           <p>Number of Rounds</p>
           <select>
@@ -60,7 +62,7 @@ function GameLobby() {
         {/* //////////////////////////////////// */}
         {/* Need a hint section */}
         {/* //////////////////////////////////// */}
-        <h1>Need a hint?</h1>
+        <h2>Need a hint?</h2>
         <p>
           Hint numero uno:{" "}
           <em>
@@ -72,8 +74,9 @@ function GameLobby() {
       {/* //////////////////////////////////// */}
       {/* Join a room section */}
       {/* //////////////////////////////////// */}
+      <hr></hr>
       <div>
-        <h1>Join a Room!</h1>
+        <h2>Join a Room!</h2>
         <div>
           <select>
             Current games dropdown
