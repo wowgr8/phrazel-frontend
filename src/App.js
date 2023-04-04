@@ -11,8 +11,8 @@ import { useEffect, useState } from 'react';
 const socket = io.connect("http://localhost:3001")
 
 function App() {
-  const [connected, setConnected] = useState(false)
-  const [userName, setUserName] = useState('')
+  const [connected, setConnected] = useState(false)   // Will not be used for the Login/ replaced by Login.js code.
+  const [userName, setUserName] = useState('') // 
   const [inRoom, setInRoom] = useState(false)
   const [room, setRoom] = useState('')
   const [availableRooms, setAvailableRooms] = useState([])
@@ -23,85 +23,100 @@ function App() {
   const [gameStarted, setGameStarted] = useState(false)
   const [length, setLength] = useState(0)
   const [guessingYourWord, setGuessingYourWord] = useState(false)
-  const [youGuessed, setYouGuessed] = useState(false)
+  const [youGuessed, setYouGuessed] = useState(false);
 
+  // Will not be used for the Login.js/ replaced by Login.js code.
   const connect = () => {
     setConnected(true)
   }
 
+  // Will be moved to GameLobby.js 
   const createRoom = () => {
     socket.emit('create_room', userName)
     setInRoom(true)
   }
 
   useEffect(() => {
-
+    // Move to GameLobby.js, inside a useEffect with Socket as dependency
     socket.on('room_number', room => setRoom(room))
 
+    // Move to GameLobby.js, inside a useEffect with Socket as dependency
     socket.on('available_rooms', data => {
       if(data===false)setAvailableRooms([])
       else setAvailableRooms(data)
       console.log(data);
     })
 
+    // Move to GameLobby.js, inside a useEffect with Socket as dependency
     socket.on('players', data => setPlayers(data))
 
+    // Move to GameRoom.js, inside a useEffect with Socket as dependency *** May need to be in it's own component down the line. A pre-gameRoom screen.
     socket.on('all_players_ready', () => setAllPlayersReady(true))
 
+    // Move to GameRoom.js, inside a useEffect with Socket as dependency
     socket.on('word_to_guess', length => {
       setGameStarted(true)
       setLength(length)
     })
 
+    // Move to GameRoom.js, inside a useEffect with Socket as dependency
     socket.on('guessing_your_word',()=>{
       setGuessingYourWord(true)
       setGameStarted(true)
     })
 
+    // Move to GameRoom.js, inside a useEffect with Socket as dependency
     socket.on('right', () => {
       setYouGuessed(true)
     })
   }, [socket])
 
+  // Move to GameLobby.js
   const joinRoom = () => {
     if (room !== "") socket.emit('join_room', { room, userName })
     setInRoom(true)
   }
 
+  // Move to GameRoom.js
   const sendWord = () => {
     socket.emit('send_word', { word, room })
     setWordSent(true)
   }
 
+  // Move to GameRoom.js
   const leaveRoom = () => {
     socket.emit('leave_room', room)
     setInRoom(false)
     setWordSent(false)
   }
 
+  // Move to GameRoom.js
   const disconnectRoom = () => {
     socket.emit('disconnect_room', room)
     if (socket) socket.disconnect();
   }
 
+// Move to GameRoom.js
   const startGame = () => {
     socket.emit('start_game', room)
     setGameStarted(true)
   }
 
+// Move to GameRoom.js
   const guessWord = () => {
     socket.emit('guess_word', { word, room })
   }
 
+  // Move to GameRoom.js
   let guess = youGuessed ? 'You Guessed Right!!!' : ''
   let dis = players.length > 2 && allPlayersReady ? false : true
 
-  if (connected) {
+  if (connected) { // Handled by Login.js
     if (inRoom) {
       if (wordSent) {
         if (gameStarted) {
           if(guessingYourWord){
-            return (
+            return ( // Cannot play/while waiting for other players to submit guess. GameBoard.js/ Possibly GameRoom.js
               <div className="App">
                 <h2>Room: {room}</h2>
                 <h2>Players:{players.join('-')}</h2>
@@ -109,7 +124,7 @@ function App() {
               </div>
             )
           }else{
-            return (
+            return ( // Inside of GameBoard.js - to be created by Cesar
               <div className="App">
                 <h2>Room: {room}</h2>
                 <h2>Players:{players.join('-')}</h2>
@@ -124,7 +139,7 @@ function App() {
           }
           
         } else {
-          return (
+          return ( // Inside of GameRoom.js - after entering a word
             <div className="App">
               <h2>Room: {room}</h2>
               <h2>Players:{players.join('-')}</h2>
@@ -136,7 +151,7 @@ function App() {
           )
         }
       } else {
-        return (
+        return ( // Inside of GameRoom.js - When you are being asked a word
           <div className="App">
             <h2>Room: {room}</h2>
             <h2>Players:{players.join('-')}</h2>
@@ -150,7 +165,7 @@ function App() {
         )
       }
     } else {
-      return (
+      return ( // Inside of GameLobby.js - where you join or create a room
         <div className="App">
           <h1>Available Rooms: {availableRooms.length > 0 ? availableRooms.join('-') : 'No Rooms Available, create a New Room'}</h1>
           <input placeholder='Room Number...' onChange={(event) => {
@@ -165,6 +180,8 @@ function App() {
       )
     }
   } else {
+
+    // Handled by Login.js - Should be broken up and moved into Login.js
     return (
       <div className="App">
         <input placeholder='User Name...' onChange={(event) => {
