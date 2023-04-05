@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+import Login from './Login';
 // add import for Login.js
 
 function LandingPage() {
@@ -18,7 +19,7 @@ function LandingPage() {
       <button onClick={playNow}>
         <p>Sign up later, PLAY NOW!!</p>
       </button>
-      <h5>Login Page component placeholder</h5>
+      <Login />
     </>
   )
 }
