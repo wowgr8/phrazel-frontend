@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -15,6 +15,26 @@ function Login() {
   }
 
   // Will take the user to profile page if they are signing up or game lobby if they signed in.
+  
+  // useEffect(() => {
+  //   const submitForm = (e) => {
+  //     e.preventDefault();
+  
+  //     if(showSignUpForm === true){
+  //       setUserName(e.target.value)
+  //       console.log("Inside PROFILEPAGE");
+  //       console.log("user input:", e.target.value);
+  //       navigate('/ProfilePage')  // navigate to ProfilePage
+  //     } else {
+  //       setUserName(e.target.value)
+  //       console.log("Inside GAMELOBBY");
+  //       console.log("user input:", e.target.value);
+  //       navigate('/GameLobby') // navigate to GameLobby
+  //     }
+  //   }
+  // }, [setUserName])
+  
+  
   const submitForm = (e) => {
     e.preventDefault();
 
