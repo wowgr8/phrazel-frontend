@@ -1,12 +1,11 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Login from './Login';
-// add import for Login.js
 
 function LandingPage() {
   let navigate = useNavigate(); 
 
-  // Will assign random username and send user to GameLobby
+  // Will assign the user a random username and send the user to the GameLobby
     // Random username - WIP
   const playNow = () => {
     navigate('/GameLobby'); //navigate to GameLobby
