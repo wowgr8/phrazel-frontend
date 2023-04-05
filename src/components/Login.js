@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
-  const [userName, setUserName] = useState('')
+  const [userName, setUserName] = useState(''); // define this in App.js and pass userName as props into ProfilePage,GameLobby, etc.
 
   let navigate = useNavigate(); 
 
@@ -36,9 +36,9 @@ function Login() {
               <label>username: </label>
               <input name="username"></input>
               <label>email: </label>
-              <input name="email"></input>
+              <input name="email" disabled></input>
               <label>password: </label>
-              <input name="password"></input>
+              <input name="password" disabled></input>
               <button type="submit">Signup!</button>
             </form>
             <button onClick={toggleForm} >Already have an account? Sign in </button>
