@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import io from "socket.io-client"
-
 import Login from './components/Login';
 import LandingPage from './components/LandingPage';
 import ProfilePage from './components/ProfilePage';
@@ -17,7 +16,7 @@ const socket = io.connect("http://localhost:3001")
 
 function App() {
   const [connected, setConnected] = useState(false)   // Will not be used for the Login/ replaced by Login.js code.
-  const [userName, setUserName] = useState('') // Moved to Login.js
+  const [userName, setUserName] = useState('') // Moved to Login.js but may need to move it back here, then pass userName as props to GameLobby, ProfilePage, and Login.js
   const [inRoom, setInRoom] = useState(false)
   const [room, setRoom] = useState('')
   const [availableRooms, setAvailableRooms] = useState([])
@@ -116,36 +115,22 @@ function App() {
   let guess = youGuessed ? 'You Guessed Right!!!' : ''
   let dis = players.length > 2 && allPlayersReady ? false : true
 
-    return (
-      <div className="App">
-        <Router>
-          <Routes>
-            <Route path='/' exact element={<LandingPage />} />
-            <Route path='Login' exact element={<Login />} />
-            <Route path='ProfilePage' exact element={<ProfilePage />} />
-            <Route path='GameLobby' exact element={<GameLobby />} />
-            <Route path='GameRoom' exact element={<GameRoom />} />
-          </Routes>
-        </Router>
-      </div>
-    )
-  }
-
-
+  return (
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route path='/' exact element={<LandingPage />} />
+          <Route path='Login' exact element={<Login />} />
+          <Route path='ProfilePage' exact element={<ProfilePage />} />
+          <Route path='GameLobby' exact element={<GameLobby />} />
+          <Route path='GameRoom' exact element={<GameRoom />} />
+        </Routes>
+      </Router>
+    </div>
+  )
+}
 
 export default App;
-
-
-{/* <Routes>
-  <Route path='/' exact element={<Login />} />
-  <Route path='ProfilePage' exact element={<ProfilePage />} />
-  <Route path='GameLobby' exact element={<GameLobby />} />
-  <Route path='GameRoom' exact element={<GameRoom />} />
-</Routes> */}
-
-
-
-
 
 // --- --- --- 
 
