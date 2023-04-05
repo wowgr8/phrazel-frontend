@@ -31,9 +31,9 @@ function App() {
   const [youGuessed, setYouGuessed] = useState(false);
 
   // Will not be used for the Login.js/ replaced by Login.js code.
-  const connect = () => {
-    setConnected(true)
-  }
+  // const connect = () => {
+  //   setConnected(true)
+  // }
 
   // Will be moved to GameLobby.js 
   const createRoom = () => {
@@ -127,12 +127,6 @@ function App() {
             <Route path='GameRoom' exact element={<GameRoom />} />
           </Routes>
         </Router>
-
-        
-        <input placeholder='User Name...' onChange={(event) => {
-          setUserName(event.target.value)
-        }} />
-        <button onClick={connect} >Connect</button>
       </div>
     )
   }
