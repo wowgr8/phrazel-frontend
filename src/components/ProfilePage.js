@@ -1,26 +1,32 @@
 import React, { useState } from "react";
-
-// exit button - that takes user back to gamelobby
-// Will need a button
-// section for profile photo
-// section for drop down - to select avatar
-// section for games w/l ratio
+import { useNavigate } from "react-router-dom";
 
 function ProfilePage() {
-  const [buttonState, setButtonState] = useState("button click");
   const [wins, setWins] = useState(0);
   const [losses, setLosses] = useState(0);
 
-  function exitProfile() {
-    alert(buttonState);
+  let navigate = useNavigate();
+
+  function exitProfile(event) {
+    event.target.value === "game lobby"
+      ? navigate("/GameLobby")
+      : navigate("/GameRoom");
   }
 
   return (
     <>
       <h1>ProfilePage</h1>
+
+      <label htmlFor="hamburger dropdown"></label>
+      <select name="hamburger menu" id="navigation id" onChange={exitProfile}>
+        <option>Hamburger Menu</option>
+        <option value="game lobby">Game Lobby</option>
+        <option value="game room">Game Room</option>
+      </select>
+
       <img></img>
       <div>Avatar Dropdown Placeholder</div>
-      <label for="avatar dropdown">Choose your avatar</label>
+      <label htmlFor="avatar dropdown">Choose your avatar</label>
       <select name="avatar names" id="avatar id">
         <option value="avatar1">Avatar 1</option>
         <option value="avatar2">Avatar 2</option>
@@ -33,8 +39,6 @@ function ProfilePage() {
         <h4>Wins/Losses</h4>
         {wins} : {losses}
       </div>
-
-      <button onClick={exitProfile}>X</button>
     </>
   );
 }
