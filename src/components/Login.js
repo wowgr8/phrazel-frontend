@@ -5,6 +5,8 @@ function Login() {
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
 
+  const [userName, setUserName] = useState('')
+
   let navigate = useNavigate(); 
 
   const toggleForm = () => {
@@ -17,11 +19,15 @@ function Login() {
     e.preventDefault();
 
     if(showSignUpForm === true){
-      navigate('/ProfilePage')  // navigate to ProfilePage
+      setUserName(e.target.value)
       console.log("Inside PROFILEPAGE");
+      console.log("user input:", e.target.value);
+      navigate('/ProfilePage')  // navigate to ProfilePage
     } else {
-      navigate('/GameLobby') // navigate to GameLobby
+      setUserName(e.target.value)
       console.log("Inside GAMELOBBY");
+      console.log("user input:", e.target.value);
+      navigate('/GameLobby') // navigate to GameLobby
     }
   }
 
@@ -33,14 +39,10 @@ function Login() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}> 
-      <button onClick={playNow}>
-        <p>Sign up later, PLAY NOW!!</p>
-      </button>
-
       {showSignUpForm 
         ? <>
             <h1>Sign Up</h1>
-            <form onSubmit={submitForm}>
+            <form onSubmit={(e) => submitForm(e)}>
               <label>username: </label>
               <input></input>
               <label>email: </label>
@@ -53,11 +55,11 @@ function Login() {
           </> 
         : <>
             <h1>Login</h1>
-            <form onSubmit={submitForm}>
+            <form onSubmit={(e) => submitForm(e)}>
               <label>username: </label>
               <input></input>
               <label>password: </label>
-              <input></input>
+              <input disabled></input>
               <button type="submit">Login!</button>
             </form>
             <button onClick={toggleForm} >Dont have an account? Register </button>
