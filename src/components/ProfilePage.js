@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 function ProfilePage() {
   const [wins, setWins] = useState(0);
   const [losses, setLosses] = useState(0);
+  const [winLoseCount, setwinLoseCount] = useState({ wins: 0, lose: 0 });
 
   let navigate = useNavigate();
 
@@ -36,8 +37,8 @@ function ProfilePage() {
       </select>
 
       <div>
-        <h4>Wins/Losses</h4>
-        {wins} : {losses}
+        <h4>Wins/Lose</h4>
+        {wins} : {lose}
       </div>
     </>
   );
