@@ -37,7 +37,7 @@ function ProfilePage() {
       </select>
 
       <div>
-        <h4>Wins/Lose</h4>
+        <h4>wins/lose</h4>
         {wins} : {lose}
       </div>
     </>
