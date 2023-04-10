@@ -77,14 +77,6 @@ function GameLobby({
             {/* //////////////////////////////////// */}
             <h2>Create a room!</h2>
 
-            {/* NEW as of 4/5 */}
-            <input
-              placeholder="Room Number..."
-              onChange={(event) => {
-                handleSetRoom(event);
-              }}
-            />
-
             <button onClick={createRoom}>Create</button>
 
             <br></br>
@@ -118,8 +110,6 @@ function GameLobby({
             {/* Create a room section */}
             {/* //////////////////////////////////// */}
             <h2>Create a room!</h2>
-
-            {/* NEW as of 4/5 */}
 
             <button onClick={createRoom}>Create</button>
 
