@@ -30,24 +30,19 @@ function App() {
   //   setConnected(true)
   // }
 
-  // Will be moved to GameLobby.js
-  const createRoom = () => {
-    socket.emit("create_room", userName);
-    setInRoom(true);
-  };
-
   useEffect(() => {
-    // Move to GameLobby.js, inside a useEffect with Socket as dependency
-    socket.on("room_number", (room) => setRoom(room));
+    // MOVED 4/5: Brendan moved all related to GameLobby in this useEffect (with [x])
+    // [x] Move to GameLobby.js, inside a useEffect with Socket as dependency
+    // socket.on("room_number", (room) => setRoom(room));
 
-    // Move to GameLobby.js, inside a useEffect with Socket as dependency
-    socket.on("available_rooms", (data) => {
-      if (data === false) setAvailableRooms([]);
-      else setAvailableRooms(data);
-      console.log(data);
-    });
+    // [x] Move to GameLobby.js, inside a useEffect with Socket as dependency
+    // socket.on("available_rooms", (data) => {
+    //   if (data === false) setAvailableRooms([]);
+    //   else setAvailableRooms(data);
+    //   console.log(data);
+    // });
 
-    // Move to GameLobby.js, inside a useEffect with Socket as dependency
+    // NOTE TO CESAR: This was actually designed by back end to go in GameRoom Mau said, so Brendan & Mau moved to GameRoom.js inside a useEffect
     socket.on("players", (data) => setPlayers(data));
 
     // Move to GameRoom.js, inside a useEffect with Socket as dependency *** May need to be in it's own component down the line. A pre-gameRoom screen.
@@ -70,12 +65,6 @@ function App() {
       setYouGuessed(true);
     });
   }, [socket]);
-
-  // Move to GameLobby.js
-  const joinRoom = () => {
-    if (room !== "") socket.emit("join_room", { room, userName });
-    setInRoom(true);
-  };
 
   // Move to GameRoom.js
   const sendWord = () => {
@@ -118,8 +107,28 @@ function App() {
           <Route path="/" exact element={<LandingPage />} />
           <Route path="Login" exact element={<Login />} />
           <Route path="ProfilePage" exact element={<ProfilePage />} />
-          <Route path="GameLobby" exact element={<GameLobby />} />
-          <Route path="GameRoom" exact element={<GameRoom />} />
+          <Route
+            path="GameLobby"
+            exact
+            element={
+              <GameLobby
+                setInRoom={setInRoom}
+                userName={userName}
+                availableRooms={availableRooms}
+                setAvailableRooms={setAvailableRooms}
+                disconnectRoom={disconnectRoom}
+                room={room}
+                setRoom={setRoom}
+              />
+            }
+          />
+          <Route
+            path="GameRoom"
+            exact
+            element={
+              <GameRoom room={room} players={players} setPlayers={setPlayers} />
+            }
+          />
         </Routes>
       </Router>
     </div>
@@ -184,6 +193,9 @@ export default App;
 //       )
 //     }
 //   } else {
+
+// MOVED: On 4/5, Brendan tried to move the below logic into GameLobby, think I got it all
+
 //     return ( // Inside of GameLobby.js - where you join or create a room
 //       <div className="App">
 //         <h1>Available Rooms: {availableRooms.length > 0 ? availableRooms.join('-') : 'No Rooms Available, create a New Room'}</h1>
