@@ -1,166 +1,177 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import io from "socket.io-client";
 
-function GameLobby() {
+const socket = io.connect("http://localhost:3001");
+
+function GameLobby({
+  setInRoom,
+  userName,
+  availableRooms,
+  setAvailableRooms,
+  disconnectRoom,
+  room,
+  setRoom,
+}) {
   // Navigation
   let navigate = useNavigate();
+
+  // NEW as of 4/5
   const createRoom = () => {
+    socket.emit("create_room", userName);
+    setInRoom(true);
     navigate("/GameRoom"); // Navigate to GameRoom
   };
+
+  // NEW as of 4/5
+  useEffect(() => {
+    socket.on("room_number", (room) => setRoom(room));
+
+    socket.on("available_rooms", (data) => {
+      if (data === false) {
+        setAvailableRooms([]);
+      } else {
+        setAvailableRooms(data);
+      }
+      console.log("Data:", data);
+    });
+  }, [socket]);
+
   const joinRoom = () => {
+    if (room !== "") socket.emit("join_room", { room, userName });
+    setInRoom(true);
     navigate("/GameRoom"); // Navigate to GameRoom
   };
 
-  // NOTE: HAVE TO MANUALLY UPDATE DEFAULT VALUE IN STATE TO TEST (eventually will need to determine how to feed number of games into setExistingGames)
-  // Conditionally rendering page for 0 Current Games vs. 1 or more Current Games
-  const [existingGames, setExistingGames] = useState(2);
-
-  // This isn't working to change the game count on loading
+  // This may not be working to change the game count on loading
   const changeGameCount = () => {
-    setExistingGames = 0;
+    // NEW as of 4/5
+    setAvailableRooms = availableRooms.length;
   };
+
+  const handleSetRoom = (event) => {
+    event.preventDefault();
+    console.log("event.target.value:", event.target.value);
+    setRoom(event.target.value);
+  };
+
+  // Maybe use later for dropdown
+  // const roomsToJoin = () => {
+  //   return availableRooms.map((room) => {
+  //     <option>{room}</option>;
+  //   });
+  // };
 
   return (
     <>
-      {existingGames === 0 ? (
-        <div onload={changeGameCount}>
+      {/* NEW as of 4/5 */}
+      {availableRooms.length === 0 ? (
+        <div onLoad={changeGameCount}>
           <title>Game Lobby</title>
-          <h1>GameLobby</h1>
+          <h1>Game Lobby</h1>
           <hr></hr>
           <div>
             {/* //////////////////////////////////// */}
             {/* Create a room section */}
             {/* //////////////////////////////////// */}
-            <h2>Create the first room!</h2>
-            <div>
-              <p>Number of Rounds</p>
-              <select>
-                <option>Select number of rounds</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </select>
-            </div>
-
-            <div>
-              <p>Number of Players</p>
-              <select>
-                <option>Select a max number of players</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </select>
-            </div>
-
-            <div>
-              <p>Image for your room</p>
-              <select>
-                <option>Select an image for your room</option>
-                <option>:)</option>
-                <option>:(</option>
-                <option>:/</option>
-                <option>:o</option>
-              </select>
-            </div>
-
-            <br></br>
+            <h2>Create a room!</h2>
 
             <button onClick={createRoom}>Create</button>
+
+            <br></br>
+            <br></br>
+
+            <button onClick={disconnectRoom}>Disconnect</button>
 
             {/* //////////////////////////////////// */}
             {/* Need a hint section */}
             {/* //////////////////////////////////// */}
-            <h2>Need a hint?</h2>
-            <p>
-              Hint numero uno:{" "}
-              <em>
-                This is where you can see all of the available games you can
-                join, once they are created. Create the first room above ^^ to
-                play!”
-              </em>
-            </p>
+            <br></br>
+            <br></br>
+
+            <div>
+              <p>
+                <em>
+                  <strong>Hint:</strong> No rooms available to join yet, create
+                  the first room above ^^ to play!
+                </em>
+              </p>
+            </div>
           </div>
         </div>
       ) : (
-        <div onload={changeGameCount}>
+        <div onLoad={changeGameCount}>
           <title>Game Lobby</title>
-          <h1>GameLobby</h1>
+          <h1>Game Lobby</h1>
           <hr></hr>
           <div>
             {/* //////////////////////////////////// */}
             {/* Create a room section */}
             {/* //////////////////////////////////// */}
-            <h2>Create the first room!</h2>
-            <div>
-              <p>Number of Rounds</p>
-              <select>
-                <option>Select number of rounds</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </select>
-            </div>
-
-            <div>
-              <p>Number of Players</p>
-              <select>
-                <option>Select a max number of players</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </select>
-            </div>
-
-            <div>
-              <p>Image for your room</p>
-              <select>
-                <option>Select an image for your room</option>
-                <option>:)</option>
-                <option>:(</option>
-                <option>:/</option>
-                <option>:o</option>
-              </select>
-            </div>
-
-            <br></br>
+            <h2>Create a room!</h2>
 
             <button onClick={createRoom}>Create</button>
+
+            <br></br>
+            <br></br>
+
+            <button onClick={disconnectRoom}>Disconnect</button>
           </div>
 
           {/* //////////////////////////////////// */}
           {/* Join a room section */}
           {/* //////////////////////////////////// */}
-
-          <hr></hr>
+          <br></br>
+          <br></br>
 
           <div>
-            <h2>Join a Room!</h2>
-            <div>
-              <select>
-                Current games dropdown
-                <option>Select a game to join</option>
-                <option>14 hyper players</option>
-                <option>8 rambunctious players</option>
-                <option>5 measly players (running)</option>
-                <option>1 sad player</option>
-              </select>
-            </div>
+            <h1>
+              <em>OR</em>
+            </h1>
 
+            <br></br>
+
+            <h2>Join a Room!</h2>
+            <h3>The available rooms are:</h3>
+            <p>{availableRooms.join(" - ")}</p>
+          </div>
+
+          <div>
+            <input
+              placeholder="Enter Room to Join..."
+              onChange={(event) => {
+                handleSetRoom(event);
+              }}
+            />
+            {/* <div>
+              Maybe use below to eventually do a dropdown instead of input above
+
+              <select>
+                {/* Current games dropdown
+                {roomsToJoin} */}
+            {/* <option>Select a game to join</option> */}
+            {/* <option>
+                  {availableRooms.length > 0 ? availableRooms.join("-") : " "}
+                </option>
+                <option>
+                  {availableRooms.length > 1 ? availableRooms.join("-") : " "}
+                </option>
+                <option>
+                  {availableRooms.length > 2 ? availableRooms.join("-") : " "}
+                </option>
+                <option>
+                  {availableRooms.length > 3 ? availableRooms.join("-") : " "}
+                </option>
+                <option>
+                  {availableRooms.length > 4 ? availableRooms.join("-") : " "}
+                </option>
+                <option>
+                  {availableRooms.length > 5 ? availableRooms.join("-") : " "}
+                </option> */}
+            {/* </select> */}
+
+            <br></br>
             <br></br>
 
             <button onClick={joinRoom}>Join</button>
