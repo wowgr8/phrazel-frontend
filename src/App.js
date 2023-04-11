@@ -16,6 +16,7 @@ function App() {
 
   // used in GameRoom and GameLobby
   const [userName, setUserName] = useState(""); 
+  const [anonymousUsername, setAnonymousUsername] = useState(""); 
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
 
@@ -26,7 +27,7 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" exact element={<LandingPage setUserName={setUserName} />} />
+          <Route path="/" exact element={<LandingPage setAnonymousUsername={setAnonymousUsername} />} />
           <Route path="Login" exact element={<Login />} />
           <Route path="ProfilePage" exact element={<ProfilePage />} />
           <Route
@@ -36,6 +37,7 @@ function App() {
               <GameLobby
                 setInRoom={setInRoom}
                 userName={userName}
+                anonymousUsername={anonymousUsername}
                 availableRooms={availableRooms}
                 setAvailableRooms={setAvailableRooms}
                 room={room}
@@ -51,6 +53,8 @@ function App() {
                 room={room} 
                 players={players} 
                 setPlayers={setPlayers} 
+                userName={userName}
+                anonymousUsername={anonymousUsername}
               />
             }
           />
