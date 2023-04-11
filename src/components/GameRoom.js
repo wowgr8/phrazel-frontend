@@ -5,7 +5,7 @@ import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:3001");
 
-function GameRoom({ room, players, setPlayers, setInRoom }) {
+function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUsername }) {
   let navigate = useNavigate();
 
   const [allPlayersReady, setAllPlayersReady] = useState(false)
@@ -77,6 +77,9 @@ function GameRoom({ room, players, setPlayers, setInRoom }) {
   let guess = youGuessed ? "You Guessed Right!!!" : "";
   let dis = players.length > 2 && allPlayersReady ? false : true;
 
+  console.log(players)
+  console.log(anonymousUsername)
+
   return (
     <div>
       <div>
@@ -90,15 +93,26 @@ function GameRoom({ room, players, setPlayers, setInRoom }) {
       <div>
         {/* Below edited by Mau & Brendan 4/9 */}
         <h1>You are in Room {room}</h1>
-        <h2>Current players are: {players}</h2>
+        <h2>Current players are: {players}, and anonymous players are: {userName}</h2>
+        <button onClick={disconnectRoom}>Disconnect</button>
       </div>
+      
+      <br></br>
+      <br></br>
+      <br></br>
 
       <div style={columnStyle}>
         <ScoreBoard />
       </div>
 
       <div style={columnStyle}>
-        GameBoard placeholder
+        GameBoard Component placeholder
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+
         <div>
           <h4>Guess input field/ form placeholder</h4>
           <textarea placeholder="Enter guess here"></textarea>
@@ -108,8 +122,6 @@ function GameRoom({ room, players, setPlayers, setInRoom }) {
       <div style={columnStyle}>
         <h4>Chatbox placeholder</h4>
       </div>
-
-      <button onClick={disconnectRoom}>Disconnect</button>
     </div>
   );
 }
