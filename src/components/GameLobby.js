@@ -10,7 +10,6 @@ function GameLobby({
   userName,
   availableRooms,
   setAvailableRooms,
-  disconnectRoom,
   room,
   setRoom,
 }) {
@@ -80,10 +79,6 @@ function GameLobby({
             <button onClick={createRoom}>Create</button>
 
             <br></br>
-            <br></br>
-
-            <button onClick={disconnectRoom}>Disconnect</button>
-
             {/* //////////////////////////////////// */}
             {/* Need a hint section */}
             {/* //////////////////////////////////// */}
@@ -114,9 +109,6 @@ function GameLobby({
             <button onClick={createRoom}>Create</button>
 
             <br></br>
-            <br></br>
-
-            <button onClick={disconnectRoom}>Disconnect</button>
           </div>
 
           {/* //////////////////////////////////// */}
