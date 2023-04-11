@@ -5,8 +5,13 @@ import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:3001");
 
-function GameRoom({ room, players, setPlayers }) {
+function GameRoom({ room, players, setPlayers, setAllPlayersReady }) {
   let navigate = useNavigate();
+
+  // [allPlayersReady, setAllPlayersReady] = useState(false)
+  const [gameStarted, setGameStarted] = useState(false);
+  const [length, setLength] = useState(0);
+  const [guessingYourWord, setGuessingYourWord] = useState(false);
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
@@ -23,7 +28,24 @@ function GameRoom({ room, players, setPlayers }) {
   // Added by Mau & Brendan 4/9
   useEffect(() => {
     socket.on("players", (data) => setPlayers(data));
+
+    socket.on("all_players_ready", () => setAllPlayersReady(true));
+
+    socket.on("word_to_guess", (length) => {
+      setGameStarted(true);
+      setLength(length);
+    });
+
+    socket.on("guessing_your_word", () => {
+      setGuessingYourWord(true);
+      setGameStarted(true);
+    });
   }, [socket]);
+
+  const startGame = () => {
+    socket.emit("start_game", room);
+    setGameStarted(true);
+  };
 
   return (
     <div>
