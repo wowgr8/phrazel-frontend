@@ -12,24 +12,25 @@ const socket = io.connect("http://localhost:3001");
 
 function App() {
   const [userName, setUserName] = useState(""); // used in GameRoom and GameLobby
-  const [inRoom, setInRoom] = useState(false);
-  const [room, setRoom] = useState("");
+  const [inRoom, setInRoom] = useState(false); // used in GameRoom and GameLobby
+  const [room, setRoom] = useState(""); //  used in GameRoom and GameLobby
   const [availableRooms, setAvailableRooms] = useState([]);
   const [players, setPlayers] = useState([]);
-  const [word, setWord] = useState("");
-  const [wordSent, setWordSent] = useState(false);
+  // const [wordSent, setWordSent] = useState(false);
+
   const [allPlayersReady, setAllPlayersReady] = useState(false); // Might need to be MOVED to GameRoom.js for encapsulation purposes, passed as prop for now.
+  // const [word, setWord] = useState(""); // Moved to GameRoom.js for encapsulation purposes.
   // const [gameStarted, setGameStarted] = useState(false); // Moved to GameRoom.js for encapsulation purposes.
   // const [length, setLength] = useState(0); // Moved to GameRoom.js for encapsulation purposes.
   // const [guessingYourWord, setGuessingYourWord] = useState(false); // Moved to GameRoom.js for encapsulation purposes.
-  const [youGuessed, setYouGuessed] = useState(false);
+  // const [youGuessed, setYouGuessed] = useState(false); // Moved to GameRoom.js for encapsulation purposes.
 
   // Will not be used for the Login.js/ replaced by Login.js code.
   // const connect = () => {
   //   setConnected(true)
   // }
 
-  useEffect(() => {
+  // useEffect(() => {
     // MOVED 4/5: Brendan moved all related to GameLobby in this useEffect (with [x])
     // [x] Move to GameLobby.js, inside a useEffect with Socket as dependency
     // socket.on("room_number", (room) => setRoom(room));
@@ -60,29 +61,29 @@ function App() {
     // });
 
     // Move to GameRoom.js, inside a useEffect with Socket as dependency
-    socket.on("right", () => {
-      setYouGuessed(true);
-    });
-  }, [socket]);
+    // socket.on("right", () => {
+    //   setYouGuessed(true);
+    // });
+  // }, [socket]);
 
   // Move to GameRoom.js
-  const sendWord = () => {
-    socket.emit("send_word", { word, room });
-    setWordSent(true);
-  };
+  // const sendWord = () => {
+  //   socket.emit("send_word", { word, room });
+  //   setWordSent(true);
+  // };
 
   // Move to GameRoom.js
-  const leaveRoom = () => {
-    socket.emit("leave_room", room);
-    setInRoom(false);
-    setWordSent(false);
-  };
+  // const leaveRoom = () => {
+  //   socket.emit("leave_room", room);
+  //   setInRoom(false);
+  //   setWordSent(false);
+  // };
 
   // Move to GameRoom.js
-  const disconnectRoom = () => {
-    socket.emit("disconnect_room", room);
-    if (socket) socket.disconnect();
-  };
+  // const disconnectRoom = () => {
+  //   socket.emit("disconnect_room", room);
+  //   if (socket) socket.disconnect();
+  // };
 
   // Move to GameRoom.js
   // const startGame = () => {
@@ -91,13 +92,13 @@ function App() {
   // };
 
   // Move to GameRoom.js
-  const guessWord = () => {
-    socket.emit("guess_word", { word, room });
-  };
+  // const guessWord = () => {
+  //   socket.emit("guess_word", { word, room });
+  // };
 
   // Move to GameRoom.js
-  let guess = youGuessed ? "You Guessed Right!!!" : "";
-  let dis = players.length > 2 && allPlayersReady ? false : true;
+  // let guess = youGuessed ? "You Guessed Right!!!" : "";
+  // let dis = players.length > 2 && allPlayersReady ? false : true;
 
   return (
     <div className="App">
@@ -115,7 +116,7 @@ function App() {
                 userName={userName}
                 availableRooms={availableRooms}
                 setAvailableRooms={setAvailableRooms}
-                disconnectRoom={disconnectRoom}
+                // disconnectRoom={disconnectRoom}
                 room={room}
                 setRoom={setRoom}
               />
@@ -130,6 +131,7 @@ function App() {
                 players={players} 
                 setPlayers={setPlayers} 
                 setAllPlayersReady={setAllPlayersReady} 
+                allPlayersReady={allPlayersReady}
               />
             }
           />
