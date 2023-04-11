@@ -104,7 +104,7 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" exact element={<LandingPage />} />
+          <Route path="/" exact element={<LandingPage setUserName={setUserName} />} />
           <Route path="Login" exact element={<Login />} />
           <Route path="ProfilePage" exact element={<ProfilePage />} />
           <Route
