@@ -5,7 +5,7 @@ import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:3001");
 
-function GameBoard({ room, players, setPlayers }) {
+function GameRoom({ room, players, setPlayers }) {
   let navigate = useNavigate();
 
   const hamburgerNav = (event) => {
@@ -60,4 +60,4 @@ function GameBoard({ room, players, setPlayers }) {
   );
 }
 
-export default GameBoard;
+export default GameRoom;
