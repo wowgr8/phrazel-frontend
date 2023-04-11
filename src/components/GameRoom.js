@@ -5,16 +5,15 @@ import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:3001");
 
-function GameRoom({ room, players, setPlayers, setAllPlayersReady, allPlayersReady, setInRoom }) {
+function GameRoom({ room, players, setPlayers, setInRoom }) {
   let navigate = useNavigate();
 
-  // [allPlayersReady, setAllPlayersReady] = useState(false)
+  const [allPlayersReady, setAllPlayersReady] = useState(false)
   const [gameStarted, setGameStarted] = useState(false);
   const [length, setLength] = useState(0);
   const [guessingYourWord, setGuessingYourWord] = useState(false);
   const [youGuessed, setYouGuessed] = useState(false);
   const [word, setWord] = useState("");
-
   const [wordSent, setWordSent] = useState(false);
 
   const hamburgerNav = (event) => {
