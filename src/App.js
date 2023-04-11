@@ -11,18 +11,17 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 const socket = io.connect("http://localhost:3001");
 
 function App() {
-  const [connected, setConnected] = useState(false); // Will not be used for the Login/ replaced by Login.js code.
-  const [userName, setUserName] = useState(""); // Moved to Login.js but may need to move it back here, then pass userName as props to GameLobby, ProfilePage, and Login.js
+  const [userName, setUserName] = useState(""); // used in GameRoom and GameLobby
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
   const [availableRooms, setAvailableRooms] = useState([]);
   const [players, setPlayers] = useState([]);
   const [word, setWord] = useState("");
   const [wordSent, setWordSent] = useState(false);
-  const [allPlayersReady, setAllPlayersReady] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [length, setLength] = useState(0);
-  const [guessingYourWord, setGuessingYourWord] = useState(false);
+  const [allPlayersReady, setAllPlayersReady] = useState(false); // Might need to be MOVED to GameRoom.js for encapsulation purposes, passed as prop for now.
+  // const [gameStarted, setGameStarted] = useState(false); // Moved to GameRoom.js for encapsulation purposes.
+  // const [length, setLength] = useState(0); // Moved to GameRoom.js for encapsulation purposes.
+  // const [guessingYourWord, setGuessingYourWord] = useState(false); // Moved to GameRoom.js for encapsulation purposes.
   const [youGuessed, setYouGuessed] = useState(false);
 
   // Will not be used for the Login.js/ replaced by Login.js code.
@@ -42,23 +41,23 @@ function App() {
     //   console.log(data);
     // });
 
-    // NOTE TO CESAR: This was actually designed by back end to go in GameRoom Mau said, so Brendan & Mau moved to GameRoom.js inside a useEffect
-    socket.on("players", (data) => setPlayers(data));
+    // moved to GameRoom.js inside a useEffect
+    // socket.on("players", (data) => setPlayers(data));
 
     // Move to GameRoom.js, inside a useEffect with Socket as dependency *** May need to be in it's own component down the line. A pre-gameRoom screen.
-    socket.on("all_players_ready", () => setAllPlayersReady(true));
+    // socket.on("all_players_ready", () => setAllPlayersReady(true));
 
     // Move to GameRoom.js, inside a useEffect with Socket as dependency
-    socket.on("word_to_guess", (length) => {
-      setGameStarted(true);
-      setLength(length);
-    });
+    // socket.on("word_to_guess", (length) => {
+    //   setGameStarted(true);
+    //   setLength(length);
+    // });
 
     // Move to GameRoom.js, inside a useEffect with Socket as dependency
-    socket.on("guessing_your_word", () => {
-      setGuessingYourWord(true);
-      setGameStarted(true);
-    });
+    // socket.on("guessing_your_word", () => {
+    //   setGuessingYourWord(true);
+    //   setGameStarted(true);
+    // });
 
     // Move to GameRoom.js, inside a useEffect with Socket as dependency
     socket.on("right", () => {
@@ -86,10 +85,10 @@ function App() {
   };
 
   // Move to GameRoom.js
-  const startGame = () => {
-    socket.emit("start_game", room);
-    setGameStarted(true);
-  };
+  // const startGame = () => {
+  //   socket.emit("start_game", room);
+  //   setGameStarted(true);
+  // };
 
   // Move to GameRoom.js
   const guessWord = () => {
@@ -126,7 +125,12 @@ function App() {
             path="GameRoom"
             exact
             element={
-              <GameRoom room={room} players={players} setPlayers={setPlayers} />
+              <GameRoom 
+                room={room} 
+                players={players} 
+                setPlayers={setPlayers} 
+                setAllPlayersReady={setAllPlayersReady} 
+              />
             }
           />
         </Routes>
