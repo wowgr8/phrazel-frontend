@@ -8,7 +8,6 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   let navigate = useNavigate();
 
   const toggleForm = () => {
@@ -38,11 +37,13 @@ function Login() {
 
       /* error handeling sign up status codes - navigating to respective page*/
       //TODO need to allow user to sign up without an email
-      //TODO need to let user know if credentials are already taken
+      //TODO need to let user know if credentials are already taken - refer to backend auth controller
       if (response.status === 201) {
         setUserName(inputValue);
+        window.alert(`Welcome ${username}!`);
         navigate("/GameLobby");
-      } else {
+      } else if (username === "" || password === "" || email === "") {
+        window.alert("username, email, and password are required");
         navigate("/"); //stay on same page
       }
     } catch (error) {
@@ -71,12 +72,14 @@ function Login() {
       const inputValue = e.target.username.value;
 
       /* error handeling sign in status code - navigate to respective page*/
-      //TODO  emit an error message if the user enters the wrong username or password
       if (response.status === 200) {
         setUserName(inputValue);
         navigate("/GameLobby");
+        window.alert(`Welcome ${username}!`);
+
       } else {
         navigate("/"); // stay on same page
+        window.alert("Invalid username or password");
       }
     } catch (error) {
       console.log("Error occurred: ", error);
