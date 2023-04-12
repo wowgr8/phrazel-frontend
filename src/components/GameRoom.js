@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
-import io from "socket.io-client";
 
-const socket = io.connect("http://localhost:3001");
-
-function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUsername }) {
+function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUsername, socket }) {
   let navigate = useNavigate();
 
   const [allPlayersReady, setAllPlayersReady] = useState(false)
@@ -48,6 +45,7 @@ function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUse
       setYouGuessed(true);
     });
   }, [socket]);
+
 
   const startGame = () => {
     socket.emit("start_game", room);
