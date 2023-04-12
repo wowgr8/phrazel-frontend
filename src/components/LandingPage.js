@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Login from './Login';
 
-function LandingPage({ setUserName }) {
+function LandingPage({ setAnonymousUsername }) {
   let navigate = useNavigate(); 
   const [anonForm, showAnonForm] = useState(false);
 
@@ -11,7 +11,7 @@ function LandingPage({ setUserName }) {
   }
   const handleUsernameSubmit = (event) => {
     event.preventDefault();
-    setUserName(event.target.username.value);
+    setAnonymousUsername(event.target.username.value);
     navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
   }
 
