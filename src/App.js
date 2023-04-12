@@ -22,6 +22,36 @@ function App() {
 
   // May need to be moved to GameRoom.
   const [players, setPlayers] = useState([]); 
+  let localStorageRoom = localStorage.getItem("room");
+
+  useEffect(() => {
+    localStorage.setItem("room", room)
+  }, [room]);
+
+  useEffect(() => {
+    socket.on("room_number", (room) => {
+      setRoom(room) }
+      );
+
+      // If there's something in localStorageRoom, we set the room to the localStorage room upon refreshing. 
+      if(localStorageRoom) {
+        setRoom(localStorageRoom);
+      }
+
+    socket.on("available_rooms", (data) => {
+      console.log("inside GameLobby useEffect", data);
+      if (data === false) {
+        console.log("inside GameLobby IF", data);
+        return;
+      } else {
+        console.log("inside GameLobby ELSE", data);
+        setAvailableRooms(data);
+      }
+      console.log("Data:", data);
+    });
+  }, [socket]);
+
+
 
   return (
     <div className="App">
@@ -35,6 +65,7 @@ function App() {
             exact
             element={
               <GameLobby
+                socket={socket}
                 setInRoom={setInRoom}
                 userName={userName}
                 anonymousUsername={anonymousUsername}
@@ -50,6 +81,7 @@ function App() {
             exact
             element={
               <GameRoom 
+                socket={socket}
                 room={room} 
                 players={players} 
                 setPlayers={setPlayers} 
