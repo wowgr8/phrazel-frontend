@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import io from "socket.io-client";
-
-const socket = io.connect("http://localhost:3001");
 
 function GameLobby({
+  socket,
   setInRoom,
   userName,
   availableRooms,
   setAvailableRooms,
-  disconnectRoom,
   room,
   setRoom,
 }) {
@@ -24,30 +20,10 @@ function GameLobby({
     navigate("/GameRoom"); // Navigate to GameRoom
   };
 
-  // NEW as of 4/5
-  useEffect(() => {
-    socket.on("room_number", (room) => setRoom(room));
-
-    socket.on("available_rooms", (data) => {
-      if (data === false) {
-        setAvailableRooms([]);
-      } else {
-        setAvailableRooms(data);
-      }
-      console.log("Rooms available:", data);
-    });
-  }, [socket]);
-
   const joinRoom = () => {
     if (room !== "") socket.emit("join_room", { room, userName });
     setInRoom(true);
     navigate("/GameRoom"); // Navigate to GameRoom
-  };
-
-  // This may not be working to change the game count on loading
-  const changeGameCount = () => {
-    // NEW as of 4/5
-    setAvailableRooms = availableRooms.length;
   };
 
   const handleSetRoom = (event) => {
@@ -64,10 +40,10 @@ function GameLobby({
   // };
 
   return (
-    <>
+    <div >
       {/* NEW as of 4/5 */}
       {availableRooms.length === 0 ? (
-        <div onLoad={changeGameCount}>
+        <div >
           <title>Game Lobby</title>
           <h1>Game Lobby</h1>
           <hr></hr>
@@ -80,10 +56,6 @@ function GameLobby({
             <button onClick={createRoom}>Create</button>
 
             <br></br>
-            <br></br>
-
-            <button onClick={disconnectRoom}>Disconnect</button>
-
             {/* //////////////////////////////////// */}
             {/* Need a hint section */}
             {/* //////////////////////////////////// */}
@@ -101,7 +73,7 @@ function GameLobby({
           </div>
         </div>
       ) : (
-        <div onLoad={changeGameCount}>
+        <div >
           <title>Game Lobby</title>
           <h1>Game Lobby</h1>
           <hr></hr>
@@ -114,9 +86,6 @@ function GameLobby({
             <button onClick={createRoom}>Create</button>
 
             <br></br>
-            <br></br>
-
-            <button onClick={disconnectRoom}>Disconnect</button>
           </div>
 
           {/* //////////////////////////////////// */}
@@ -178,7 +147,7 @@ function GameLobby({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

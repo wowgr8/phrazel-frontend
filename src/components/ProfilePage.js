@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ProfilePage() {
-  const [wins, setWins] = useState(0);
-  const [losses, setLosses] = useState(0);
+  const [winLoseCount, setwinLoseCount] = useState({ wins: 0, lose: 0 });
+
+  //let wins = 0; useState
+  //wins = 1; setWins
+  //<div>{wins}</div> (displays value of wins) jsx
 
   let navigate = useNavigate();
 
@@ -36,8 +39,8 @@ function ProfilePage() {
       </select>
 
       <div>
-        <h4>Wins/Losses</h4>
-        {wins} : {losses}
+        <h4>wins/lose</h4>
+        {winLoseCount.wins} : {winLoseCount.lose}
       </div>
     </>
   );
