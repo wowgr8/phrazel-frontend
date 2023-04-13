@@ -34,7 +34,7 @@ function GameLobby({
       } else {
         setAvailableRooms(data);
       }
-      console.log("Data:", data);
+      console.log("Rooms available:", data);
     });
   }, [socket]);
 

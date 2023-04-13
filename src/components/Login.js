@@ -15,11 +15,10 @@ function Login() {
     console.log(showSignUpForm);
   };
 
-  /* sign up form for new users  */
+  /* sign up form for new users */
   async function signUpForm(e) {
     e.preventDefault();
     try {
-      /* connecting to backend routes */
       const response = await fetch("http://localhost:8000/api/v1/auth/register", {
         method: "POST",
         headers: {
@@ -27,24 +26,36 @@ function Login() {
         },
         body: JSON.stringify({
           username: username,
-          email: email,
-          password: password
+          password: password,
+          email: email || "",
         }),
       });
 
       console.log(`Sign up responds with status code ${response.status}`);
-      const inputValue = e.target.username.value;
 
-      /* error handeling sign up status codes - navigating to respective page*/
-      //TODO need to allow user to sign up without an email
-      //TODO need to let user know if credentials are already taken - refer to backend auth controller
+      const inputValue = e.target.username.value;
+      const data = await response.json();
+      /** use to debug reponses */
+      console.log(data);
+      console.log(data.email);
+
       if (response.status === 201) {
         setUserName(inputValue);
         window.alert(`Welcome ${username}!`);
         navigate("/GameLobby");
-      } else if (username === "" || password === "" || email === "") {
-        window.alert("username, email, and password are required");
-        navigate("/"); //stay on same page
+      } else if (data.message === 'Username already exists') {
+        window.alert("Username is already taken");
+      } else if (data.message === 'Email already exists') {
+        window.alert("Email is already taken");
+      } else if (username === "") {
+        window.alert("Please enter a username");
+        navigate("/");
+      } else if (password === "") {
+        window.alert("Please enter a password");
+        navigate("/");
+      } else if (password.length < 6) {
+        window.alert("Password must be at least 6 characters");
+        navigate("/");
       }
     } catch (error) {
       console.log("Error occurred: ", error);
