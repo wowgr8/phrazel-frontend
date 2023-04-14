@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
-import {SocketContext, socket} from '../utils/Socket';
+import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
 
 function GameRoom({ room, setInRoom, userName, host }) {
@@ -9,16 +9,14 @@ function GameRoom({ room, setInRoom, userName, host }) {
   const socket = useContext(SocketContext);
 
   let navigate = useNavigate();
-  socket.emit('test')
+
   const [allPlayersReady, setAllPlayersReady] = useState(false)
   const [gameStarted, setGameStarted] = useState(false);
   const [length, setLength] = useState(0);
   const [guessingYourWord, setGuessingYourWord] = useState(false);
   const [youGuessed, setYouGuessed] = useState(false);
   const [word, setWord] = useState("");
-  const [wordSent, setWordSent] = useState(false);
   const [players, setPlayers] = useState([]);
-  // const [host, setHost] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false)
   const [winner, setWinner] = useState("")
@@ -35,32 +33,32 @@ function GameRoom({ room, setInRoom, userName, host }) {
     verticalAlign: "top", // each div has the same top starting point
   };
 
-  console.log("anon username in GameRoom.js:", userName);
-  // Added by Mau & Brendan 4/9
-
-
   useEffect(() => {
 
+    //Receives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
       setPlayers(data)
-      console.log("Players Data:", data)
     });
     
-
+    //Checks that all players are ready by either submitting their guesses or submitting a word to guess
     socket.on("all_players_ready", () => setAllPlayersReady(true));
 
+    //Returns the length of the word to be guessed
     socket.on("word_to_guess", (length) => {
-      setGameStarted(true);
       setLength(length);
+      //Resets the states to play a new round
+      setGameStarted(true);
       setGuessingYourWord(false)
       setYouGuessed(false)
     });
 
+    //Blocks player from guessing in current round if their submitted word was selected to be guessed.
     socket.on("guessing_your_word", () => {
       setGuessingYourWord(true);
       setGameStarted(true);
     });
 
+    //Returned when a player guesses the correct word
     socket.on("right", () => {
       setYouGuessed(true);
     });
@@ -69,8 +67,11 @@ function GameRoom({ room, setInRoom, userName, host }) {
 
     socket.on("game_over",()=>setGameOver(true))
 
-    socket.on("winner",data=>setWinner(data))
+    //This is at the end of the game
 
+    //Returns the winner if it's not yourself
+    socket.on("winner",data=>setWinner(data))
+    //Returned if you are the winner
     socket.on("you_won",()=>setYouWon(true))
 
   }, [socket]);
@@ -90,13 +91,11 @@ function GameRoom({ room, setInRoom, userName, host }) {
 
   const sendWord = () => {
     socket.emit("send_word", { word, room });
-    setWordSent(true);
   };
 
   const leaveRoom = () => {
     socket.emit("leave_room", room);
     setInRoom(false);
-    setWordSent(false);
   };
 
 
@@ -120,6 +119,8 @@ function GameRoom({ room, setInRoom, userName, host }) {
   }
 
   let guess = youGuessed ? "You Guessed Right!!!" : "";
+
+  //Disables starting a new game/new round unless all players are ready and there are at least a minimum of 3 players
   let dis = players.length > 2 && allPlayersReady ? false : true;  
 
   return (
@@ -133,7 +134,6 @@ function GameRoom({ room, setInRoom, userName, host }) {
       </div>
 
       <div>
-        {/* Below edited by Mau & Brendan 4/9 */}
         <h1>You are in Room {room}</h1>
         <h2>Current players are: {players.join('-')}</h2>
         <button onClick={leaveRoom}>Leave Room</button>        

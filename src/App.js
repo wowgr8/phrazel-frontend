@@ -1,17 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Login from "./components/Login";
 import LandingPage from "./components/LandingPage";
 import ProfilePage from "./components/ProfilePage";
 import GameLobby from "./components/GameLobby";
-import GameRoom from "./components/GameRoom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {SocketContext, socket} from './utils/Socket';
 
 function App() {
+  //User name passed as props to login and used in Game lobby
   const [userName, setUserName] = useState(""); 
-
-  console.log("anon username in app.js:", userName);
 
   return (
     <SocketContext.Provider value={socket}>

@@ -29,7 +29,7 @@ function GameBoard(props) {
         !props.gameOver?
             !wordSent? 
                 <div className="App">
-                    Write a word you want to be guessed for the other players //Rephrase in a better clue?
+                    Submit of a word for others to guess!
                     <br/>
                     <input placeholder='Your Word...' onChange={props.wordHandler} />
                         <button onClick={sendWord}>Send Word</button>    
