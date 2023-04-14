@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
+import {SocketContext, socket} from '../utils/Socket';
 
-function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUsername, socket }) {
+function GameRoom({ room, setInRoom, anonymousUsername }) {
+
+  const socket = useContext(SocketContext);
+
   let navigate = useNavigate();
-
+  socket.emit('test')
   const [allPlayersReady, setAllPlayersReady] = useState(false)
   const [gameStarted, setGameStarted] = useState(false);
   const [length, setLength] = useState(0);
@@ -12,6 +16,7 @@ function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUse
   const [youGuessed, setYouGuessed] = useState(false);
   const [word, setWord] = useState("");
   const [wordSent, setWordSent] = useState(false);
+  const [players, setPlayers] = useState([]);
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
@@ -25,9 +30,15 @@ function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUse
     verticalAlign: "top", // each div has the same top starting point
   };
 
+  console.log("anon username in GameRoom.js:", anonymousUsername);
   // Added by Mau & Brendan 4/9
   useEffect(() => {
-    socket.on("players", (data) => setPlayers(data));
+
+    socket.on("players", (data) => {
+      setPlayers(data)
+      console.log("Players Data:", data)
+    });
+    
 
     socket.on("all_players_ready", () => setAllPlayersReady(true));
 
@@ -73,10 +84,7 @@ function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUse
   };
 
   let guess = youGuessed ? "You Guessed Right!!!" : "";
-  let dis = players.length > 2 && allPlayersReady ? false : true;
-
-  console.log(players)
-  console.log(anonymousUsername)
+  let dis = players.length > 2 && allPlayersReady ? false : true;  
 
   return (
     <div>
@@ -91,7 +99,7 @@ function GameRoom({ room, players, setPlayers, setInRoom, userName, anonymousUse
       <div>
         {/* Below edited by Mau & Brendan 4/9 */}
         <h1>You are in Room {room}</h1>
-        <h2>Current players are: {players}, and anonymous players are: {userName}</h2>
+        <h2>Current players are: {players}, and anonymous players are: {anonymousUsername}</h2>
         <button onClick={disconnectRoom}>Disconnect</button>
       </div>
       
