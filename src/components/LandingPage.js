@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Login from './Login';
 
-function LandingPage({ setAnonymousUsername, anonymousUsername }) {
+function LandingPage({ setUserName, userName }) {
   let navigate = useNavigate(); 
   const [anonForm, showAnonForm] = useState(false);
-  const [playNow] = useState(false);
 
   const toggleForm = () => {
     showAnonForm(!anonForm)
   }
-  console.log("anonymous username check in LandingPage:", anonymousUsername )
+  console.log("anonymous username check in LandingPage:", userName )
   const handleUsernameSubmit = (event) => {
     event.preventDefault();
-    setAnonymousUsername(event.target.username.value);
+    setUserName(event.target.username.value);
     navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
   }
 
@@ -49,11 +48,6 @@ function LandingPage({ setAnonymousUsername, anonymousUsername }) {
         : <Login />
       }
       
-
-      {/* <div >
-        <input placeholder='User Name...' onChange={userNameHandler} />
-          <button onClick={connect}>Connect</button>
-      </div> */}
     </>
   )
 }

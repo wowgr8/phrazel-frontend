@@ -8,8 +8,8 @@ import {SocketContext, socket} from '../utils/Socket';
 // import {SocketContext, socket} from '../utils/Socket';
 
 function GameLobby({
-  anonymousUsername,
-  setAnonymousUsername,
+  userName,
+  setUserName,
   // socket,
   // setInRoom,
   // userName,
@@ -18,7 +18,9 @@ function GameLobby({
 }) {
 
   const socket = useContext(SocketContext);
+  socket.connect()
 
+  
   // Navigation
   let navigate = useNavigate();
   // const socket = io.connect("http://localhost:3001");
@@ -27,30 +29,21 @@ function GameLobby({
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
+  const [host, setHost] = useState(false);
 
   // NEW as of 4/5
   const createRoom = () => {
-    socket.emit("create_room", anonymousUsername);
+    socket.emit("create_room", userName);
     setInRoom(true);
+    setHost(true)
     // navigate("/GameRoom"); // Navigate to GameRoom
   };
-  console.log("anonymous username check #1:", anonymousUsername )
-
-  // useEffect(() => { 
-  //   console.log("USEFFFECT RAN")
-  //   if(anonymousUsername !== ''){
-  //     // console.log("anonymous username check #2:", anonymousUsername )
-  //     // if (room !== "") socket.emit("join_room", { room, anonymousUsername });
-  //     // setInRoom(true);
-  //     // navigate("/GameRoom"); // Navigate to GameRoom
-  //     joinRoom();
-  //   }
-  // }, [joinRoom])
+  console.log("anonymous username check #1:", userName )
   
 
   const joinRoom = () => {
-    console.log("anonymous username check #2:", anonymousUsername )
-    if (room !== "") socket.emit("join_room", { room, anonymousUsername });
+    console.log("anonymous username check #2:", userName )
+    if (room !== "") socket.emit("join_room", { room, userName });
     setInRoom(true);
     // navigate("/GameRoom"); // Navigate to GameRoom
   };
@@ -61,39 +54,15 @@ function GameLobby({
     setRoom(event.target.value);
   };
 
-  // Maybe use later for dropdown
-  // const roomsToJoin = () => {
-  //   return availableRooms.map((room) => {
-  //     <option>{room}</option>;
-  //   });
-  // };
-
-  let localStorageRoom = localStorage.getItem("room");
-
-  useEffect(() => {
-    localStorage.setItem("room", room)
-  }, [room]);
-
-  useEffect(() => {
-    socket.on("available_rooms", (data) => {
-      if (data === false) {
-        return;
-      } else {
-        setAvailableRooms(data);
-      }
-      console.log("Data:", data);
-    });
-  }, []);
-
   useEffect(() => {
     socket.on("room_number", (room) => {
       setRoom(room) }
       );
 
       // If there's something in localStorageRoom, we set the room to the localStorage room upon refreshing. 
-      if(localStorageRoom) {
-        setRoom(localStorageRoom);
-      }
+      // if(localStorageRoom) {
+      //   setRoom(localStorageRoom);
+      // }
 
     socket.on("available_rooms", (data) => {
       if (data === false) {
@@ -108,7 +77,6 @@ function GameLobby({
 
 
   return (
-    // <SocketContext.Provider value={socket}>
       <div >
         {!inRoom ? 
         <>
@@ -184,33 +152,6 @@ function GameLobby({
                   handleSetRoom(event);
                 }}
               />
-              {/* <div>
-                Maybe use below to eventually do a dropdown instead of input above
-
-                <select>
-                  {/* Current games dropdown
-                  {roomsToJoin} */}
-              {/* <option>Select a game to join</option> */}
-              {/* <option>
-                    {availableRooms.length > 0 ? availableRooms.join("-") : " "}
-                  </option>
-                  <option>
-                    {availableRooms.length > 1 ? availableRooms.join("-") : " "}
-                  </option>
-                  <option>
-                    {availableRooms.length > 2 ? availableRooms.join("-") : " "}
-                  </option>
-                  <option>
-                    {availableRooms.length > 3 ? availableRooms.join("-") : " "}
-                  </option>
-                  <option>
-                    {availableRooms.length > 4 ? availableRooms.join("-") : " "}
-                  </option>
-                  <option>
-                    {availableRooms.length > 5 ? availableRooms.join("-") : " "}
-                  </option> */}
-              {/* </select> */}
-
               <br></br>
               <br></br>
 
@@ -224,14 +165,14 @@ function GameLobby({
         : 
                 <GameRoom 
                   // socket={socket}
-                  // setAnonymousUsername={}
+                  // setUserName={}
                   room={room} 
                   // players={players} 
                   // setPlayers={setPlayers} 
-                  anonymousUsername={anonymousUsername}
+                  userName={userName}
+                  host={host}
                 />}
       </div>
-    // </SocketContext.Provider>
   );
 }
 

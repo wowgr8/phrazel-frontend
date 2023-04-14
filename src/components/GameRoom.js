@@ -2,8 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
 import {SocketContext, socket} from '../utils/Socket';
+import GameBoard from "./GameBoard";
 
-function GameRoom({ room, setInRoom, anonymousUsername }) {
+function GameRoom({ room, setInRoom, userName, host }) {
 
   const socket = useContext(SocketContext);
 
@@ -17,6 +18,10 @@ function GameRoom({ room, setInRoom, anonymousUsername }) {
   const [word, setWord] = useState("");
   const [wordSent, setWordSent] = useState(false);
   const [players, setPlayers] = useState([]);
+  // const [host, setHost] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [youWon, setYouWon] = useState(false)
+  const [winner, setWinner] = useState("")
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
@@ -30,8 +35,10 @@ function GameRoom({ room, setInRoom, anonymousUsername }) {
     verticalAlign: "top", // each div has the same top starting point
   };
 
-  console.log("anon username in GameRoom.js:", anonymousUsername);
+  console.log("anon username in GameRoom.js:", userName);
   // Added by Mau & Brendan 4/9
+
+
   useEffect(() => {
 
     socket.on("players", (data) => {
@@ -45,6 +52,8 @@ function GameRoom({ room, setInRoom, anonymousUsername }) {
     socket.on("word_to_guess", (length) => {
       setGameStarted(true);
       setLength(length);
+      setGuessingYourWord(false)
+      setYouGuessed(false)
     });
 
     socket.on("guessing_your_word", () => {
@@ -55,12 +64,24 @@ function GameRoom({ room, setInRoom, anonymousUsername }) {
     socket.on("right", () => {
       setYouGuessed(true);
     });
+
+    socket.on("all_players_guessed",()=>{setAllPlayersReady(true)})
+
+    socket.on("game_over",()=>setGameOver(true))
+
+    socket.on("winner",data=>setWinner(data))
+
+    socket.on("you_won",()=>setYouWon(true))
+
   }, [socket]);
 
 
   const startGame = () => {
     socket.emit("start_game", room);
     setGameStarted(true);
+    setAllPlayersReady(false)
+    setYouGuessed(false);
+    setGuessingYourWord(false)
   };
 
   const guessWord = () => {
@@ -78,10 +99,25 @@ function GameRoom({ room, setInRoom, anonymousUsername }) {
     setWordSent(false);
   };
 
+
+
   const disconnectRoom = () => {
     socket.emit("disconnect_room", room);
     if (socket) socket.disconnect();
   };
+
+  function wordHandler(event){
+    const {value} = event.target
+    setWord(value)
+  }
+
+  function newGame(){
+    setGameOver(false)
+    setGameStarted(false)
+    setGuessingYourWord(false)
+    setAllPlayersReady(false)
+    setYouWon(false)
+  }
 
   let guess = youGuessed ? "You Guessed Right!!!" : "";
   let dis = players.length > 2 && allPlayersReady ? false : true;  
@@ -99,7 +135,8 @@ function GameRoom({ room, setInRoom, anonymousUsername }) {
       <div>
         {/* Below edited by Mau & Brendan 4/9 */}
         <h1>You are in Room {room}</h1>
-        <h2>Current players are: {players}, and anonymous players are: {anonymousUsername}</h2>
+        <h2>Current players are: {players.join('-')}</h2>
+        <button onClick={leaveRoom}>Leave Room</button>        
         <button onClick={disconnectRoom}>Disconnect</button>
       </div>
       
@@ -118,11 +155,24 @@ function GameRoom({ room, setInRoom, anonymousUsername }) {
         <br></br>
         <br></br>
         <br></br>
-
-        <div>
-          <h4>Guess input field/ form placeholder</h4>
-          <textarea placeholder="Enter guess here"></textarea>
-        </div>
+        
+        <GameBoard
+          wordHandler={wordHandler} 
+          sendWord={sendWord}
+          startGame={startGame}
+          dis={dis}
+          gameStarted={gameStarted}
+          length={length}
+          guess={guess}
+          guessWord={guessWord}
+          guessWordHandler={event => setWord(event.target.value)}
+          guessingYourWord={guessingYourWord}
+          host={host}
+          gameOver={gameOver}
+          newGame={newGame}
+          youWon={youWon}
+          winner={winner}
+        />
       </div>
 
       <div style={columnStyle}>
