@@ -8,7 +8,7 @@ import GameLobby from "./components/GameLobby";
 import GameRoom from "./components/GameRoom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("http://localhost:4000");
 
 function App() {
   // only used in GameLobby
