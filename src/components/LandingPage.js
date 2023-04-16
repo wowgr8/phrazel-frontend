@@ -45,7 +45,7 @@ function LandingPage({ setUserName, userName }) {
 
       {anonForm 
         ? null
-        : <Login />
+        : <Login setUserName={setUserName} userName={userName}/>
       }
       
     </>

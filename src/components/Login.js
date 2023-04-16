@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({userName,setUserName}) {
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
-  const [username, setUserName] = useState(""); // define this in App.js and pass userName as props into ProfilePage,GameLobby, etc.
+  // const [username, setUserName] = useState(""); // define this in App.js and pass userName as props into ProfilePage,GameLobby, etc.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   let navigate = useNavigate();
 
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
-    console.log(showSignUpForm);
+    // console.log(showSignUpForm);
   };
 
   /* sign up form for new users */
@@ -25,7 +24,7 @@ function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
+          username: userName,
           password: password,
           email: email || "",
         }),
@@ -33,21 +32,21 @@ function Login() {
 
       console.log(`Sign up responds with status code ${response.status}`);
 
-      const inputValue = e.target.username.value;
+      // const inputValue = e.target.username.value;
       const data = await response.json();
       /** use to debug reponses */
       console.log(data);
       console.log(data.email);
 
       if (response.status === 201) {
-        setUserName(inputValue);
-        window.alert(`Welcome ${username}!`);
+        // setUserName(inputValue);
+        window.alert(`Welcome ${userName}!`);
         navigate("/GameLobby");
       } else if (data.message === 'Username already exists') {
         window.alert("Username is already taken");
       } else if (data.message === 'Email already exists') {
         window.alert("Email is already taken");
-      } else if (username === "") {
+      } else if (userName === "") {
         window.alert("Please enter a username");
         navigate("/");
       } else if (password === "") {
@@ -74,19 +73,19 @@ function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
+          username: userName,
           password: password
         }),
       });
 
       console.log(`login responds with status code ${response.status}`);
-      const inputValue = e.target.username.value;
+      // const inputValue = e.target.username.value;
 
       /* error handeling sign in status code - navigate to respective page*/
       if (response.status === 200) {
-        setUserName(inputValue);
+        // setUserName(inputValue);
         navigate("/GameLobby");
-        window.alert(`Welcome ${username}!`);
+        window.alert(`Welcome ${userName}!`);
 
       } else {
         navigate("/"); // stay on same page
@@ -130,7 +129,7 @@ function Login() {
           <form onSubmit={(e) => loginForm(e)}>
             <label>username: </label>
             <input name="username" onChange={(event) => {
-              setUserName(event.target.value);
+              setUserName(event.target.value)
             }}></input>
             <label>password: </label>
             <input name="password" onChange={(event) => {
