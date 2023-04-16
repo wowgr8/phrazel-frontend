@@ -23,7 +23,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" exact element={<LandingPage userName={userName} setUserName={setUserName} />} />
-            <Route path="Login" exact element={<Login userName={userName} setUserName={event=>setUserName(event.target.value)}/>} />
+            <Route path="Login" exact element={<Login userName={userName} setUserName={setUserName}/>} />
             <Route path="ProfilePage" exact element={<ProfilePage />} />
             <Route
               path="GameLobby"

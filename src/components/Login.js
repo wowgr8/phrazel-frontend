@@ -7,12 +7,11 @@ function Login({userName,setUserName}) {
   // const [username, setUserName] = useState(""); // define this in App.js and pass userName as props into ProfilePage,GameLobby, etc.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-console.log(userName);
   let navigate = useNavigate();
 
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
-    console.log(showSignUpForm);
+    // console.log(showSignUpForm);
   };
 
   /* sign up form for new users */
@@ -129,7 +128,9 @@ console.log(userName);
           <h1>Login</h1>
           <form onSubmit={(e) => loginForm(e)}>
             <label>username: </label>
-            <input name="username" onChange={setUserName}></input>
+            <input name="username" onChange={(event) => {
+              setUserName(event.target.value)
+            }}></input>
             <label>password: </label>
             <input name="password" onChange={(event) => {
               setPassword(event.target.value);
