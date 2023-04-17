@@ -14,6 +14,7 @@ function ScoreBoard() {
   
   // loop through gameScore
     // sort gameScore by gameScore.roundsWon.
+    const sortedScores = gameScore.sort((a, b) => b.roundsWon - a.roundsWon);
     // list gameScore.player and gameScore.roundWon.
 
 
@@ -21,9 +22,16 @@ function ScoreBoard() {
     <>
       <h3>ScoreBoard Component</h3>
 
-      {gameScore.map((player) => {
-
-      })}
+      <div>
+        {sortedScores.map((player) => {
+          return (
+            <div key={player.player}>
+              <h6>Player Name: {player.player} </h6>
+              <h6>Score: {player.roundsWon} </h6>
+            </div>
+          )
+        })}
+      </div>
       {/* <ol>
         <li>Player username</li>
           <ul>
