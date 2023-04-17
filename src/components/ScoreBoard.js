@@ -9,19 +9,13 @@ function ScoreBoard() {
     socket.on("game_score", (gameScore) => {
       setGameScore(gameScore);
     })
-    console.log(gameScore)
   }, [gameScore])
   
-  // loop through gameScore
-    // sort gameScore by gameScore.roundsWon.
-    const sortedScores = gameScore.sort((a, b) => b.roundsWon - a.roundsWon);
-    // list gameScore.player and gameScore.roundWon.
-
+  const sortedScores = gameScore.sort((a, b) => b.roundsWon - a.roundsWon);
 
   return (
     <>
       <h3>ScoreBoard Component</h3>
-
       <div>
         {sortedScores.map((player) => {
           return (
@@ -32,23 +26,6 @@ function ScoreBoard() {
           )
         })}
       </div>
-      {/* <ol>
-        <li>Player username</li>
-          <ul>
-            <li>Score: 50</li>
-            <li>Correct Guesses: 5/10</li>
-          </ul>
-        <li>Player username</li>
-          <ul>
-            <li>Score: 40</li>
-            <li>Correct Guesses: 4/10</li>
-          </ul>
-        <li>Player username</li>
-          <ul>
-            <li>Score: 30</li>
-            <li>Correct Guesses: 3/10</li>
-          </ul>
-      </ol> */}
     </>
   )
 }
