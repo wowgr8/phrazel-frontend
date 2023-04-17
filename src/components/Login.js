@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Login({userName,setUserName}) {
+function Login({ userName, setUserName }) {
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
-  // const [username, setUserName] = useState(""); // define this in App.js and pass userName as props into ProfilePage,GameLobby, etc.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let token = null; // used for cookies
   let navigate = useNavigate();
 
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
-    // console.log(showSignUpForm);
   };
 
   /* sign up form for new users */
   async function signUpForm(e) {
     e.preventDefault();
     try {
+      /* connecting to backend routes */
       const response = await fetch("http://localhost:8000/api/v1/auth/register", {
         method: "POST",
         headers: {
@@ -26,35 +26,33 @@ function Login({userName,setUserName}) {
         body: JSON.stringify({
           username: userName,
           password: password,
-          email: email || "",
+          email: email,
         }),
       });
 
       console.log(`Sign up responds with status code ${response.status}`);
-
-      // const inputValue = e.target.username.value;
       const data = await response.json();
-      /** use to debug reponses */
-      console.log(data);
-      console.log(data.email);
+      console.log(data)
 
+      /* login credential error handeling */
       if (response.status === 201) {
-        // setUserName(inputValue);
+        token = data.token;
+        localStorage.setItem("token", token);
         window.alert(`Welcome ${userName}!`);
         navigate("/GameLobby");
-      } else if (data.message === 'Username already exists') {
-        window.alert("Username is already taken");
-      } else if (data.message === 'Email already exists') {
-        window.alert("Email is already taken");
+        
       } else if (userName === "") {
         window.alert("Please enter a username");
-        navigate("/");
+      } else if (data.hasUsername === true) {
+        window.alert("Username is already taken");
+      } else if (email === "") {
+        window.alert("Please enter an email");
+      } else if (data.hasEmail === true) {
+        window.alert("Email is already taken");
       } else if (password === "") {
         window.alert("Please enter a password");
-        navigate("/");
       } else if (password.length < 6) {
         window.alert("Password must be at least 6 characters");
-        navigate("/");
       }
     } catch (error) {
       console.log("Error occurred: ", error);
@@ -64,9 +62,7 @@ function Login({userName,setUserName}) {
   /* login form for existing users */
   async function loginForm(e) {
     e.preventDefault();
-
     try {
-      /* connecting to backend routes */
       const response = await fetch("http://localhost:8000/api/v1/auth/login", {
         method: "POST",
         headers: {
@@ -79,22 +75,22 @@ function Login({userName,setUserName}) {
       });
 
       console.log(`login responds with status code ${response.status}`);
-      // const inputValue = e.target.username.value;
+      const data = await response.json();
 
-      /* error handeling sign in status code - navigate to respective page*/
       if (response.status === 200) {
-        // setUserName(inputValue);
-        navigate("/GameLobby");
+        token = data.token;
+        localStorage.setItem("token", token);
         window.alert(`Welcome ${userName}!`);
-
-      } else {
-        navigate("/"); // stay on same page
+        navigate("/GameLobby");
+      } else if (response.status === 401) {
         window.alert("Invalid username or password");
       }
     } catch (error) {
       console.log("Error occurred: ", error);
     }
   }
+
+
 
 
   return (
