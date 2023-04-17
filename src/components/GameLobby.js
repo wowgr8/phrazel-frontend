@@ -55,8 +55,11 @@ function GameLobby({ userName }) {
 
     // Receives available rooms & players from back end and sets it to useState
     // rooms: [{room: 1,
-    //        players: [name1, name2, name3]
-    //     }]
+    //        players: ["name1", "name2", "name3"]
+    //     },
+    //     {room: 2,
+    //       players: ["name4", "name5", "name6"]
+    //    }]
     socket.on("available_rooms", (rooms) => {
       setAvailableRooms(rooms);
     });
@@ -127,10 +130,10 @@ function GameLobby({ userName }) {
                 <h3>The available rooms & the players within them are:</h3>
                 <ul>
                   {availableRooms.map((roomDetails) => (
-                    <div>
+                    <div key={roomDetails.roomNumber}>
                       <br></br>
 
-                      <li key={roomDetails.roomNumber}>
+                      <li>
                         Room: {roomDetails.roomNumber}
                       </li>
                       <ul>
