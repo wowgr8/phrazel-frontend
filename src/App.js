@@ -11,13 +11,19 @@ function App() {
   //User name passed as props to login and used in Game lobby
   const [userName, setUserName] = useState(""); 
 
+
+
+
+
+
+  
   return (
     <SocketContext.Provider value={socket}>
       <div className="App">
         <Router>
           <Routes>
             <Route path="/" exact element={<LandingPage userName={userName} setUserName={setUserName} />} />
-            <Route path="Login" exact element={<Login />} />
+            <Route path="Login" exact element={<Login userName={userName} setUserName={setUserName}/>} />
             <Route path="ProfilePage" exact element={<ProfilePage />} />
             <Route
               path="GameLobby"
