@@ -17,11 +17,11 @@ function ScoreBoard() {
     <>
       <h3>ScoreBoard Component</h3>
       <div>
-        {sortedScores.map((player) => {
+        {sortedScores.map((sortedScore) => {
           return (
-            <div key={player.player}>
-              <h6>Player Name: {player.player} </h6>
-              <h6>Score: {player.roundsWon} </h6>
+            <div key={sortedScore.player}>
+              <h6>Player Name: {sortedScore.player} </h6>
+              <h6>Score: {sortedScore.roundsWon} </h6>
             </div>
           )
         })}
