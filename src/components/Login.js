@@ -46,8 +46,7 @@ function Login({userName,setUserName}) {
         window.alert(`Welcome ${userName}!`);
         socket.connect()
         socket.on("connect", () => {
-          console.log(socket.connected,"socket connected");
-          socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
+          if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
         });
     
       } else if (data.message === 'Username already exists') {
