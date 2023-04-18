@@ -18,7 +18,7 @@ function Login({ userName, setUserName }) {
     e.preventDefault();
     try {
       /* connecting to backend routes */
-      const response = await fetch("http://localhost:8000/api/v1/auth/register", {
+      const response = await fetch("http://localhost:4000/api/v1/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ function Login({ userName, setUserName }) {
         localStorage.setItem("token", token);
         window.alert(`Welcome ${userName}!`);
         navigate("/GameLobby");
-        
+
       } else if (userName === "") {
         window.alert("Please enter a username");
       } else if (data.hasUsername === true) {
@@ -63,7 +63,7 @@ function Login({ userName, setUserName }) {
   async function loginForm(e) {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const response = await fetch("http://localhost:4000/api/v1/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
