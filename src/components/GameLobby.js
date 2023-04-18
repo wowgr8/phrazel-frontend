@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import GameRoom from "./GameRoom";
+
 import { SocketContext } from "../utils/Socket";
+
 
 function GameLobby({ userName }) {
   const socket = useContext(SocketContext);
-
   // socket.connect()
   
+
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
@@ -22,6 +24,7 @@ function GameLobby({ userName }) {
   const createRoom = () => {
     socket.emit("create_room", userName);
     setInRoom(true);
+
     setHost(true);
   };
 
@@ -46,6 +49,7 @@ function GameLobby({ userName }) {
   useEffect(() => {
     //Receives new room number from back end - back end is responsible for checking for duplicate room numbers.
     socket.on("room_number", (room) => {
+
       setRoom(room);
     });
 
@@ -53,6 +57,7 @@ function GameLobby({ userName }) {
     if (localStorageRoom) {
       setRoom(localStorageRoom);
     }
+
 
     // Receives available rooms & players from back end and sets it to useState
     // rooms: [{room: 1,
