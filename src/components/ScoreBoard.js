@@ -11,8 +11,6 @@ function ScoreBoard({ players }) {
       setGameScore(gameScore);
       setShowData(true);
     })
-    console.log(gameScore)
-    console.log(players)
   }, [gameScore])
   
   return (
