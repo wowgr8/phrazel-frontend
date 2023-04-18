@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import {SocketContext} from '../utils/Socket';
 
-function Login({ userName, setUserName }) {
+
+
+function Login({userName,setUserName}) {
+  const socket = useContext(SocketContext);
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
   const [email, setEmail] = useState("");
@@ -39,8 +43,15 @@ function Login({ userName, setUserName }) {
         token = data.token;
         localStorage.setItem("token", token);
         window.alert(`Welcome ${userName}!`);
-        navigate("/GameLobby");
-
+        socket.connect()
+        socket.on("connect", () => {
+          if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
+        });
+    
+      } else if (data.message === 'Username already exists') {
+        window.alert("Username is already taken");
+      } else if (data.message === 'Email already exists') {
+        window.alert("Email is already taken");
       } else if (userName === "") {
         window.alert("Please enter a username");
       } else if (data.hasUsername === true) {
@@ -78,8 +89,12 @@ function Login({ userName, setUserName }) {
       const data = await response.json();
 
       if (response.status === 200) {
-        token = data.token;
-        localStorage.setItem("token", token);
+        // setUserName(inputValue);
+        socket.connect()
+        socket.on("connect", () => {
+          console.log(socket.connected,"socket connected");
+          socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
+        });
         window.alert(`Welcome ${userName}!`);
         navigate("/GameLobby");
       } else if (response.status === 401) {

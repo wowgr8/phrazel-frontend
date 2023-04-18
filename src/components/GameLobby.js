@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
 import GameRoom from "./GameRoom";
-import { SocketContext } from '../utils/Socket';
+
+import { SocketContext } from "../utils/Socket";
 
 
 function GameLobby({ userName }) {
-
   const socket = useContext(SocketContext);
-  socket.connect()
+  // socket.connect()
+  
 
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
   const [host, setHost] = useState(false);
 
-
   useEffect(() => {
-    localStorage.setItem("room", room)
+    localStorage.setItem("room", room);
   }, [room]);
 
   //Keeps track of current room number upon refreshing page.
@@ -24,7 +24,8 @@ function GameLobby({ userName }) {
   const createRoom = () => {
     socket.emit("create_room", userName);
     setInRoom(true);
-    setHost(true)
+
+    setHost(true);
   };
 
   const joinRoom = () => {
@@ -37,36 +38,45 @@ function GameLobby({ userName }) {
     setRoom(event.target.value);
   };
 
-
+  // const seeded = [
+  //   { roomNumber: 1, players: ["jim", "bob", "sam"] },
+  //   {
+  //     roomNumber: 2,
+  //     players: ["dan", "beth", "robin"],
+  //   },
+  // ];
 
   useEffect(() => {
-
     //Receives new room number from back end - back end is responsible for checking for duplicate room numbers.
     socket.on("room_number", (room) => {
-      setRoom(room)
-    }
-    );
 
-    // If there's something in localStorageRoom, we set the room to the localStorage room upon refreshing. 
+      setRoom(room);
+    });
+
+    // If there's something in localStorageRoom, we set the room to the localStorage room upon refreshing.
     if (localStorageRoom) {
       setRoom(localStorageRoom);
     }
 
-    //Receives available rooms from back end and sets it to useState
-    socket.on("available_rooms", (data) => {
-      setAvailableRooms(data);
-    });
 
+    // Receives available rooms & players from back end and sets it to useState
+    // rooms: [{room: 1,
+    //        players: ["name1", "name2", "name3"]
+    //     },
+    //     {room: 2,
+    //       players: ["name4", "name5", "name6"]
+    //    }]
+    socket.on("available_rooms", (rooms) => {
+      setAvailableRooms(rooms);
+    });
   }, [socket]);
 
-
-
   return (
-    <div >
-      {!inRoom ?
+    <div>
+      {!inRoom ? (
         <>
           {availableRooms.length === 0 ? (
-            <div >
+            <div>
               <title>Game Lobby</title>
               <h1>Game Lobby</h1>
               <hr></hr>
@@ -88,15 +98,15 @@ function GameLobby({ userName }) {
                 <div>
                   <p>
                     <em>
-                      <strong>Hint:</strong> No rooms available to join yet, create
-                      the first room above ^^ to play!
+                      <strong>Hint:</strong> No rooms available to join yet,
+                      create the first room above ^^ to play!
                     </em>
                   </p>
                 </div>
               </div>
             </div>
           ) : (
-            <div >
+            <div>
               <title>Game Lobby</title>
               <h1>Game Lobby</h1>
               <hr></hr>
@@ -110,13 +120,11 @@ function GameLobby({ userName }) {
 
                 <br></br>
               </div>
-
               {/* //////////////////////////////////// */}
               {/* Join a room section */}
               {/* //////////////////////////////////// */}
               <br></br>
               <br></br>
-
               <div>
                 <h1>
                   <em>OR</em>
@@ -125,10 +133,24 @@ function GameLobby({ userName }) {
                 <br></br>
 
                 <h2>Join a Room!</h2>
-                <h3>The available rooms are:</h3>
-                <p>{availableRooms.join(" - ")}</p>
-              </div>
+                <h3>The available rooms & the players within them are:</h3>
+                <ul>
+                  {availableRooms.map((roomDetails) => (
+                    <div key={roomDetails.roomNumber}>
+                      <br></br>
 
+                      <li>
+                        Room: {roomDetails.roomNumber}
+                      </li>
+                      <ul>
+                        <li key={roomDetails.players}>
+                          Players: {roomDetails.players.join(", ")}
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </ul>
+              </div>
               <div>
                 <input
                   placeholder="Enter Room to Join..."
@@ -140,18 +162,13 @@ function GameLobby({ userName }) {
                 <br></br>
 
                 <button onClick={joinRoom}>Join</button>
-
-
               </div>
             </div>
           )}
         </>
-        :
-        <GameRoom
-          room={room}
-          userName={userName}
-          host={host}
-        />}
+      ) : (
+        <GameRoom room={room} userName={userName} host={host} />
+      )}
     </div>
   );
 }

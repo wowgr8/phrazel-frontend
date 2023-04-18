@@ -145,7 +145,7 @@ function GameRoom({ room, setInRoom, userName, host }) {
       <br></br>
 
       <div style={columnStyle}>
-        <ScoreBoard />
+        <ScoreBoard players={players}/>
       </div>
 
       <div style={columnStyle}>
