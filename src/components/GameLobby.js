@@ -4,8 +4,9 @@ import { SocketContext } from "../utils/Socket";
 
 function GameLobby({ userName }) {
   const socket = useContext(SocketContext);
-  socket.connect();
 
+  // socket.connect()
+  
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");

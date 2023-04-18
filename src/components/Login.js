@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import {SocketContext} from '../utils/Socket';
+
 
 function Login({userName,setUserName}) {
+  const socket = useContext(SocketContext);
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
   // const [username, setUserName] = useState(""); // define this in App.js and pass userName as props into ProfilePage,GameLobby, etc.
@@ -41,7 +44,11 @@ function Login({userName,setUserName}) {
       if (response.status === 201) {
         // setUserName(inputValue);
         window.alert(`Welcome ${userName}!`);
-        navigate("/GameLobby");
+        socket.connect()
+        socket.on("connect", () => {
+          if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
+        });
+    
       } else if (data.message === 'Username already exists') {
         window.alert("Username is already taken");
       } else if (data.message === 'Email already exists') {
@@ -84,7 +91,11 @@ function Login({userName,setUserName}) {
       /* error handeling sign in status code - navigate to respective page*/
       if (response.status === 200) {
         // setUserName(inputValue);
-        navigate("/GameLobby");
+        socket.connect()
+        socket.on("connect", () => {
+          console.log(socket.connected,"socket connected");
+          socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
+        });
         window.alert(`Welcome ${userName}!`);
 
       } else {
