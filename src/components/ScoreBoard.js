@@ -1,26 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { SocketContext } from '../utils/Socket';
 
-function ScoreBoard() {
+function ScoreBoard({ players }) {
+  const socket = useContext(SocketContext);
+  const [gameScore, setGameScore] = useState([]);
+  const [showData, setShowData] = useState(false);
+
+  useEffect(() => {
+    socket.on("game_score", (gameScore) => {
+      setGameScore(gameScore);
+      setShowData(true);
+    })
+  }, [gameScore])
+  
   return (
     <>
       <h3>ScoreBoard Component</h3>
-      <ol>
-        <li>Player username</li>
-          <ul>
-            <li>Score: 50</li>
-            <li>Correct Guesses: 5/10</li>
-          </ul>
-        <li>Player username</li>
-          <ul>
-            <li>Score: 40</li>
-            <li>Correct Guesses: 4/10</li>
-          </ul>
-        <li>Player username</li>
-          <ul>
-            <li>Score: 30</li>
-            <li>Correct Guesses: 3/10</li>
-          </ul>
-      </ol>
+
+      {showData ? 
+        <>
+          <div>
+            {gameScore.sort((a, b) => b.roundsWon - a.roundsWon).map((sortedScore) => {
+              return (
+                <div key={sortedScore.player}>
+                  <h6>Player Name: {sortedScore.player} </h6>
+                  <h6>Score: {sortedScore.roundsWon} </h6>
+                </div>
+              )
+            })}
+          </div>
+        </> 
+      : 
+        <>
+          <div>
+            {players.map((player) => {
+              return (
+                <div >
+                  <h6>Player Name: {player} </h6>
+                  <h6>Score: 0 </h6>
+                </div>
+              )
+            })}
+          </div>
+        </> 
+      }
     </>
   )
 }
