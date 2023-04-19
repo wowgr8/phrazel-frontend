@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {SocketContext} from '../utils/Socket';
 
-function GameChat({ room, players }) {
+function GameChat({ room, players, userName }) {
   const socket = useContext(SocketContext);
 
   const [message, setMessage] = useState('');
   const [messageReceived, setMessageReceived] = useState('');
 
-  // emits message to the backend
+  // emits message, room, and userName to the backend
   const sendMessage = () => {
-    // socket.emit('send_message', {"msg": message, "player": players, "chatRoom": room})
-    socket.emit('send_message', { message, room })
-    
+    socket.emit('send_message', { message, room, userName })
   }
 
   useEffect(() => {
@@ -26,8 +24,7 @@ function GameChat({ room, players }) {
       <p>GameChat in room: {room}</p>
 
       <div>
-        {/* <h6> Message from {messageReceived.player} : {messageReceived.msg}</h6> ---- to be used with line 12 comment */} 
-        <h6> Message from playername placeholder : {messageReceived}</h6>
+        <p> <h4>{messageReceived.userName}</h4> says: {messageReceived.message}</p>
         
         <br></br>
         <br></br>
