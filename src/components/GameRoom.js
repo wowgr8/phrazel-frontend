@@ -177,7 +177,7 @@ function GameRoom({ room, setInRoom, userName, host }) {
       </div>
 
       <div style={columnStyle}>
-        <GameChat />
+        <GameChat room={room} players={players} userName={userName} />
       </div>
     </div>
   );
