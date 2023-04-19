@@ -5,6 +5,7 @@ function GameChat() {
   const socket = useContext(SocketContext);
 
   const [message, setMessage] = useState('');
+  const [messageReceived, setMessageReceived] = useState('');
 
   // emits message to the backend
   const sendMessage = () => {
@@ -14,7 +15,7 @@ function GameChat() {
   useEffect(() => {
     // listens for message data relayed from the backend
     socket.on('receive_message', (data) => {
-      alert(data.message)
+      setMessageReceived(data.message);
     })
   }, [socket])
   
@@ -24,7 +25,8 @@ function GameChat() {
       <p>GameChat</p>
 
       <div>
-        {/* Message will be shown here */}
+        <h6> Message from username-placeholder:</h6>
+        {messageReceived}
       </div>
 
       <input placeholder="Message..." onChange={(event)=> { setMessage(event.target.value)}} />
