@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {SocketContext} from '../utils/Socket';
 
-function GameChat() {
+function GameChat({ room, players }) {
   const socket = useContext(SocketContext);
 
   const [message, setMessage] = useState('');
@@ -9,24 +9,28 @@ function GameChat() {
 
   // emits message to the backend
   const sendMessage = () => {
-    socket.emit('send_message', { message })
+    // socket.emit('send_message', {"msg": message, "player": players, "chatRoom": room})
+    socket.emit('send_message', { message, room })
+    
   }
 
   useEffect(() => {
     // listens for message data relayed from the backend
     socket.on('receive_message', (data) => {
-      setMessageReceived(data.message);
+      setMessageReceived(data);
     })
-  }, [socket])
+  }, [socket]);
   
-
   return (
     <div>
-      <p>GameChat</p>
+      <p>GameChat in room: {room}</p>
 
       <div>
-        <h6> Message from username-placeholder:</h6>
-        {messageReceived}
+        {/* <h6> Message from {messageReceived.player} : {messageReceived.msg}</h6> ---- to be used with line 12 comment */} 
+        <h6> Message from playername placeholder : {messageReceived}</h6>
+        
+        <br></br>
+        <br></br>
       </div>
 
       <input placeholder="Message..." onChange={(event)=> { setMessage(event.target.value)}} />
