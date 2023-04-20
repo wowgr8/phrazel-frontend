@@ -169,6 +169,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon }) {
       <br></br>
 
       <div style={columnStyle}>
+        <h2>You have won {gamesWon} Game{gamesWon!==1&&'s'}!!!</h2>
         <ScoreBoard players={players}/>
       </div>
 
