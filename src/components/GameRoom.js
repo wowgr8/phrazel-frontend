@@ -4,7 +4,7 @@ import ScoreBoard from "./ScoreBoard";
 import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
 
-function GameRoom({ room, setInRoom, userName, host }) {
+async function GameRoom({ room, setInRoom, userName, host }) {
 
   const socket = useContext(SocketContext);
 
@@ -20,6 +20,27 @@ function GameRoom({ room, setInRoom, userName, host }) {
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false)
   const [winner, setWinner] = useState("")
+  const [gamesWon, setGamesWon] = useState(0)
+
+  try {
+    const response = await fetch(`http://localhost:4000/api/v1/games/${userName}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if(response.status===200){
+      setGamesWon(data.gamesWon)
+      console.log(data,'data from GET req');
+    } else if (response.status === 401) {
+      window.alert("Invalid username");
+    }
+  
+  } catch (error) {
+    console.log("Error occurred: ", error);
+  }
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
@@ -72,7 +93,26 @@ function GameRoom({ room, setInRoom, userName, host }) {
     //Returns the winner if it's not yourself
     socket.on("winner",data=>setWinner(data))
     //Returned if you are the winner
-    socket.on("you_won",()=>setYouWon(true))
+    socket.on("you_won",async ()=>{
+      setYouWon(true)
+      try {
+        const response = await fetch(`http://localhost:4000/api/v1/games/${userName}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          gamesWon: gamesWon+1
+      })
+      });
+      // const data = await response.json();
+      if (response.status === 200) {
+        console.log('Games won updated');
+      }
+      } catch (error) {
+        console.log("Error occurred: ", error);
+      }
+    })
 
   }, [socket]);
 
