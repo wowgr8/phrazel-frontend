@@ -10,9 +10,12 @@ import {SocketContext, socket} from './utils/Socket';
 function App() {
   //User name passed as props to login and used in Game lobby
   const [userName, setUserName] = useState(""); 
+  const [userData, setUserData] = useState({})
+console.log(userData,'user data in App.js');
 
-
-
+function userDataHandler (data) {
+  setUserData(data)
+}
 
 
 
@@ -23,7 +26,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" exact element={<LandingPage userName={userName} setUserName={setUserName} />} />
-            <Route path="Login" exact element={<Login userName={userName} setUserName={setUserName}/>} />
+            <Route path="Login" exact element={<Login userName={userName} setUserName={setUserName} userDataHandler={userDataHandler}/>} />
             <Route path="ProfilePage" exact element={<ProfilePage />} />
             <Route
               path="GameLobby"
@@ -31,6 +34,7 @@ function App() {
               element={
                 <GameLobby
                   userName={userName}
+                  gamesWon={userData.gamesWon} _id={userData._id}
                 />
               }
             />

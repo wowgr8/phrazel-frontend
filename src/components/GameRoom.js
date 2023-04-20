@@ -4,7 +4,7 @@ import ScoreBoard from "./ScoreBoard";
 import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
 
-function GameRoom({ room, setInRoom, userName, host, gamesWon }) {
+function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
 
   const socket = useContext(SocketContext);
 
@@ -79,7 +79,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon }) {
     socket.on("you_won",async ()=>{
       setYouWon(true)
       try {
-        const response = await fetch(`http://localhost:4000/api/v1/games/${userName}`, {
+        const response = await fetch(`http://localhost:4000/api/v1/user/${_id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

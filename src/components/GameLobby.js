@@ -4,49 +4,17 @@ import GameRoom from "./GameRoom";
 import { SocketContext } from "../utils/Socket";
 
 
-function GameLobby({ userName }) {
+function GameLobby({ userName, gamesWon, _id }) {
   const socket = useContext(SocketContext);
   // socket.connect()
-  
-
+  console.log(gamesWon,'gamesWon');
+  console.log(_id,'_id');
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
   const [host, setHost] = useState(false);
-  const [userData, setUserData] = useState({})
   let token = null; // used for cookies
-  token = localStorage.getItem("token");
 
-
-  
-
-  useEffect(() => {
-
-    async function getData(){
-      try {
-        const response = await fetch(`http://localhost:4000/api/v1/games/${userName}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-  
-        const data = await response.json();
-        if(response.status===200){
-          setUserData(data.user)
-          console.log(data,'data from GET req in game lobby');
-        } else if (response.status === 401) {
-          window.alert("Invalid username");
-        }
-      
-      } catch (error) {
-        console.log("Error occurred: ", error);
-      }
-    }
-    getData()
-
-  }, []);
 
   //Keeps track of current room number upon refreshing page.
   let localStorageRoom = localStorage.getItem("room");
@@ -198,7 +166,7 @@ function GameLobby({ userName }) {
           )}
         </>
       ) : (
-        <GameRoom room={room} userName={userName} host={host} gamesWon={userData.gamesWon} />
+        <GameRoom room={room} userName={userName} host={host} gamesWon={gamesWon} userId={_id} />
       )}
     </div>
   );

@@ -4,7 +4,7 @@ import {SocketContext} from '../utils/Socket';
 
 
 
-function Login({userName,setUserName}) {
+function Login({userName,setUserName,userDataHandler}) {
   const socket = useContext(SocketContext);
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
@@ -46,6 +46,7 @@ function Login({userName,setUserName}) {
         window.alert(`Welcome ${userName}!`);
         socket.connect()
         socket.on("connect", () => {
+          userDataHandler(data.user)
           if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
         });
     
@@ -88,13 +89,14 @@ function Login({userName,setUserName}) {
 
       console.log(`login responds with status code ${response.status}`);
       const data = await response.json();
-
+      console.log('data from login',data);
       if (response.status === 200) {
         // setUserName(inputValue);
         token = data.token;
         localStorage.setItem("token", token);
         socket.connect()
         socket.on("connect", () => {
+          userDataHandler(data.user)
           console.log(socket.connected,"socket connected");
           socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
         });
