@@ -11,6 +11,7 @@ function Login({userName,setUserName}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let token = null; // used for cookies
+  token = localStorage.getItem("token");
   let navigate = useNavigate();
 
   const toggleForm = () => {
@@ -90,6 +91,8 @@ function Login({userName,setUserName}) {
 
       if (response.status === 200) {
         // setUserName(inputValue);
+        token = data.token;
+        localStorage.setItem("token", token);
         socket.connect()
         socket.on("connect", () => {
           console.log(socket.connected,"socket connected");

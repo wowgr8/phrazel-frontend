@@ -4,7 +4,7 @@ import ScoreBoard from "./ScoreBoard";
 import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
 
-async function GameRoom({ room, setInRoom, userName, host }) {
+function GameRoom({ room, setInRoom, userName, host }) {
 
   const socket = useContext(SocketContext);
 
@@ -22,25 +22,33 @@ async function GameRoom({ room, setInRoom, userName, host }) {
   const [winner, setWinner] = useState("")
   const [gamesWon, setGamesWon] = useState(0)
 
-  try {
-    const response = await fetch(`http://localhost:4000/api/v1/games/${userName}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  let token = null; // used for cookies
+  token = localStorage.getItem("token");
 
-    const data = await response.json();
-    if(response.status===200){
-      setGamesWon(data.gamesWon)
-      console.log(data,'data from GET req');
-    } else if (response.status === 401) {
-      window.alert("Invalid username");
+
+  async function getData(){
+    try {
+      const response = await fetch(`http://localhost:4000/api/v1/games/${userName}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if(response.status===200){
+        setGamesWon(data.gamesWon)
+        console.log(data,'data from GET req');
+      } else if (response.status === 401) {
+        window.alert("Invalid username");
+      }
+    
+    } catch (error) {
+      console.log("Error occurred: ", error);
     }
-  
-  } catch (error) {
-    console.log("Error occurred: ", error);
   }
+  getData()
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
@@ -100,6 +108,7 @@ async function GameRoom({ room, setInRoom, userName, host }) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           gamesWon: gamesWon+1
