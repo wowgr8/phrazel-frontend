@@ -4,7 +4,7 @@ import ScoreBoard from "./ScoreBoard";
 import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
 
-function GameRoom({ room, setInRoom, userName, host }) {
+function GameRoom({ room, setInRoom, userName, host, gamesWon }) {
 
   const socket = useContext(SocketContext);
 
@@ -20,35 +20,10 @@ function GameRoom({ room, setInRoom, userName, host }) {
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false)
   const [winner, setWinner] = useState("")
-  const [gamesWon, setGamesWon] = useState(0)
 
   let token = null; // used for cookies
   token = localStorage.getItem("token");
 
-
-  async function getData(){
-    try {
-      const response = await fetch(`http://localhost:4000/api/v1/games/${userName}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-      if(response.status===200){
-        setGamesWon(data.gamesWon)
-        console.log(data,'data from GET req');
-      } else if (response.status === 401) {
-        window.alert("Invalid username");
-      }
-    
-    } catch (error) {
-      console.log("Error occurred: ", error);
-    }
-  }
-  getData()
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
