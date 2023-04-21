@@ -163,7 +163,7 @@ function GameLobby({ userName, gamesWon, _id }) {
           )}
         </>
       ) : (
-        <GameRoom room={room} userName={userName} host={host} gamesWon={gamesWon} _id={_id} />
+        <GameRoom room={room} setInRoom={setInRoom} userName={userName} host={host} gamesWon={gamesWon} _id={_id} />
       )}
     </div>
   );
