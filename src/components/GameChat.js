@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {SocketContext} from '../utils/Socket';
 
-function GameChat({ room, players, userName }) {
+function GameChat({ room, userName }) {
   const socket = useContext(SocketContext);
 
   const [message, setMessage] = useState('');
@@ -23,11 +23,6 @@ function GameChat({ room, players, userName }) {
   useEffect(() => {
     if (messageReceived !== '') {setChatLog(prevChatLog => [...prevChatLog, messageReceived])}
   }, [messageReceived]);
-  
-  useEffect(() => {
-    console.log(chatLog)
-  }, [chatLog]);
-
   
   return (
     <div>
