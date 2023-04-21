@@ -21,7 +21,7 @@ function GameChat({ room, players, userName }) {
   }, [socket]);
 
   useEffect(() => {
-    if (messageReceived.message !== '') {setChatLog(prevChatLog => [...prevChatLog, messageReceived])}
+    if (messageReceived !== '') {setChatLog(prevChatLog => [...prevChatLog, messageReceived])}
   }, [messageReceived]);
   
   useEffect(() => {
