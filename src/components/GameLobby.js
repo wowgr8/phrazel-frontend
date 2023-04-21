@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import GameRoom from "./GameRoom";
-
+import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../utils/Socket";
 
 
@@ -10,8 +10,10 @@ function GameLobby({ userName, gamesWon, _id }) {
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
   const [host, setHost] = useState(false);
+  let navigate = useNavigate(); 
   let token = null; // used for cookies
 
+  if(!socket.connected) navigate('/')
 
   //Keeps track of current room number upon refreshing page.
   let localStorageRoom = localStorage.getItem("room");

@@ -128,8 +128,9 @@ function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
 
 
   const disconnectRoom = () => {
-    socket.emit("disconnect_room", room);
-    if (socket) socket.disconnect();
+    socket.emit("leave_room", room);
+    socket.disconnect();
+    setInRoom(false);
   };
 
   function wordHandler(event){
