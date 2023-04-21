@@ -6,6 +6,7 @@ function GameChat({ room, players, userName }) {
 
   const [message, setMessage] = useState('');
   const [messageReceived, setMessageReceived] = useState('');
+  const [chatLog, setChatLog] = useState([]);
 
   // emits message, room, and userName to the backend
   const sendMessage = () => {
@@ -18,13 +19,26 @@ function GameChat({ room, players, userName }) {
       setMessageReceived(data);
     })
   }, [socket]);
+
+  useEffect(() => {
+    if (messageReceived.message !== '') {setChatLog(prevChatLog => [...prevChatLog, messageReceived])}
+  }, [messageReceived]);
+  
+  useEffect(() => {
+    console.log(chatLog)
+  }, [chatLog]);
+
   
   return (
     <div>
       <p>GameChat in room: {room}</p>
 
       <div>
-        <p> <h4>{messageReceived.userName}</h4> says: {messageReceived.message}</p>
+        <div>
+          {chatLog.map((message, index) => (
+            <p key={index}>{message.userName}: {message.message}</p>
+          ))}
+        </div>
         
         <br></br>
         <br></br>
