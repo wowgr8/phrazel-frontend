@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {SocketContext} from '../utils/Socket';
-
+import { UserDataContext } from "../App";
 
 
 function Login({userName,setUserName,userDataHandler}) {
@@ -10,6 +10,7 @@ function Login({userName,setUserName,userDataHandler}) {
   const [showSignUpForm, setShowSignUpForm] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setUserData} = useContext(UserDataContext)
   let token = null; // used for cookies
   token = localStorage.getItem("token");
   let navigate = useNavigate();
@@ -17,6 +18,7 @@ function Login({userName,setUserName,userDataHandler}) {
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
   };
+
 
   /* sign up form for new users */
   async function signUpForm(e) {
@@ -43,10 +45,10 @@ function Login({userName,setUserName,userDataHandler}) {
       if (response.status === 201) {
         token = data.token;
         localStorage.setItem("token", token);
+        setUserData(data.user)
         window.alert(`Welcome ${userName}!`);
         socket.connect()
         socket.on("connect", () => {
-          userDataHandler(data.user)
           if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
         });
     
@@ -94,9 +96,9 @@ function Login({userName,setUserName,userDataHandler}) {
         // setUserName(inputValue);
         token = data.token;
         localStorage.setItem("token", token);
+        setUserData(data.user)
         socket.connect()
         socket.on("connect", () => {
-          userDataHandler(data.user)
           console.log(socket.connected,"socket connected");
           socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
         });
