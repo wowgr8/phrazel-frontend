@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
 import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
+import { UserDataContext } from "../App";
 
 function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
 
@@ -20,6 +21,8 @@ function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false)
   const [winner, setWinner] = useState("")
+  const {setUserData} = useContext(UserDataContext)
+
 
   let token = null; // used for cookies
   token = localStorage.getItem("token");
@@ -80,19 +83,19 @@ function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
       setYouWon(true)
       try {
         const response = await fetch(`http://localhost:4000/api/v1/user/${_id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          gamesWon: gamesWon+1
-      })
-      });
-      // const data = await response.json();
-      if (response.status === 200) {
-        console.log('Games won updated');
-      }
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            gamesWon: gamesWon+1
+          })
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+          setUserData(data.user)
+        }
       } catch (error) {
         console.log("Error occurred: ", error);
       }

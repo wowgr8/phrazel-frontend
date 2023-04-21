@@ -6,9 +6,6 @@ import { SocketContext } from "../utils/Socket";
 
 function GameLobby({ userName, gamesWon, _id }) {
   const socket = useContext(SocketContext);
-  // socket.connect()
-  console.log(gamesWon,'gamesWon');
-  console.log(_id,'_id');
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
@@ -166,7 +163,7 @@ function GameLobby({ userName, gamesWon, _id }) {
           )}
         </>
       ) : (
-        <GameRoom room={room} userName={userName} host={host} gamesWon={gamesWon} userId={_id} />
+        <GameRoom room={room} userName={userName} host={host} gamesWon={gamesWon} _id={_id} />
       )}
     </div>
   );

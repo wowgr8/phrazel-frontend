@@ -39,8 +39,6 @@ function Login({userName,setUserName,userDataHandler}) {
 
       console.log(`Sign up responds with status code ${response.status}`);
       const data = await response.json();
-      console.log(data)
-
       /* login credential error handeling */
       if (response.status === 201) {
         token = data.token;
@@ -91,7 +89,6 @@ function Login({userName,setUserName,userDataHandler}) {
 
       console.log(`login responds with status code ${response.status}`);
       const data = await response.json();
-      console.log('data from login',data);
       if (response.status === 200) {
         // setUserName(inputValue);
         token = data.token;
