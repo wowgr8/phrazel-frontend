@@ -22,8 +22,8 @@ function GameRoom({ room, setInRoom, userName, host }) {
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
-      ? navigate("/GameLobby")
-      : navigate("/ProfilePage");
+      ? navigate("/ProfilePage")
+      : navigate("/GameLobby");
   };
 
   const columnStyle = {
@@ -121,31 +121,36 @@ function GameRoom({ room, setInRoom, userName, host }) {
 
   return (
     <div>
-      {/* Hide profile attempt */}
-      {!userName ? (
-        <div>
-          <select id="navOptions" onChange={hamburgerNav}>
-            <option value="">Hamburger nav placeholder</option>
-            <option value="option1">Game Lobby</option>
-            <option disabled value="option2">
-              Profile Page
-            </option>
-          </select>
-        </div>
-      ) : (
-        <div>
-          <select id="navOptions" onChange={hamburgerNav}>
-            <option value="">Hamburger nav placeholder</option>
-            <option value="option1">Game Lobby</option>
-            <option value="option2">Profile Page</option>
-          </select>
-        </div>
-      )}
+      <div>
+        <select id="navOptions" onChange={hamburgerNav}>
+          <option value="">Hamburger nav placeholder</option>
+          <option value="option1">Profile Page</option>
+          <option value="option2">Game Lobby</option>
+        </select>
+      </div>
       <div>
         <h1>You are in Room {room}</h1>
-        <h2>Current players are: {players.join("-")}</h2>
+        <hr></hr>
+        {/* Attempted mapping of players into list form */}
+        <h2>Current players are: </h2>
+        <ul>
+          {players.map((player) => (
+            <div key={player}>
+              <li
+                style={{
+                  marginLeft: "45%",
+                  textAlign: "left",
+                }}
+              >
+                {player}
+              </li>
+            </div>
+          ))}
+        </ul>
+        {console.log("players", players)}
         <button onClick={leaveRoom}>Leave Room</button>
         <button onClick={disconnectRoom}>Disconnect</button>
+        <hr></hr>
       </div>
 
       <br></br>
