@@ -3,11 +3,9 @@ import GameRoom from "./GameRoom";
 
 import { SocketContext } from "../utils/Socket";
 
-
 function GameLobby({ userName }) {
   const socket = useContext(SocketContext);
   // socket.connect()
-  
 
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
@@ -49,7 +47,6 @@ function GameLobby({ userName }) {
   useEffect(() => {
     //Receives new room number from back end - back end is responsible for checking for duplicate room numbers.
     socket.on("room_number", (room) => {
-
       setRoom(room);
     });
 
@@ -57,7 +54,6 @@ function GameLobby({ userName }) {
     if (localStorageRoom) {
       setRoom(localStorageRoom);
     }
-
 
     // Receives available rooms & players from back end and sets it to useState
     // rooms: [{room: 1,
@@ -139,12 +135,25 @@ function GameLobby({ userName }) {
                     <div key={roomDetails.roomNumber}>
                       <br></br>
 
-                      <li>
-                        Room: {roomDetails.roomNumber}
+                      <li
+                        style={{
+                          marginLeft: "30%",
+                          marginRight: "55%",
+                          textAlign: "left",
+                        }}
+                      >
+                        <strong>Room: {roomDetails.roomNumber}</strong>
                       </li>
                       <ul>
-                        <li key={roomDetails.players}>
-                          Players: {roomDetails.players.join(", ")}
+                        <li
+                          key={roomDetails.players}
+                          style={{
+                            marginLeft: "35%",
+                            marginRight: "25%",
+                            textAlign: "left",
+                          }}
+                        >
+                          <u>Players</u>: {roomDetails.players.join(", ")}
                         </li>
                       </ul>
                     </div>
