@@ -6,6 +6,7 @@ import GameBoard from "./GameBoard";
 import { UserDataContext } from "../App";
 
 function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
+  console.log(gamesWon,'games won in GameRoom TOP');
 
   const socket = useContext(SocketContext);
 
@@ -41,7 +42,7 @@ function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
   };
 
   useEffect(() => {
-
+    console.log('games Won Use effect',gamesWon);
     //Receives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
       setPlayers(data)
@@ -79,8 +80,8 @@ function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
     //Returns the winner if it's not yourself
     socket.on("winner",data=>setWinner(data))
     //Returned if you are the winner
-    socket.on("you_won",async ()=>{
-      setYouWon(true)
+    async function patch(){
+      console.log(gamesWon,'games won before PATCH');
       try {
         const response = await fetch(`http://localhost:4000/api/v1/user/${_id}`, {
           method: "PATCH",
@@ -89,18 +90,22 @@ function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            gamesWon: gamesWon+1
+            gamesWon: ++gamesWon
           })
         });
         const data = await response.json();
         if (response.status === 200) {
+          console.log('resp 200');
           setUserData(data.user)
+          setYouWon(true)
         }
       } catch (error) {
         console.log("Error occurred: ", error);
       }
-    })
-
+    }
+    socket.on("you_won", patch)
+    return () =>socket.off("you_won", patch)
+    // socket.off("you_won")
   }, [socket]);
 
 

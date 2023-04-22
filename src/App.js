@@ -12,7 +12,7 @@ function App() {
   //User name passed as props to login and used in Game lobby
   const [userName, setUserName] = useState(""); 
   const [userData, setUserData] = useState({})
-console.log(userData,'user data in App.js');
+// console.log(userData,'user data in App.js');
 
 
   
