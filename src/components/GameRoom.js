@@ -43,6 +43,11 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     verticalAlign: "top", // each div has the same top starting point
   };
 
+  const logoffStyle={
+    textAlign: "right",
+    paddingRight: 30
+  }
+
   useEffect(() => {
     console.log('games Won Use effect',gamesWon);
     //Receives players from the backend who entered a specific GameRoom
@@ -160,19 +165,20 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
 
   return (
     <div>
-      <div>
-        <select id="navOptions" onChange={hamburgerNav}>
+      <div style={logoffStyle}>
+        <h2>{userName}</h2>
+        <button onClick={disconnectRoom}>Logout</button>
+        {/* <select id="navOptions" onChange={hamburgerNav}>
           <option value="">Hamburger nav placeholder</option>
           <option value="option1">Profile Page</option>
           <option value="option2">Game Lobby</option>
-        </select>
+        </select> */}
       </div>
 
       <div>
         <h1>You are in Room {room}</h1>
         <h2>Current players are: {players.join('-')}</h2>
         <button onClick={leaveRoom}>Leave Room</button>        
-        <button onClick={disconnectRoom}>Disconnect</button>
       </div>
       
       <br></br>
