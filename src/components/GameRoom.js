@@ -19,7 +19,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   const [guessingYourWord, setGuessingYourWord] = useState(false);
   const [youGuessed, setYouGuessed] = useState(false);
   const [word, setWord] = useState("");
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState(['Just you']);
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false)
   const [winner, setWinner] = useState("")
@@ -42,6 +42,11 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     width: "30%", // creates spacing in between text
     verticalAlign: "top", // each div has the same top starting point
   };
+
+  const logoffStyle={
+    textAlign: "right",
+    paddingRight: 30
+  }
 
   useEffect(() => {
     console.log('games Won Use effect',gamesWon);
@@ -135,8 +140,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
 
 
   const disconnectRoom = () => {
-    socket.emit("disconnect_room", room);
-    if (socket) socket.disconnect();
+    socket.emit("leave_room", room);
+    socket.disconnect();
+    setInRoom(false);
   };
 
   function wordHandler(event){
@@ -159,19 +165,20 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
 
   return (
     <div>
-      <div>
-        <select id="navOptions" onChange={hamburgerNav}>
+      <div style={logoffStyle}>
+        <h2>{userName}</h2>
+        <button onClick={disconnectRoom}>Logout</button>
+        {/* <select id="navOptions" onChange={hamburgerNav}>
           <option value="">Hamburger nav placeholder</option>
           <option value="option1">Profile Page</option>
           <option value="option2">Game Lobby</option>
-        </select>
+        </select> */}
       </div>
 
       <div>
         <h1>You are in Room {room}</h1>
         <h2>Current players are: {players.join('-')}</h2>
         <button onClick={leaveRoom}>Leave Room</button>        
-        <button onClick={disconnectRoom}>Disconnect</button>
       </div>
       
       <br></br>
