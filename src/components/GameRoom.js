@@ -4,8 +4,9 @@ import ScoreBoard from "./ScoreBoard";
 import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
+import { UserDataContext } from "../App";
 
-function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
+function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   console.log(gamesWon,'games won in GameRoom TOP');
 
   const socket = useContext(SocketContext);
@@ -23,6 +24,7 @@ function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
   const [youWon, setYouWon] = useState(false)
   const [winner, setWinner] = useState("")
   const {setUserData} = useContext(UserDataContext)
+  
 
 
   let token = null; // used for cookies
