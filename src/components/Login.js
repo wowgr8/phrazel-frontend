@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {SocketContext} from '../utils/Socket';
 import { UserDataContext } from "../App";
+import { base_url } from "../config";
 
 
 function Login({userName,setUserName,userDataHandler}) {
@@ -25,7 +26,7 @@ function Login({userName,setUserName,userDataHandler}) {
     e.preventDefault();
     try {
       /* connecting to backend routes */
-      const response = await fetch("http://localhost:4000/api/v1/auth/register", {
+      const response = await fetch(`${base_url}/api/v1/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
