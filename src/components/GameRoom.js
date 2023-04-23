@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
 import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
-import { UserDataContext } from "../App";
+import GameChat from "./GameChat";
 
 function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
   console.log(gamesWon,'games won in GameRoom TOP');
@@ -209,7 +209,7 @@ function GameRoom({ room, setInRoom, host, gamesWon,_id }) {
       </div>
 
       <div style={columnStyle}>
-        <h4>Chatbox placeholder</h4>
+        <GameChat room={room} players={players} userName={userName} />
       </div>
     </div>
   );
