@@ -1,21 +1,24 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {SocketContext} from '../utils/Socket';
+import { UserDataContext } from "../App";
 
 
-
-function Login({userName,setUserName}) {
+function Login({userName,setUserName,userDataHandler}) {
   const socket = useContext(SocketContext);
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setUserData} = useContext(UserDataContext)
   let token = null; // used for cookies
+  token = localStorage.getItem("token");
   let navigate = useNavigate();
 
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
   };
+
 
   /* sign up form for new users */
   async function signUpForm(e) {
@@ -36,12 +39,11 @@ function Login({userName,setUserName}) {
 
       console.log(`Sign up responds with status code ${response.status}`);
       const data = await response.json();
-      console.log(data)
-
       /* login credential error handeling */
       if (response.status === 201) {
         token = data.token;
         localStorage.setItem("token", token);
+        setUserData(data.user)
         window.alert(`Welcome ${userName}!`);
         socket.connect()
         socket.on("connect", () => {
@@ -87,9 +89,11 @@ function Login({userName,setUserName}) {
 
       console.log(`login responds with status code ${response.status}`);
       const data = await response.json();
-
       if (response.status === 200) {
         // setUserName(inputValue);
+        token = data.token;
+        localStorage.setItem("token", token);
+        setUserData(data.user)
         socket.connect()
         socket.on("connect", () => {
           console.log(socket.connected,"socket connected");
