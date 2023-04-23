@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {SocketContext} from '../utils/Socket';
 
+//Todo
+  // Reverse order of messages (unshift())
+  // Add bg color to message senders message 
+  // Add a fixed height and vertical scroll
+  // Max character @ 50
+  // extra - add delay to prevent spamming, set 1 sec timeout.
+
 function GameChat({ room, userName }) {
   const socket = useContext(SocketContext);
 
@@ -27,6 +34,8 @@ function GameChat({ room, userName }) {
   return (
     <div>
       <p>GameChat in room: {room}</p>
+      <input placeholder="Message..." onChange={(event)=> { setMessage(event.target.value)}} />
+      <button onClick={sendMessage}> Send</button>
 
       <div>
         <div>
@@ -38,9 +47,6 @@ function GameChat({ room, userName }) {
         <br></br>
         <br></br>
       </div>
-
-      <input placeholder="Message..." onChange={(event)=> { setMessage(event.target.value)}} />
-      <button onClick={sendMessage}> Send</button>
     </div>
   )
 }
