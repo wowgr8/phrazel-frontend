@@ -48,6 +48,7 @@ function Login({userName,setUserName,userDataHandler}) {
         window.alert(`Welcome ${userName}!`);
         socket.connect()
         socket.on("connect", () => {
+          socket.emit('user_name',userName)
           if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
         });
     
@@ -97,6 +98,7 @@ function Login({userName,setUserName,userDataHandler}) {
         setUserData(data.user)
         socket.connect()
         socket.on("connect", () => {
+          socket.emit('user_name',userName)
           console.log(socket.connected,"socket connected");
           socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
         });

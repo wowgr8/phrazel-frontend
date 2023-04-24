@@ -11,7 +11,7 @@ export const UserDataContext = createContext()
 function App() {
   //User name passed as props to login and used in Game lobby
   const [userName, setUserName] = useState(""); 
-  const [userData, setUserData] = useState({})
+  const [userData, setUserData] = useState({gamesWon:0})
 // console.log(userData,'user data in App.js');
 
 
