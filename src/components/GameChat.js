@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import {SocketContext} from '../utils/Socket';
 
 //Todo
-  // Reverse order of messages (unshift())
   // Add bg color to message senders message 
   // Add a fixed height and vertical scroll
   // Max character @ 50
@@ -28,8 +27,16 @@ function GameChat({ room, userName }) {
   }, [socket]);
 
   useEffect(() => {
-    if (messageReceived !== '') {setChatLog(prevChatLog => [...prevChatLog, messageReceived])}
+    if (messageReceived !== '') {
+      setChatLog(prevChatLog => {
+        prevChatLog.unshift(messageReceived);
+        // returns a new array with the spread operator containing the updated chatLog state
+        return [...prevChatLog];
+      });
+    }
   }, [messageReceived]);
+
+  console.log(chatLog)
   
   return (
     <div>
