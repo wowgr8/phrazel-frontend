@@ -3,8 +3,6 @@ import {SocketContext} from '../utils/Socket';
 
 //Todo
   // Add bg color to message senders message 
-  // Add a fixed height and vertical scroll --- Do this in tailwind
-  // Max character @ 50
   // extra - add delay to prevent spamming, set 1 sec timeout.
 
 function GameChat({ room, userName }) {
@@ -36,15 +34,19 @@ function GameChat({ room, userName }) {
     }
   }, [messageReceived]);
 
-  console.log(chatLog)
-  
+  const chatBoxStyle = {
+    border: "1px solid black", 
+    height: "200px",
+    overflowY: "scroll",
+  };
+    
   return (
     <div>
       <p>GameChat in room: {room}</p>
       <input placeholder="Message..." maxLength="50" onChange={(event)=> { setMessage(event.target.value)}} />
       <button onClick={sendMessage}> Send</button>
 
-      <div>
+      <div style={chatBoxStyle}>
         <div>
           {chatLog.map((message, index) => (
             <p key={index}>{message.userName}: {message.message}</p>
