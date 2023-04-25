@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {SocketContext} from '../utils/Socket';
 
-//Todo
-  // Add bg color to message senders message 
-  // extra - add delay to prevent spamming, set 1 sec timeout.
-
 function GameChat({ room, userName }) {
   const socket = useContext(SocketContext);
 
@@ -39,7 +35,7 @@ function GameChat({ room, userName }) {
     height: "200px",
     overflowY: "scroll",
   };
-    
+
   return (
     <div>
       <p>GameChat in room: {room}</p>
@@ -49,7 +45,15 @@ function GameChat({ room, userName }) {
       <div style={chatBoxStyle}>
         <div>
           {chatLog.map((message, index) => (
-            <p key={index}>{message.userName}: {message.message}</p>
+            <p 
+              key={index} 
+              style={{ 
+                backgroundColor: message.userName === userName ? '#ADD8E6' : 'white', 
+                padding: '10px' 
+              }}  
+            > 
+              <strong>{message.userName}</strong>: {message.message}
+            </p>
           ))}
         </div>
         
