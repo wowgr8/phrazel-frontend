@@ -39,7 +39,11 @@ function GameChat({ room, userName }) {
         <br></br>
       </div>
 
-      <input placeholder="Message..." onChange={(event)=> { setMessage(event.target.value)}} />
+      <input 
+        placeholder="Message..." 
+        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+        onChange={(event)=> { setMessage(event.target.value)}} 
+      />
       <button onClick={sendMessage}> Send</button>
     </div>
   )
