@@ -28,6 +28,7 @@ function LandingPage({ setUserName, userName }) {
 
   return (
     <div className='my-56 '>
+      <>Game name placeholder</>
       <div className="container flex flex-col md:flex-row items-center px-6 mx-auto mt-10 space-y-0 md:space-y-0 bg-color-sky-300 columns-2">
         {/* Left Item */}
         <div className='flex flex-col mb-32 space-y-12 md:w-1/2'>
@@ -35,8 +36,8 @@ function LandingPage({ setUserName, userName }) {
         </div>
         
         {/* Right Item */}
-        <div className='w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 hover:bg-sky-100'>
-          <div className='flex flex-col mb-32 space-y-12 md:w-1/2 '>
+        <div className='w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 hover:bg-sky-100 '>
+          <div className='flex flex-col mb-32 space-y-12  items-center'>
             {anonForm 
               ?
                 <div className=''>
