@@ -9,10 +9,12 @@ function GameChat({ room, userName }) {
   const [message, setMessage] = useState('');
   const [messageReceived, setMessageReceived] = useState('');
   const [chatLog, setChatLog] = useState([]);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  // const [selectedEmoji, setSelectedEmoji] = useState('');
 
   // emits message, room, and userName to the backend
   const sendMessage = () => {
-    socket.emit('send_message', { message, room, userName })
+    socket.emit('send_message', { message, room, userName });
   }
 
   useEffect(() => {
@@ -44,7 +46,7 @@ function GameChat({ room, userName }) {
   return (
     <div className='ml-3.5'>
       <p>GameChat in room: {room}</p>
-      {/* <EmojiPicker height={450} className="w-full"/> */}
+      {showEmojiPicker && <EmojiPicker height={450} className="w-full"/>}
       <div className='flex flex-row mb-2.5 gap-0.5'>
         <div className="flex items-center px-1 py-2 w-full rounded-lg bg-sky-100 gap-0.5">
         <input 
@@ -54,7 +56,11 @@ function GameChat({ room, userName }) {
           onChange={(event)=> { setMessage(event.target.value)}} 
         
         />
-        <HappyFaceSVG height="30px" width="30px" />
+        <HappyFaceSVG 
+          height="30px" 
+          width="30px" 
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        />
         <button 
           type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 "
           // className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm  py-2.5 text-center basis-1/5  "
@@ -71,7 +77,7 @@ function GameChat({ room, userName }) {
           {chatLog.map((message, index) => (
             <p 
               key={index} 
-              className="text-left"
+              className="text-left ml-2.5"
               style={{ 
                 color: message.userName === userName ? '#ECBE07' : 'black', 
                 padding: '10px' 
