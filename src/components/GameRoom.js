@@ -177,7 +177,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         <h1>You are in Room {room}</h1>
         <hr></hr>
         {/* Attempted mapping of players into list form */}
-        <h2>Current players are: </h2>
+        <h2>
+          <strong>Current players are:</strong>{" "}
+        </h2>
         <ul>
           {players.map((player) => (
             <div key={player}>
@@ -187,7 +189,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
                   textAlign: "left",
                 }}
               >
-                {player}
+                - {player}
               </li>
             </div>
           ))}
