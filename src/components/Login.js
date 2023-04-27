@@ -123,21 +123,21 @@ function Login({userName,setUserName,userDataHandler}) {
         <>
           <h1>Sign Up</h1>
           <form onSubmit={(e) => signUpForm(e)}>
-            <label>username: </label>
-            <input name="username" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>username: </label>
+            <input name="username" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setUserName(event.target.value);
             }}></input>
-            <label>email: </label>
-            <input name="email" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>email: </label>
+            <input name="email" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setEmail(event.target.value);
             }}></input>
-            <label>password: </label>
-            <input name="password" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>password: </label>
+            <input name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
-            <button type="submit">Signup!</button>
+            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Signup!</button>
           </form>
-          <button onClick={toggleForm}>
+          <button className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500" onClick={toggleForm}>
             Already have an account? Sign in{" "}
           </button>
         </>
@@ -145,18 +145,18 @@ function Login({userName,setUserName,userDataHandler}) {
         <>
           <h1>Login</h1>
           <form onSubmit={(e) => loginForm(e)}>
-            <label>username: </label>
-            <input name="username" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>username: </label>
+            <input name="username" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setUserName(event.target.value)
             }}></input>
-            <label>password: </label>
-            <input name="password" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>password: </label>
+            <input name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
-            <button type="submit">Login!</button>
+            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Login!</button>
           </form>
           <p id="message"></p>
-          <button onClick={toggleForm}>Dont have an account? Register </button>
+          <button onClick={toggleForm}>Dont have an account? <span className="text-blue-700 hover:underline dark:text-blue-500">Register</span>  </button>
         </>
       )}
     </div>

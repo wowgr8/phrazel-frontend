@@ -31,7 +31,11 @@ function GameBoard(props) {
                 <div className="App">
                     Submit of a word for others to guess!
                     <br/>
-                    <input placeholder='Your Word...' onChange={props.wordHandler} />
+                    <input 
+                        placeholder='Your Word...' 
+                        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' 
+                        onChange={props.wordHandler} 
+                    />
                         <button onClick={sendWord}>Send Word</button>    
                 </div>
             :
@@ -45,7 +49,11 @@ function GameBoard(props) {
                         <div>
                             <h2>The word has {props.length} letters</h2>
                             <h1>{props.guess}</h1>
-                            <input placeholder='Guess the Word...' onChange={props.guessWordHandler} />
+                            <input 
+                                placeholder='Guess the Word...' 
+                                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+                                onChange={props.guessWordHandler} 
+                            />
                             <button onClick={props.guessWord}>Send Word</button>
                             {props.host&&<button onClick={props.startGame} disabled={props.dis}>Next Round</button>}
                         </div>
