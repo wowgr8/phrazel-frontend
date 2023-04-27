@@ -46,7 +46,7 @@ function GameChat({ room, userName }) {
       <p>GameChat in room: {room}</p>
       {/* <EmojiPicker height={450} className="w-full"/> */}
       <div className='flex flex-row mb-2.5 gap-0.5'>
-        <div className="flex items-center px-3 py-2 w-full rounded-lg bg-sky-100">
+        <div className="flex items-center px-1 py-2 w-full rounded-lg bg-sky-100 gap-0.5">
         <input 
           placeholder={"Message... " }
           maxLength="50"
@@ -55,12 +55,12 @@ function GameChat({ room, userName }) {
         
         />
         <HappyFaceSVG height="30px" width="30px" />
-        {/* <EmojiPicker /> ADD a drawer to an emoji icon that then shows EmojiPicker*/}
         <button 
-          className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm  py-2.5 text-center basis-1/5  "
+          type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 "
+          // className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm  py-2.5 text-center basis-1/5  "
           onClick={sendMessage}
         >
-          Send
+          <svg aria-hidden="true" className="w-6 h-6 rotate-90 " fill="current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
         </button>
         </div>
         
