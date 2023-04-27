@@ -1,28 +1,32 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {SocketContext} from '../utils/Socket';
+import { UserDataContext } from "../App";
+import { base_url } from "../config";
 
 
-
-function Login({userName,setUserName}) {
+function Login({userName,setUserName,userDataHandler}) {
   const socket = useContext(SocketContext);
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setUserData} = useContext(UserDataContext)
   let token = null; // used for cookies
+  token = localStorage.getItem("token");
   let navigate = useNavigate();
 
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
   };
 
+
   /* sign up form for new users */
   async function signUpForm(e) {
     e.preventDefault();
     try {
       /* connecting to backend routes */
-      const response = await fetch("http://localhost:4000/api/v1/auth/register", {
+      const response = await fetch(`${base_url}/api/v1/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,15 +40,15 @@ function Login({userName,setUserName}) {
 
       console.log(`Sign up responds with status code ${response.status}`);
       const data = await response.json();
-      console.log(data)
-
       /* login credential error handeling */
       if (response.status === 201) {
         token = data.token;
         localStorage.setItem("token", token);
+        setUserData(data.user)
         window.alert(`Welcome ${userName}!`);
         socket.connect()
         socket.on("connect", () => {
+          socket.emit('user_name',{userName,registeredUser:true})
           if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
         });
     
@@ -74,7 +78,7 @@ function Login({userName,setUserName}) {
   async function loginForm(e) {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:4000/api/v1/auth/login", {
+      const response = await fetch(`${base_url}api/v1/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,11 +91,14 @@ function Login({userName,setUserName}) {
 
       console.log(`login responds with status code ${response.status}`);
       const data = await response.json();
-
       if (response.status === 200) {
         // setUserName(inputValue);
+        token = data.token;
+        localStorage.setItem("token", token);
+        setUserData(data.user)
         socket.connect()
         socket.on("connect", () => {
+          socket.emit('user_name',{userName,registeredUser:true})
           console.log(socket.connected,"socket connected");
           socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
         });
@@ -116,21 +123,21 @@ function Login({userName,setUserName}) {
         <>
           <h1>Sign Up</h1>
           <form onSubmit={(e) => signUpForm(e)}>
-            <label>username: </label>
-            <input name="username" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>username: </label>
+            <input name="username" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setUserName(event.target.value);
             }}></input>
-            <label>email: </label>
-            <input name="email" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>email: </label>
+            <input name="email" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setEmail(event.target.value);
             }}></input>
-            <label>password: </label>
-            <input name="password" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>password: </label>
+            <input name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
-            <button type="submit">Signup!</button>
+            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Signup!</button>
           </form>
-          <button onClick={toggleForm}>
+          <button className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500" onClick={toggleForm}>
             Already have an account? Sign in{" "}
           </button>
         </>
@@ -138,18 +145,18 @@ function Login({userName,setUserName}) {
         <>
           <h1>Login</h1>
           <form onSubmit={(e) => loginForm(e)}>
-            <label>username: </label>
-            <input name="username" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>username: </label>
+            <input name="username" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setUserName(event.target.value)
             }}></input>
-            <label>password: </label>
-            <input name="password" onChange={(event) => {
+            <label className='block mb-2 text-sm font-medium text-gray-900'>password: </label>
+            <input name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
-            <button type="submit">Login!</button>
+            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Login!</button>
           </form>
           <p id="message"></p>
-          <button onClick={toggleForm}>Dont have an account? Register </button>
+          <button onClick={toggleForm}>Dont have an account? <span className="text-blue-700 hover:underline dark:text-blue-500">Register</span>  </button>
         </>
       )}
     </div>

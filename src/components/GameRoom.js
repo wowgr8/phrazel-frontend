@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
 import { SocketContext } from "../utils/Socket";
 import GameBoard from "./GameBoard";
+import GameChat from "./GameChat";
+import { UserDataContext } from "../App";
 
-function GameRoom({ room, setInRoom, userName, host }) {
+function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
+  console.log(gamesWon, "games won in GameRoom TOP");
+
   const socket = useContext(SocketContext);
 
   let navigate = useNavigate();
@@ -15,10 +19,14 @@ function GameRoom({ room, setInRoom, userName, host }) {
   const [guessingYourWord, setGuessingYourWord] = useState(false);
   const [youGuessed, setYouGuessed] = useState(false);
   const [word, setWord] = useState("");
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState(["Just you"]);
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false);
   const [winner, setWinner] = useState("");
+  const { setUserData } = useContext(UserDataContext);
+
+  let token = null; // used for cookies
+  token = localStorage.getItem("token");
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
@@ -32,7 +40,13 @@ function GameRoom({ room, setInRoom, userName, host }) {
     verticalAlign: "top", // each div has the same top starting point
   };
 
+  const logoffStyle = {
+    textAlign: "right",
+    paddingRight: 30,
+  };
+
   useEffect(() => {
+    console.log("games Won Use effect", gamesWon);
     //Receives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
       setPlayers(data);
@@ -72,7 +86,35 @@ function GameRoom({ room, setInRoom, userName, host }) {
     //Returns the winner if it's not yourself
     socket.on("winner", (data) => setWinner(data));
     //Returned if you are the winner
-    socket.on("you_won", () => setYouWon(true));
+    async function patch() {
+      console.log(gamesWon, "games won before PATCH");
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/v1/user/${_id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              gamesWon: ++gamesWon,
+            }),
+          }
+        );
+        const data = await response.json();
+        if (response.status === 200) {
+          console.log("resp 200");
+          setUserData(data.user);
+          setYouWon(true);
+        }
+      } catch (error) {
+        console.log("Error occurred: ", error);
+      }
+    }
+    socket.on("you_won", patch);
+    return () => socket.off("you_won", patch);
+    // socket.off("you_won")
   }, [socket]);
 
   const startGame = () => {
@@ -97,8 +139,9 @@ function GameRoom({ room, setInRoom, userName, host }) {
   };
 
   const disconnectRoom = () => {
-    socket.emit("disconnect_room", room);
-    if (socket) socket.disconnect();
+    socket.emit("leave_room", room);
+    socket.disconnect();
+    setInRoom(false);
   };
 
   function wordHandler(event) {
@@ -121,12 +164,14 @@ function GameRoom({ room, setInRoom, userName, host }) {
 
   return (
     <div>
-      <div>
-        <select id="navOptions" onChange={hamburgerNav}>
+      <div style={logoffStyle}>
+        <h2>{userName}</h2>
+        <button onClick={disconnectRoom}>Logout</button>
+        {/* <select id="navOptions" onChange={hamburgerNav}>
           <option value="">Hamburger nav placeholder</option>
           <option value="option1">Profile Page</option>
           <option value="option2">Game Lobby</option>
-        </select>
+        </select> */}
       </div>
       <div>
         <h1>You are in Room {room}</h1>
@@ -158,6 +203,9 @@ function GameRoom({ room, setInRoom, userName, host }) {
       <br></br>
 
       <div style={columnStyle}>
+        <h2>
+          You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
+        </h2>
         <ScoreBoard players={players} />
       </div>
 
@@ -188,7 +236,7 @@ function GameRoom({ room, setInRoom, userName, host }) {
       </div>
 
       <div style={columnStyle}>
-        <h4>Chatbox placeholder</h4>
+        <GameChat room={room} players={players} userName={userName} />
       </div>
     </div>
   );

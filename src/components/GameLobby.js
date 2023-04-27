@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import GameRoom from "./GameRoom";
-
+import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../utils/Socket";
 
-function GameLobby({ userName }) {
+function GameLobby({ userName, gamesWon, _id }) {
   const socket = useContext(SocketContext);
-  // socket.connect()
-
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
   const [host, setHost] = useState(false);
+  let navigate = useNavigate();
+  let token = null; // used for cookies
 
-  useEffect(() => {
-    localStorage.setItem("room", room);
-  }, [room]);
+  if (!socket.connected) navigate("/");
 
   //Keeps track of current room number upon refreshing page.
   let localStorageRoom = localStorage.getItem("room");
@@ -34,6 +32,7 @@ function GameLobby({ userName }) {
   const handleSetRoom = (event) => {
     event.preventDefault();
     setRoom(event.target.value);
+    localStorage.setItem("room", room);
   };
 
   // const seeded = [
@@ -160,9 +159,10 @@ function GameLobby({ userName }) {
                   ))}
                 </ul>
               </div>
-              <div>
+              <div className="justify-center items-center">
                 <input
                   placeholder="Enter Room to Join..."
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1.2 p-2.5"
                   onChange={(event) => {
                     handleSetRoom(event);
                   }}
@@ -176,7 +176,14 @@ function GameLobby({ userName }) {
           )}
         </>
       ) : (
-        <GameRoom room={room} userName={userName} host={host} />
+        <GameRoom
+          room={room}
+          setInRoom={setInRoom}
+          userName={userName}
+          host={host}
+          gamesWon={gamesWon}
+          _id={_id}
+        />
       )}
     </div>
   );
