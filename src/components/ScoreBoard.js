@@ -35,7 +35,7 @@ function ScoreBoard({ players }) {
           <div>
             {players.map((player) => {
               return (
-                <div >
+                <div key={player}>
                   <h6>Player Name: {player} </h6>
                   <h6>Score: 0 </h6>
                 </div>
