@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import Login from './Login';
 import {SocketContext} from '../utils/Socket';
@@ -13,19 +13,27 @@ function LandingPage({ setUserName, userName }) {
   }
   const handleUsernameSubmit = (event) => {
     event.preventDefault();
-    setUserName(event.target.username.value);
     socket.connect()
-    socket.on("connect", () => {
-      console.log(socket.connected,"socket connected");
-      if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
-    });
     
-    setTimeout(() => {
-      !socket.connected && window.alert(`Trying to re-connect again`)
-    }, 1000);
-
+    socket.emit('user_name',{userName,registeredUser:false})
+    
+    setUserName(event.target.username.value);
   }
 
+  useEffect(()=>{
+    socket.on("connect_error", () => {
+      if(!socket.connected) window.alert(`Trying to re-connect again`)
+    });
+    //Here we are waiting for the backend to check if the user name we chose is available
+    socket.on('existing_user_name',userName=> {
+      window.alert(`The user name "${userName}" is already taken please try with other!`)
+      socket.disconnect()
+    })
+    socket.on('user_name_accepted',()=>{
+      console.log(socket.connected,"socket connected");
+      navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
+    })
+  },[socket])
   return (
     <div className='my-56 '>
       <>Game name placeholder</>
@@ -48,6 +56,9 @@ function LandingPage({ setUserName, userName }) {
                         type="text"
                         defaultValue=""
                         name="username"
+                        onChange={(event) => {
+                          setUserName(event.target.value)
+                        }}
                         className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
                       />
                     </label>

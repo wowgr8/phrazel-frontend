@@ -21,17 +21,39 @@ function GameChat({ room, userName }) {
   }, [socket]);
 
   useEffect(() => {
-    if (messageReceived !== '') {setChatLog(prevChatLog => [...prevChatLog, messageReceived])}
+    if (messageReceived !== '') {
+      setChatLog(prevChatLog => {
+        prevChatLog.unshift(messageReceived);
+        // returns a new array with the spread operator containing the updated chatLog state
+        return [...prevChatLog];
+      });
+    }
   }, [messageReceived]);
-  
+
+  const chatBoxStyle = {
+    border: "1px solid black", 
+    height: "200px",
+    overflowY: "scroll",
+  };
+
   return (
     <div>
       <p>GameChat in room: {room}</p>
+      <input placeholder="Message..." maxLength="50" onChange={(event)=> { setMessage(event.target.value)}} />
+      <button onClick={sendMessage}> Send</button>
 
-      <div>
+      <div style={chatBoxStyle}>
         <div>
           {chatLog.map((message, index) => (
-            <p key={index}>{message.userName}: {message.message}</p>
+            <p 
+              key={index} 
+              style={{ 
+                backgroundColor: message.userName === userName ? '#ADD8E6' : 'white', 
+                padding: '10px' 
+              }}  
+            > 
+              <strong>{message.userName}</strong>: {message.message}
+            </p>
           ))}
         </div>
         

@@ -26,7 +26,7 @@ function Login({userName,setUserName,userDataHandler}) {
     e.preventDefault();
     try {
       /* connecting to backend routes */
-      const response = await fetch(`${base_url}api/v1/auth/register`, {
+      const response = await fetch(`${base_url}/api/v1/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +48,7 @@ function Login({userName,setUserName,userDataHandler}) {
         window.alert(`Welcome ${userName}!`);
         socket.connect()
         socket.on("connect", () => {
-          socket.emit('user_name',userName)
+          socket.emit('user_name',{userName,registeredUser:true})
           if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
         });
     
@@ -98,7 +98,7 @@ function Login({userName,setUserName,userDataHandler}) {
         setUserData(data.user)
         socket.connect()
         socket.on("connect", () => {
-          socket.emit('user_name',userName)
+          socket.emit('user_name',{userName,registeredUser:true})
           console.log(socket.connected,"socket connected");
           socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
         });
