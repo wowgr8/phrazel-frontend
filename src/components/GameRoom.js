@@ -25,18 +25,10 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   const [winner, setWinner] = useState("")
   const {setUserData} = useContext(UserDataContext)
   
-
-
   let token = null; // used for cookies
   token = localStorage.getItem("token");
 
-
-  const hamburgerNav = (event) => {
-    event.target.value === "option1"
-      ? navigate("/ProfilePage")
-      : navigate("/GameLobby");
-  };
-
+  // ///////////////////// TO BE REPLACED WITH TailwindCSS GRID
   const columnStyle = {
     display: "inline-block", // Creates column effect
     width: "30%", // creates spacing in between text
@@ -115,7 +107,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     // socket.off("you_won")
   }, [socket]);
 
-
   const startGame = () => {
     socket.emit("start_game", room);
     setGameStarted(true);
@@ -136,8 +127,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     socket.emit("leave_room", room);
     setInRoom(false);
   };
-
-
 
   const disconnectRoom = () => {
     socket.emit("leave_room", room);
@@ -166,24 +155,15 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   return (
     <div>
       <div style={logoffStyle}>
-        <h2>{userName}</h2>
+        <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
         <button onClick={disconnectRoom}>Logout</button>
-        {/* <select id="navOptions" onChange={hamburgerNav}>
-          <option value="">Hamburger nav placeholder</option>
-          <option value="option1">Profile Page</option>
-          <option value="option2">Game Lobby</option>
-        </select> */}
       </div>
 
       <div>
-        <h1>You are in Room {room}</h1>
         <h2>Current players are: {players.join('-')}</h2>
         <button onClick={leaveRoom}>Leave Room</button>        
       </div>
-      
-      <br></br>
-      <br></br>
-      <br></br>
+
 
       <div style={columnStyle}>
         <h2>You have won {gamesWon} Game{gamesWon!==1&&'s'}!!!</h2>
