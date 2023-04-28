@@ -3,7 +3,6 @@ import GameRoom from "./GameRoom";
 import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../utils/Socket";
 
-
 function GameLobby({ userName, gamesWon, _id }) {
   const socket = useContext(SocketContext);
   const [availableRooms, setAvailableRooms] = useState([]);
@@ -36,18 +35,9 @@ function GameLobby({ userName, gamesWon, _id }) {
     localStorage.setItem("room", room);
   };
 
-  // const seeded = [
-  //   { roomNumber: 1, players: ["jim", "bob", "sam"] },
-  //   {
-  //     roomNumber: 2,
-  //     players: ["dan", "beth", "robin"],
-  //   },
-  // ];
-
   useEffect(() => {
     //Receives new room number from back end - back end is responsible for checking for duplicate room numbers.
     socket.on("room_number", (room) => {
-
       setRoom(room);
     });
 
@@ -56,21 +46,21 @@ function GameLobby({ userName, gamesWon, _id }) {
       setRoom(localStorageRoom);
     }
 
-
-    // Receives available rooms & players from back end and sets it to useState
-    // rooms: [{room: 1,
-    //        players: ["name1", "name2", "name3"]
-    //     },
-    //     {room: 2,
-    //       players: ["name4", "name5", "name6"]
-    //    }]
     socket.on("available_rooms", (rooms) => {
       setAvailableRooms(rooms);
     });
   }, [socket]);
 
+  // TEMP background image - liable to change or be moved into App.js, across the entire app
+  const backgroundImage = {
+    backgroundImage: `url(${require('/Users/cesar/code-the-dream/practicum/bb-practicum-team-2-front/src/img/forest-bg.jpg')})`,
+    backgroundPosition: 'top',
+    backgroundPosition: 'center',
+    height: '100vh'
+  };
+
   return (
-    <div>
+    <div style={backgroundImage}>
       {!inRoom ? (
         <>
           {availableRooms.length === 0 ? (
@@ -157,8 +147,6 @@ function GameLobby({ userName, gamesWon, _id }) {
                     handleSetRoom(event);
                   }}
                 />
-                <br></br>
-                <br></br>
 
                 <button onClick={joinRoom}>Join</button>
               </div>
