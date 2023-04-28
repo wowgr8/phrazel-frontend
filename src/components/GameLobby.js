@@ -53,7 +53,7 @@ function GameLobby({ userName, gamesWon, _id }) {
 
   // TEMP background image - liable to change or be moved into App.js, across the entire app
   const backgroundImage = {
-    backgroundImage: `url(${require('/Users/cesar/code-the-dream/practicum/bb-practicum-team-2-front/src/img/forest-bg.jpg')})`,
+    backgroundImage: `url(${require('/Users/cesar/code-the-dream/practicum/bb-practicum-team-2-front/src/assets/img/forest-bg.jpg')})`,
     backgroundPosition: 'top',
     backgroundPosition: 'center',
     height: '100vh',

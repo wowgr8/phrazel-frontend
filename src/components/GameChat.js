@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {SocketContext} from '../utils/Socket';
 import EmojiPicker from 'emoji-picker-react';
-import {ReactComponent as HappyFaceSVG} from "../svg/happy-face.svg";
-import {ReactComponent as SendSVG} from "../svg/send.svg";
+import {ReactComponent as HappyFaceSVG} from "../assets/svg/happy-face.svg";
+import {ReactComponent as SendSVG} from "../assets/svg/send.svg";
 
 function GameChat({ room, userName }) {
   const socket = useContext(SocketContext);
