@@ -3,17 +3,16 @@ import GameRoom from "./GameRoom";
 import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../utils/Socket";
 
-
 function GameLobby({ userName, gamesWon, _id }) {
   const socket = useContext(SocketContext);
   const [availableRooms, setAvailableRooms] = useState([]);
   const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
   const [host, setHost] = useState(false);
-  let navigate = useNavigate(); 
+  let navigate = useNavigate();
   let token = null; // used for cookies
 
-  if(!socket.connected) navigate('/')
+  if (!socket.connected) navigate("/");
 
   //Keeps track of current room number upon refreshing page.
   let localStorageRoom = localStorage.getItem("room");
@@ -47,7 +46,6 @@ function GameLobby({ userName, gamesWon, _id }) {
   useEffect(() => {
     //Receives new room number from back end - back end is responsible for checking for duplicate room numbers.
     socket.on("room_number", (room) => {
-
       setRoom(room);
     });
 
@@ -55,7 +53,6 @@ function GameLobby({ userName, gamesWon, _id }) {
     if (localStorageRoom) {
       setRoom(localStorageRoom);
     }
-
 
     // Receives available rooms & players from back end and sets it to useState
     // rooms: [{room: 1,
@@ -137,12 +134,25 @@ function GameLobby({ userName, gamesWon, _id }) {
                     <div key={roomDetails.roomNumber}>
                       <br></br>
 
-                      <li>
-                        Room: {roomDetails.roomNumber}
+                      <li
+                        style={{
+                          marginLeft: "30%",
+                          marginRight: "55%",
+                          textAlign: "left",
+                        }}
+                      >
+                        <strong>Room: {roomDetails.roomNumber}</strong>
                       </li>
                       <ul>
-                        <li key={roomDetails.players}>
-                          Players: {roomDetails.players.join(", ")}
+                        <li
+                          key={roomDetails.players}
+                          style={{
+                            marginLeft: "35%",
+                            marginRight: "25%",
+                            textAlign: "left",
+                          }}
+                        >
+                          <u>Players</u>: {roomDetails.players.join(", ")}
                         </li>
                       </ul>
                     </div>
@@ -152,7 +162,11 @@ function GameLobby({ userName, gamesWon, _id }) {
               <div className="justify-center items-center">
                 <input
                   placeholder="Enter Room to Join..."
-                  className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1.2 p-2.5'
+                  style={{
+                    margin: "auto",
+                    display: "block",
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1.2 p-2.5"
                   onChange={(event) => {
                     handleSetRoom(event);
                   }}
@@ -166,7 +180,14 @@ function GameLobby({ userName, gamesWon, _id }) {
           )}
         </>
       ) : (
-        <GameRoom room={room} setInRoom={setInRoom} userName={userName} host={host} gamesWon={gamesWon} _id={_id} />
+        <GameRoom
+          room={room}
+          setInRoom={setInRoom}
+          userName={userName}
+          host={host}
+          gamesWon={gamesWon}
+          _id={_id}
+        />
       )}
     </div>
   );
