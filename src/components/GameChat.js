@@ -57,8 +57,6 @@ function GameChat({ room, userName }) {
           height={300} 
           className="w-full" 
           searchDisabled={true}
-          // disableAutoFocus={true}
-          // disablePreview={true}
           skinTonesDisabled={true}
           emoji="smileys_people"
           onEmojiClick={onEmojiClick}
@@ -97,7 +95,7 @@ function GameChat({ room, userName }) {
           {chatLog.map((message, index) => (
             <p 
               key={index} 
-              className="text-left ml-2.5"
+              className="text-left ml-2.5 text-2xl"
               style={{ 
                 color: message.userName === userName ? '#ECBE07' : 'black', 
                 padding: '10px' 
