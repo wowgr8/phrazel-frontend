@@ -53,14 +53,16 @@ function GameChat({ room, userName }) {
   return (
     <div className='ml-3.5'>
       {showEmojiPicker && 
-        <EmojiPicker 
-          height={300} 
-          className="w-full" 
-          searchDisabled={true}
-          skinTonesDisabled={true}
-          emoji="smileys_people"
-          onEmojiClick={onEmojiClick}
-        />
+        <div className='flex justify-center'>
+          <EmojiPicker 
+            height={300} 
+            className="w-full" 
+            searchDisabled={true}
+            skinTonesDisabled={true}
+            emoji="smileys_people"
+            onEmojiClick={onEmojiClick}
+          />
+        </div>
       }
       <div className='flex flex-row mb-2.5 gap-0.5'>
         <div className="flex items-center px-1 py-2 w-full rounded-lg bg-sky-100 gap-0.5">
