@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
-import {SocketContext} from '../utils/Socket';
+import { SocketContext } from '../utils/Socket';
 import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
 import { UserDataContext } from "../App";
 
-function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
-  console.log(gamesWon,'games won in GameRoom TOP');
+
+function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
+  console.log(gamesWon, 'games won in GameRoom TOP');
 
   const socket = useContext(SocketContext);
 
@@ -23,8 +24,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false)
   const [winner, setWinner] = useState("")
-  const {setUserData} = useContext(UserDataContext)
-  
+  const { setUserData } = useContext(UserDataContext)
+
+  const [synonym, setSynonym] = useState("")
 
 
   let token = null; // used for cookies
@@ -43,20 +45,34 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     verticalAlign: "top", // each div has the same top starting point
   };
 
-  const logoffStyle={
+  const logoffStyle = {
     textAlign: "right",
     paddingRight: 30
   }
 
   useEffect(() => {
-    console.log('games Won Use effect',gamesWon);
-    //Receives players from the backend who entered a specific GameRoom
+    console.log('games Won Use effect', gamesWon);
+    //Rzzeceives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
       setPlayers(data)
     });
-    
+
     //Checks that all players are ready by either submitting their guesses or submitting a word to guess
     socket.on("all_players_ready", () => setAllPlayersReady(true));
+
+    /** 
+     * Returns the synonym of the word to be guessed
+     * Waits for hint from backend, then sets the synonym state.
+     * Need help passing the synonym state to GameBoard (line 218)
+     */
+    socket.on('hint', (hint) => {
+      setSynonym(hint)
+      console.log('Client received hint', hint); // never gets passed
+      setGameStarted(true);
+      setGuessingYourWord(false)
+      setYouGuessed(false)
+    });
+
 
     //Returns the length of the word to be guessed
     socket.on("word_to_guess", (length) => {
@@ -78,17 +94,17 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
       setYouGuessed(true);
     });
 
-    socket.on("all_players_guessed",()=>{setAllPlayersReady(true)})
+    socket.on("all_players_guessed", () => { setAllPlayersReady(true) })
 
-    socket.on("game_over",()=>setGameOver(true))
+    socket.on("game_over", () => setGameOver(true))
 
     //This is at the end of the game
 
     //Returns the winner if it's not yourself
-    socket.on("winner",data=>setWinner(data))
+    socket.on("winner", data => setWinner(data))
     //Returned if you are the winner
-    async function patch(){
-      console.log(gamesWon,'games won before PATCH');
+    async function patch() {
+      console.log(gamesWon, 'games won before PATCH');
       try {
         const response = await fetch(`http://localhost:4000/api/v1/user/${_id}`, {
           method: "PATCH",
@@ -111,7 +127,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
       }
     }
     socket.on("you_won", patch)
-    return () =>socket.off("you_won", patch)
+    return () => socket.off("you_won", patch)
     // socket.off("you_won")
   }, [socket]);
 
@@ -145,12 +161,12 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     setInRoom(false);
   };
 
-  function wordHandler(event){
-    const {value} = event.target
+  function wordHandler(event) {
+    const { value } = event.target
     setWord(value)
   }
 
-  function newGame(){
+  function newGame() {
     setGameOver(false)
     setGameStarted(false)
     setGuessingYourWord(false)
@@ -161,7 +177,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   let guess = youGuessed ? "You Guessed Right!!!" : "";
 
   //Disables starting a new game/new round unless all players are ready and there are at least a minimum of 3 players
-  let dis = players.length > 2 && allPlayersReady ? false : true;  
+  let dis = players.length > 2 && allPlayersReady ? false : true;
 
   return (
     <div>
@@ -178,16 +194,16 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
       <div>
         <h1>You are in Room {room}</h1>
         <h2>Current players are: {players.join('-')}</h2>
-        <button onClick={leaveRoom}>Leave Room</button>        
+        <button onClick={leaveRoom}>Leave Room</button>
       </div>
-      
+
       <br></br>
       <br></br>
       <br></br>
 
       <div style={columnStyle}>
-        <h2>You have won {gamesWon} Game{gamesWon!==1&&'s'}!!!</h2>
-        <ScoreBoard players={players}/>
+        <h2>You have won {gamesWon} Game{gamesWon !== 1 && 's'}!!!</h2>
+        <ScoreBoard players={players} />
       </div>
 
       <div style={columnStyle}>
@@ -197,9 +213,10 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
         <br></br>
         <br></br>
         <br></br>
-        
+
         <GameBoard
-          wordHandler={wordHandler} 
+          synonym={synonym} // hint
+          wordHandler={wordHandler}
           sendWord={sendWord}
           startGame={startGame}
           dis={dis}
