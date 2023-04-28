@@ -1,30 +1,30 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
-import {SocketContext} from '../utils/Socket';
+import { SocketContext } from "../utils/Socket";
 import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
 import { UserDataContext } from "../App";
 
-function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
-  console.log(gamesWon,'games won in GameRoom TOP');
+function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
+  console.log(gamesWon, "games won in GameRoom TOP");
 
   const socket = useContext(SocketContext);
 
   let navigate = useNavigate();
 
-  const [allPlayersReady, setAllPlayersReady] = useState(false)
+  const [allPlayersReady, setAllPlayersReady] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [length, setLength] = useState(0);
   const [guessingYourWord, setGuessingYourWord] = useState(false);
   const [youGuessed, setYouGuessed] = useState(false);
   const [word, setWord] = useState("");
-  const [players, setPlayers] = useState(['Just you']);
+  const [players, setPlayers] = useState(["Just you"]);
   const [gameOver, setGameOver] = useState(false);
-  const [youWon, setYouWon] = useState(false)
-  const [winner, setWinner] = useState("")
-  const {setUserData} = useContext(UserDataContext)
-  
+  const [youWon, setYouWon] = useState(false);
+  const [winner, setWinner] = useState("");
+  const { setUserData } = useContext(UserDataContext);
+
   let token = null; // used for cookies
   token = localStorage.getItem("token");
 
@@ -35,18 +35,18 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     verticalAlign: "top", // each div has the same top starting point
   };
 
-  const logoffStyle={
+  const logoffStyle = {
     textAlign: "right",
-    paddingRight: 30
-  }
+    paddingRight: 30,
+  };
 
   useEffect(() => {
-    console.log('games Won Use effect',gamesWon);
+    console.log("games Won Use effect", gamesWon);
     //Receives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
-      setPlayers(data)
+      setPlayers(data);
     });
-    
+
     //Checks that all players are ready by either submitting their guesses or submitting a word to guess
     socket.on("all_players_ready", () => setAllPlayersReady(true));
 
@@ -55,8 +55,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
       setLength(length);
       //Resets the states to play a new round
       setGameStarted(true);
-      setGuessingYourWord(false)
-      setYouGuessed(false)
+      setGuessingYourWord(false);
+      setYouGuessed(false);
     });
 
     //Blocks player from guessing in current round if their submitted word was selected to be guessed.
@@ -70,49 +70,54 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
       setYouGuessed(true);
     });
 
-    socket.on("all_players_guessed",()=>{setAllPlayersReady(true)})
+    socket.on("all_players_guessed", () => {
+      setAllPlayersReady(true);
+    });
 
-    socket.on("game_over",()=>setGameOver(true))
+    socket.on("game_over", () => setGameOver(true));
 
     //This is at the end of the game
 
     //Returns the winner if it's not yourself
-    socket.on("winner",data=>setWinner(data))
+    socket.on("winner", (data) => setWinner(data));
     //Returned if you are the winner
-    async function patch(){
-      console.log(gamesWon,'games won before PATCH');
+    async function patch() {
+      console.log(gamesWon, "games won before PATCH");
       try {
-        const response = await fetch(`http://localhost:4000/api/v1/user/${_id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            gamesWon: ++gamesWon
-          })
-        });
+        const response = await fetch(
+          `http://localhost:4000/api/v1/user/${_id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              gamesWon: ++gamesWon,
+            }),
+          }
+        );
         const data = await response.json();
         if (response.status === 200) {
-          console.log('resp 200');
-          setUserData(data.user)
-          setYouWon(true)
+          console.log("resp 200");
+          setUserData(data.user);
+          setYouWon(true);
         }
       } catch (error) {
         console.log("Error occurred: ", error);
       }
     }
-    socket.on("you_won", patch)
-    return () =>socket.off("you_won", patch)
+    socket.on("you_won", patch);
+    return () => socket.off("you_won", patch);
     // socket.off("you_won")
   }, [socket]);
 
   const startGame = () => {
     socket.emit("start_game", room);
     setGameStarted(true);
-    setAllPlayersReady(false)
+    setAllPlayersReady(false);
     setYouGuessed(false);
-    setGuessingYourWord(false)
+    setGuessingYourWord(false);
   };
 
   const guessWord = () => {
@@ -134,23 +139,23 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     setInRoom(false);
   };
 
-  function wordHandler(event){
-    const {value} = event.target
-    setWord(value)
+  function wordHandler(event) {
+    const { value } = event.target;
+    setWord(value);
   }
 
-  function newGame(){
-    setGameOver(false)
-    setGameStarted(false)
-    setGuessingYourWord(false)
-    setAllPlayersReady(false)
-    setYouWon(false)
+  function newGame() {
+    setGameOver(false);
+    setGameStarted(false);
+    setGuessingYourWord(false);
+    setAllPlayersReady(false);
+    setYouWon(false);
   }
 
   let guess = youGuessed ? "You Guessed Right!!!" : "";
 
   //Disables starting a new game/new round unless all players are ready and there are at least a minimum of 3 players
-  let dis = players.length > 2 && allPlayersReady ? false : true;  
+  let dis = players.length > 2 && allPlayersReady ? false : true;
 
   return (
     <div>
@@ -158,16 +163,35 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
         <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
         <button onClick={disconnectRoom}>Logout</button>
       </div>
-
       <div>
-        <h2>Current players are: {players.join('-')}</h2>
-        <button onClick={leaveRoom}>Leave Room</button>        
+        <h2>
+          <strong>Current players are:</strong>{" "}
+        </h2>
+        <ul>
+          {players.map((player) => (
+            <div key={player}>
+              <li
+                style={{
+                  marginLeft: "45%",
+                  textAlign: "left",
+                }}
+              >
+                - {player}
+              </li>
+            </div>
+          ))}
+        </ul>
+        {console.log("players", players)}
+        <button onClick={leaveRoom}>Leave Room</button>
+        <button onClick={disconnectRoom}>Disconnect</button>
       </div>
 
 
       <div style={columnStyle}>
-        <h2>You have won {gamesWon} Game{gamesWon!==1&&'s'}!!!</h2>
-        <ScoreBoard players={players}/>
+        <h2>
+          You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
+        </h2>
+        <ScoreBoard players={players} />
       </div>
 
       <div style={columnStyle}>
@@ -177,9 +201,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
         <br></br>
         <br></br>
         <br></br>
-        
         <GameBoard
-          wordHandler={wordHandler} 
+          wordHandler={wordHandler}
           sendWord={sendWord}
           startGame={startGame}
           dis={dis}
@@ -187,7 +210,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
           length={length}
           guess={guess}
           guessWord={guessWord}
-          guessWordHandler={event => setWord(event.target.value)}
+          guessWordHandler={(event) => setWord(event.target.value)}
           guessingYourWord={guessingYourWord}
           host={host}
           gameOver={gameOver}
