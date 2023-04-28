@@ -5,6 +5,7 @@ import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
 import { UserDataContext } from "../App";
+import { base_url } from "../config";
 
 function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   console.log(gamesWon,'games won in GameRoom TOP');
@@ -90,7 +91,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     async function patch(){
       console.log(gamesWon,'games won before PATCH');
       try {
-        const response = await fetch(`http://localhost:4000/api/v1/user/${_id}`, {
+        const response = await fetch(`${base_url}api/v1/user/${_id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
