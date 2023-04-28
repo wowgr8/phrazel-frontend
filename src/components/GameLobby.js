@@ -56,7 +56,8 @@ function GameLobby({ userName, gamesWon, _id }) {
     backgroundImage: `url(${require('/Users/cesar/code-the-dream/practicum/bb-practicum-team-2-front/src/img/forest-bg.jpg')})`,
     backgroundPosition: 'top',
     backgroundPosition: 'center',
-    height: '100vh'
+    height: '100vh',
+    opacity: 0.8
   };
 
   return (
