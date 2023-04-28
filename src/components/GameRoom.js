@@ -140,7 +140,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
 
 
   const disconnectRoom = () => {
-    socket.emit("leave_room", room);
     socket.disconnect();
     setInRoom(false);
   };
