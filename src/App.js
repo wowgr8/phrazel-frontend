@@ -14,12 +14,18 @@ function App() {
   const [userData, setUserData] = useState({gamesWon:0})
 // console.log(userData,'user data in App.js');
 
-
+const backgroundImage = {
+  backgroundImage: `url(${require('./assets/img/forest-bg.jpg')})`,
+  backgroundPosition: 'top',
+  backgroundPosition: 'center',
+  height: '100vh',
+  opacity: 0.8
+};
   
   return (
     <SocketContext.Provider value={socket}>
       <UserDataContext.Provider value ={{setUserData}}>
-        <div className="App">
+        <div className="App" style={backgroundImage}>
           <Router>
             <Routes>
               <Route path="/" exact element={<LandingPage userName={userName} setUserName={setUserName} />} />
