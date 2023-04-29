@@ -35,7 +35,7 @@ function LandingPage({ setUserName, userName }) {
     })
   },[socket])
   return (
-    <div className='my-56 '>
+    <div className='py-28 '>
       <strong>Phrazel</strong>
       <div className="container flex flex-col md:flex-row items-center px-6 mx-auto mt-10 space-y-0 md:space-y-0 bg-color-sky-300 columns-2">
         {/* Left Item */}
