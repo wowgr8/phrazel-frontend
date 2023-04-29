@@ -14,7 +14,7 @@ function ScoreBoard({ players }) {
   }, [gameScore]);
 
   return (
-    <div className="border border-blue-200 h-96 overflow-y-scroll rounded-lg shadow-md bg-blue-50 mr-2.5 hover:shadow-xl hover:shadow-cyan-500/50">
+    <div className="border border-blue-200 h-96 overflow-y-scroll rounded-lg shadow-md bg-blue-50 mr-2.5 mt-4 hover:shadow-xl hover:shadow-cyan-500/50 opacity-90">
       {showData ? 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500">
