@@ -26,11 +26,10 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   const [winner, setWinner] = useState("")
   const {setUserData} = useContext(UserDataContext)
   
-
+  const [roundTimer, setRoundTimer] = useState(null);
 
   let token = null; // used for cookies
   token = localStorage.getItem("token");
-
 
   const hamburgerNav = (event) => {
     event.target.value === "option1"
@@ -173,7 +172,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
         </select> */}
       </div>
 
-        <RoundCountDown />
+      <RoundCountDown />
+
 
       <div>
         <h1>You are in Room {room}</h1>
