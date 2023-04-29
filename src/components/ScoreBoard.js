@@ -18,7 +18,7 @@ function ScoreBoard({ players }) {
       {showData ? 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Player
@@ -33,25 +33,23 @@ function ScoreBoard({ players }) {
                 .sort((a, b) => b.roundsWon - a.roundsWon)
                 .map((sortedScore) => {
                   return (
-                    <div key={sortedScore.player}>
-                      <tr className="bg-white border-b hover:bg-gray-50">
-                        <th scope="row" className="px-6 py-4 text-xl text-gray-900 whitespace-nowrap">
-                          {sortedScore.player}
-                        </th>
-                        <td className="px-6 py-4">
-                          {sortedScore.roundsWon}
-                        </td>
-                      </tr>
-                    </div>
+                    <tr key={sortedScore.player} className="bg-white border-b hover:bg-gray-50">
+                      <th scope="row" className="px-6 py-4 text-xl text-gray-900 whitespace-nowrap">
+                        {sortedScore.player}
+                      </th>
+                      <td className="px-6 py-4">
+                        {sortedScore.roundsWon}
+                      </td>
+                    </tr>
                   );
                 })}
             </tbody>
           </table>
         </div>
       : 
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="relative overflow-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
               <tr>
                 <th scope="col" className="px-6 py-3 ">
                   Player
@@ -61,19 +59,17 @@ function ScoreBoard({ players }) {
                 </th>
               </tr>
             </thead>
-            <tbody className="">
+            <tbody className="relative">
               {players.map((player) => {
                 return (
-                  <div key={player}>
-                    <tr className="bg-white border-b hover:bg-gray-50">
-                      <th scope="row" className="px-6 py-4 text-xl text-gray-900 whitespace-nowrap">
-                        {player}
-                      </th>
-                      <td className="px-6 py-4">
-                        0
-                      </td>
-                    </tr>
-                  </div>
+                  <tr key={player} className="bg-white border-b hover:bg-gray-50">
+                    <th scope="row" className="w-full px-6 py-4 text-xl text-gray-900 whitespace-nowrap">
+                      {player}
+                    </th>
+                    <td className="px-6 py-4">
+                      0
+                    </td>
+                  </tr>
                 );
               })}
             </tbody>
