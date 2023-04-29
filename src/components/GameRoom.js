@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import ScoreBoard from "./ScoreBoard";
 import { SocketContext } from "../utils/Socket";
-import GameBoard from "./GameBoard";
-import GameChat from "./GameChat";
 import { UserDataContext } from "../App";
 import { base_url } from "../config";
+import ScoreBoard from "./ScoreBoard";
+import GameBoard from "./GameBoard";
+import GameChat from "./GameChat";
 
 function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const socket = useContext(SocketContext);
@@ -31,7 +31,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     verticalAlign: "top", // each div has the same top starting point
   };
 
-  const logoffStyle = {
+  const logoffStyle = {   // Replace with HEADER/NAV component
     textAlign: "right",
     paddingRight: 30,
   };
@@ -154,34 +154,17 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
   return (
     <div>
+      {/* To be replaced with header/nav component */}
       <div style={logoffStyle}>
         <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
         <button onClick={disconnectRoom}>Logout</button>
       </div>
+
       <div>
-        <h2>
-          <strong>Current players are:</strong>{" "}
-        </h2>
-        <ul>
-          {players.map((player) => (
-            <div key={player}>
-              <li
-                style={{
-                  marginLeft: "45%",
-                  textAlign: "left",
-                }}
-              >
-                - {player}
-              </li>
-            </div>
-          ))}
-        </ul>
-        {console.log("players", players)}
         <button onClick={leaveRoom}>Leave Room</button>
-        <button onClick={disconnectRoom}>Disconnect</button>
       </div>
 
-
+      <div className="grid grid-cols-3 gap-4"></div>
       <div style={columnStyle}>
         <h2>
           You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
@@ -190,12 +173,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       </div>
 
       <div style={columnStyle}>
-        GameBoard Component placeholder
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
         <GameBoard
           wordHandler={wordHandler}
           sendWord={sendWord}
