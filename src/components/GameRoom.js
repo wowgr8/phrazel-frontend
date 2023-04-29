@@ -26,7 +26,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   const [winner, setWinner] = useState("")
   const {setUserData} = useContext(UserDataContext)
   
-  const [roundTimer, setRoundTimer] = useState(null);
+  
 
   let token = null; // used for cookies
   token = localStorage.getItem("token");
@@ -116,12 +116,21 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   }, [socket]);
 
 
+  const [roundTimer, setRoundTimer] = useState(false);
+
+  // replace with socket.emit("timerDone", {})
+  function handleTimerEnd() {
+  
+  }
+
+
   const startGame = () => {
     socket.emit("start_game", room);
     setGameStarted(true);
     setAllPlayersReady(false)
     setYouGuessed(false);
-    setGuessingYourWord(false)
+    setGuessingYourWord(false);
+    setRoundTimer(true);
   };
 
   const guessWord = () => {
@@ -172,7 +181,11 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
         </select> */}
       </div>
 
-      <RoundCountDown />
+      {roundTimer && (
+        <div>
+          <RoundCountDown startTimer={roundTimer} />
+        </div>
+      )}
 
 
       <div>
