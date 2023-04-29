@@ -24,13 +24,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let token = null; // used for cookies
   token = localStorage.getItem("token");
 
-  // ///////////////////// TO BE REPLACED WITH TailwindCSS GRID
-  const columnStyle = {
-    display: "inline-block", // Creates column effect
-    width: "30%", // creates spacing in between text
-    verticalAlign: "top", // each div has the same top starting point
-  };
-
   const logoffStyle = {   // Replace with HEADER/NAV component
     textAlign: "right",
     paddingRight: 30,
@@ -153,7 +146,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let dis = players.length > 2 && allPlayersReady ? false : true;
 
   return (
-    <div>
+    <div className="bg-orange-600">
       {/* To be replaced with header/nav component */}
       <div style={logoffStyle}>
         <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
@@ -164,37 +157,39 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         <button onClick={leaveRoom}>Leave Room</button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4"></div>
-      <div style={columnStyle}>
-        <h2>
-          You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
-        </h2>
-        <ScoreBoard players={players} />
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-red-500">
+          <h2>
+            You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
+          </h2>
+          <ScoreBoard players={players} />
+        </div>
+
+        <div className="bg-yellow-500">
+          <GameBoard
+            wordHandler={wordHandler}
+            sendWord={sendWord}
+            startGame={startGame}
+            dis={dis}
+            gameStarted={gameStarted}
+            length={length}
+            guess={guess}
+            guessWord={guessWord}
+            guessWordHandler={(event) => setWord(event.target.value)}
+            guessingYourWord={guessingYourWord}
+            host={host}
+            gameOver={gameOver}
+            newGame={newGame}
+            youWon={youWon}
+            winner={winner}
+          />
+        </div>
+
+        <div className="bg-purple-500">
+          <GameChat room={room} players={players} userName={userName} />
+        </div>
       </div>
 
-      <div style={columnStyle}>
-        <GameBoard
-          wordHandler={wordHandler}
-          sendWord={sendWord}
-          startGame={startGame}
-          dis={dis}
-          gameStarted={gameStarted}
-          length={length}
-          guess={guess}
-          guessWord={guessWord}
-          guessWordHandler={(event) => setWord(event.target.value)}
-          guessingYourWord={guessingYourWord}
-          host={host}
-          gameOver={gameOver}
-          newGame={newGame}
-          youWon={youWon}
-          winner={winner}
-        />
-      </div>
-
-      <div style={columnStyle}>
-        <GameChat room={room} players={players} userName={userName} />
-      </div>
     </div>
   );
 }
