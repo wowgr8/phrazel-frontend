@@ -42,7 +42,7 @@ function GameChat({ room, userName }) {
   };
 
   return (
-    <div className='ml-3.5 opacity-90'>
+    <div className='ml-3.5 opacity-90 '>
       {showEmojiPicker && 
         <div className='flex justify-center'>
           <EmojiPicker 
@@ -56,7 +56,7 @@ function GameChat({ room, userName }) {
         </div>
       }
       <div id="chatbox"className="hover:shadow-xl hover:shadow-cyan-500/50">
-        <div className='flex flex-row mb-2.5 gap-0.5'>
+        <div className='flex flex-row mb-2.5'>
           <div className="flex items-center px-1 py-2 w-full rounded-lg bg-sky-100 gap-0.5">
           <input 
             placeholder={"Message... " }
