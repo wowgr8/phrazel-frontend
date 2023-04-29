@@ -4,6 +4,7 @@ import { UserDataContext } from "../App";
 import { base_url } from "../config";
 import ScoreBoard from "./ScoreBoard";
 import GameBoard from "./GameBoard";
+import GameChat from "./GameChat";
 
 function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const socket = useContext(SocketContext);
