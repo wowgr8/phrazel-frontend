@@ -12,14 +12,7 @@ function RoundCountDown() {
   
   const {
     seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
+    isRunning
   } = useTimer({ expiryTimestamp: time });
 
   return (
