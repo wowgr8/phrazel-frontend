@@ -146,9 +146,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let dis = players.length > 2 && allPlayersReady ? false : true;
 
   return (
-    <div className="bg-orange-600">
+    <div className="bg-orange-600 ">
       {/* To be replaced with header/nav component */}
-      <div style={logoffStyle}>
+      <div className="">
         <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
         <button onClick={disconnectRoom}>Logout</button>
       </div>
@@ -156,16 +156,16 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       <div>
         <button onClick={leaveRoom}>Leave Room</button>
       </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-red-500">
+      
+      <div className="grid grid-cols-3 gap-1 justify-items-center mt-36">
+        <div className="bg-red-500  w-1/2 ">
           <h2>
             You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
           </h2>
           <ScoreBoard players={players} />
         </div>
 
-        <div className="bg-yellow-500">
+        <div className="bg-yellow-500 w-full">
           <GameBoard
             wordHandler={wordHandler}
             sendWord={sendWord}
@@ -185,7 +185,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
           />
         </div>
 
-        <div className="bg-purple-500">
+        <div className="bg-purple-500 w-1/2">
           <GameChat room={room} players={players} userName={userName} />
         </div>
       </div>
