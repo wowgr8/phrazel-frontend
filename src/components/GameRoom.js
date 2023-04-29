@@ -5,7 +5,7 @@ import {SocketContext} from '../utils/Socket';
 import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
 import { UserDataContext } from "../App";
-import { useTimer } from 'react-timer-hook';
+import RoundCountDown from "./RoundCountDown";
 
 function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
   console.log(gamesWon,'games won in GameRoom TOP');
@@ -138,8 +138,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     setInRoom(false);
   };
 
-
-
   const disconnectRoom = () => {
     socket.disconnect();
     setInRoom(false);
@@ -158,21 +156,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
     setYouWon(false)
   };
 
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 5);
-  
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({ time, onExpire: () => console.log('onExpire called') });
-
   let guess = youGuessed ? "You Guessed Right!!!" : "";
 
   //Disables starting a new game/new round unless all players are ready and there are at least a minimum of 3 players
@@ -189,25 +172,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon,_id }) {
           <option value="option2">Game Lobby</option>
         </select> */}
       </div>
-      <p>Timer Demo</p>
-      <div style={{fontSize: '100px'}}>
-        <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-      </div>
-      <p>{isRunning ? 'Running' : 'Not running'}</p>
-      <button onClick={()=>{
-        start()
-        console.log("timer clicked", time.getSeconds() + 10)}
-        }>Start</button>
-      <button onClick={pause}>Pause</button>
 
-      {/* <button  onClick={
-        ()=> {time.setSeconds(time.getSeconds() + 5)
-              start(time)
-              console.log("Timer was clicked,", time)
-              alert("Alert in button")
-            }
-
-        }>Start Timer</button> */}
+        <RoundCountDown />
 
       <div>
         <h1>You are in Room {room}</h1>
