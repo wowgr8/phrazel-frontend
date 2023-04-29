@@ -26,7 +26,8 @@ function GameBoard(props) {
     }
 
     return (
-        !props.gameOver?
+        <div className="bg-red-800">
+            {!props.gameOver?
             !wordSent? 
                 <div className="App">
                     Submit of a word for others to guess!
@@ -67,7 +68,8 @@ function GameBoard(props) {
             <h2>Game Over</h2>
             {!props.youWon?<h2>Player {props.winner} won this game!</h2>:<h2>You Won!!!</h2>}
             <button onClick={newGame}>New Game</button>
-            </div>
+            </div>}
+        </div>
     )
 
 }
