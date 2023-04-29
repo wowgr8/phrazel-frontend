@@ -51,17 +51,8 @@ function GameLobby({ userName, gamesWon, _id }) {
     });
   }, [socket]);
 
-  // TEMP background image - liable to change or be moved into App.js, across the entire app
-  const backgroundImage = {
-    backgroundImage: `url(${require('../assets/img/forest-bg.jpg')})`,
-    backgroundPosition: 'top',
-    backgroundPosition: 'center',
-    height: '100vh',
-    opacity: 0.8
-  };
-
   return (
-    <div style={backgroundImage}>
+    <div>
       {!inRoom ? (
         <>
           {availableRooms.length === 0 ? (
