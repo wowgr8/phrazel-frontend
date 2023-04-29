@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import ScoreBoard from "./ScoreBoard";
 import { SocketContext } from "../utils/Socket";
 import GameBoard from "./GameBoard";
@@ -8,11 +7,7 @@ import { UserDataContext } from "../App";
 import { base_url } from "../config";
 
 function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
-  console.log(gamesWon, "games won in GameRoom TOP");
-
   const socket = useContext(SocketContext);
-
-  let navigate = useNavigate();
 
   const [allPlayersReady, setAllPlayersReady] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
