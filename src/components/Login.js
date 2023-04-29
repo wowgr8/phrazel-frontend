@@ -100,10 +100,11 @@ function Login({userName,setUserName,userDataHandler}) {
         socket.on("connect", () => {
           socket.emit('user_name',{userName,registeredUser:true})
           console.log(socket.connected,"socket connected");
-          socket.connected && navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
+          if(socket.connected){
+            window.alert(`Welcome ${userName}!`);
+            navigate("/GameLobby");
+          } 
         });
-        window.alert(`Welcome ${userName}!`);
-        navigate("/GameLobby");
       } else if (response.status === 401) {
         window.alert("Invalid username or password");
       }
@@ -112,7 +113,7 @@ function Login({userName,setUserName,userDataHandler}) {
     }
   }
 
-
+  useEffect(()=>{},[socket])
 
 
   return (
