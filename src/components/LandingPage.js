@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import Login from './Login';
 import {SocketContext} from '../utils/Socket';
+import Logo from '../assets/img/phrazel-logo.jpg'
 
 function LandingPage({ setUserName, userName }) {
   const socket = useContext(SocketContext);
@@ -30,17 +31,15 @@ function LandingPage({ setUserName, userName }) {
       socket.disconnect()
     })
     socket.on('user_name_accepted',()=>{
-      console.log(socket.connected,"socket connected");
       navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
     })
   },[socket])
   return (
-    <div className='py-28 '>
-      <strong>Phrazel</strong>
-      <div className="container flex flex-col md:flex-row items-center px-6 mx-auto mt-10 space-y-0 md:space-y-0 bg-color-sky-300 columns-2">
+    <div className='py-32 '>
+      <div className="container flex flex-col md:flex-row items-center px-6 mx-auto  space-y-0 md:space-y-0 bg-color-sky-300 columns-2 gap-x-36">
         {/* Left Item */}
-        <div className='flex flex-col mb-32 space-y-12 md:w-1/2'>
-          Logo placeholder
+        <div className='flex flex-col  space-y-12 md:w-1/2'>
+          <img src={Logo} height="550px" width="550px" />
         </div>
         
         {/* Right Item */}
