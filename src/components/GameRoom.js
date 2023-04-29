@@ -4,7 +4,8 @@ import { UserDataContext } from "../App";
 import { base_url } from "../config";
 import ScoreBoard from "./ScoreBoard";
 import GameBoard from "./GameBoard";
-import GameChat from "./GameChat";
+import { UserDataContext } from "../App";
+import { base_url } from "../config";
 
 function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const socket = useContext(SocketContext);
@@ -73,19 +74,17 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     async function patch() {
       console.log(gamesWon, "games won before PATCH");
       try {
-        const response = await fetch(
-          `${base_url}api/v1/user/${_id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              gamesWon: ++gamesWon,
-            }),
-          }
-        );
+        const response = await fetch(`${base_url}api/v1/user/${_id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            gamesWon: ++gamesWon
+          })
+        });
+
         const data = await response.json();
         if (response.status === 200) {
           console.log("resp 200");
