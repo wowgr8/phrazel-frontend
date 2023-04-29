@@ -35,14 +35,6 @@ function GameLobby({ userName, gamesWon, _id }) {
     localStorage.setItem("room", room);
   };
 
-  // const seeded = [
-  //   { roomNumber: 1, players: ["jim", "bob", "sam"] },
-  //   {
-  //     roomNumber: 2,
-  //     players: ["dan", "beth", "robin"],
-  //   },
-  // ];
-
   useEffect(() => {
     //Receives new room number from back end - back end is responsible for checking for duplicate room numbers.
     socket.on("room_number", (room) => {
@@ -54,13 +46,6 @@ function GameLobby({ userName, gamesWon, _id }) {
       setRoom(localStorageRoom);
     }
 
-    // Receives available rooms & players from back end and sets it to useState
-    // rooms: [{room: 1,
-    //        players: ["name1", "name2", "name3"]
-    //     },
-    //     {room: 2,
-    //       players: ["name4", "name5", "name6"]
-    //    }]
     socket.on("available_rooms", (rooms) => {
       setAvailableRooms(rooms);
     });
@@ -74,7 +59,6 @@ function GameLobby({ userName, gamesWon, _id }) {
             <div>
               <title>Game Lobby</title>
               <h1>Game Lobby</h1>
-              <hr></hr>
               <div>
                 {/* //////////////////////////////////// */}
                 {/* Create a room section */}
@@ -104,7 +88,6 @@ function GameLobby({ userName, gamesWon, _id }) {
             <div>
               <title>Game Lobby</title>
               <h1>Game Lobby</h1>
-              <hr></hr>
               <div>
                 {/* //////////////////////////////////// */}
                 {/* Create a room section */}
@@ -171,8 +154,6 @@ function GameLobby({ userName, gamesWon, _id }) {
                     handleSetRoom(event);
                   }}
                 />
-                <br></br>
-                <br></br>
 
                 <button onClick={joinRoom}>Join</button>
               </div>

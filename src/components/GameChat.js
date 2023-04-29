@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {SocketContext} from '../utils/Socket';
+import EmojiPicker from 'emoji-picker-react';
+import {ReactComponent as HappyFaceSVG} from "../assets/svg/happy-face.svg";
+import {ReactComponent as SendSVG} from "../assets/svg/send.svg";
 
 function GameChat({ room, userName }) {
   const socket = useContext(SocketContext);
@@ -7,10 +10,13 @@ function GameChat({ room, userName }) {
   const [message, setMessage] = useState('');
   const [messageReceived, setMessageReceived] = useState('');
   const [chatLog, setChatLog] = useState([]);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   // emits message, room, and userName to the backend
   const sendMessage = () => {
-    socket.emit('send_message', { message, room, userName })
+    socket.emit('send_message', { message, room, userName });
+    
+    setMessage("")
   }
 
   useEffect(() => {
@@ -30,43 +36,73 @@ function GameChat({ room, userName }) {
     }
   }, [messageReceived]);
 
-  const chatBoxStyle = {
-    border: "1px solid black", 
-    height: "200px",
-    overflowY: "scroll",
+  const onEmojiClick = (emojiObject) => {
+    setMessage(message + emojiObject.emoji);
+    setShowEmojiPicker(!showEmojiPicker);
   };
 
   return (
-    <div>
-      <p>GameChat in room: {room}</p>
-      <input placeholder="Message..." maxLength="50" onChange={(event)=> { setMessage(event.target.value)}} />
-      <button onClick={sendMessage}> Send</button>
-
-      <div style={chatBoxStyle}>
-        <div>
-          {chatLog.map((message, index) => (
-            <p 
-              key={index} 
-              style={{ 
-                backgroundColor: message.userName === userName ? '#ADD8E6' : 'white', 
-                padding: '10px' 
-              }}  
-            > 
-              <strong>{message.userName}</strong>: {message.message}
-            </p>
-          ))}
+    <div className='ml-3.5 opacity-90 '>
+      {showEmojiPicker && 
+        <div className='flex justify-center'>
+          <EmojiPicker 
+            height={300} 
+            className="w-full" 
+            searchDisabled={true}
+            skinTonesDisabled={true}
+            emoji="smileys_people"
+            onEmojiClick={onEmojiClick}
+          />
         </div>
-        
-        <br></br>
-        <br></br>
+      }
+      <div id="chatbox"className="hover:shadow-xl hover:shadow-cyan-500/50">
+        <div className='flex flex-row mb-2.5'>
+          <div className="flex items-center px-1 py-2 w-full rounded-lg bg-sky-100 gap-0.5">
+          <input 
+            placeholder={"Message... " }
+            maxLength="50"
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block basis-4/5 p-2.5'
+            onChange={(event)=> { setMessage(event.target.value)}} 
+            value={message}
+          />
+          <HappyFaceSVG 
+            height="30px" 
+            width="30px" 
+            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            className="ml-1 hover:bg-yellow-100 rounded-full"
+          />
+          <button 
+            type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 "
+            onClick={sendMessage}
+          >
+            <SendSVG 
+              height="35px" 
+              width="35px"
+            />
+          </button>
+          </div>
+          
+        </div>
+
+        <div  className='border border-blue-200 h-96 overflow-y-scroll rounded-lg shadow-md bg-blue-50 '>
+          <div >
+            {chatLog.map((message, index) => (
+              <p 
+                key={index} 
+                className="text-left ml-2.5 text-2xl"
+                style={{ 
+                  color: message.userName === userName ? '#ECBE07' : 'black', 
+                  padding: '10px' 
+                }}  
+              > 
+                <strong>{message.userName}</strong>: {message.message}
+              </p>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <input 
-        placeholder="Message..." 
-        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
-        onChange={(event)=> { setMessage(event.target.value)}} 
-      />
-      <button onClick={sendMessage}> Send</button>
+
     </div>
   )
 }

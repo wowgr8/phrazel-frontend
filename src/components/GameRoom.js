@@ -1,18 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import ScoreBoard from "./ScoreBoard";
 import { SocketContext } from "../utils/Socket";
+import { UserDataContext } from "../App";
+import { base_url } from "../config";
+import ScoreBoard from "./ScoreBoard";
 import GameBoard from "./GameBoard";
-import GameChat from "./GameChat";
 import { UserDataContext } from "../App";
 import { base_url } from "../config";
 
 function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
-  console.log(gamesWon, "games won in GameRoom TOP");
-
   const socket = useContext(SocketContext);
-
-  let navigate = useNavigate();
 
   const [allPlayersReady, setAllPlayersReady] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
@@ -29,19 +25,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let token = null; // used for cookies
   token = localStorage.getItem("token");
 
-  const hamburgerNav = (event) => {
-    event.target.value === "option1"
-      ? navigate("/ProfilePage")
-      : navigate("/GameLobby");
-  };
-
-  const columnStyle = {
-    display: "inline-block", // Creates column effect
-    width: "30%", // creates spacing in between text
-    verticalAlign: "top", // each div has the same top starting point
-  };
-
-  const logoffStyle = {
+  const logoffStyle = {   // Replace with HEADER/NAV component
     textAlign: "right",
     paddingRight: 30,
   };
@@ -100,6 +84,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
             gamesWon: ++gamesWon
           })
         });
+
         const data = await response.json();
         if (response.status === 200) {
           console.log("resp 200");
@@ -160,83 +145,50 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let dis = players.length > 2 && allPlayersReady ? false : true;
 
   return (
-    <div>
-      <div style={logoffStyle}>
-        <h2>{userName}</h2>
+    <div className="bg-orange-600 ">
+      {/* To be replaced with header/nav component */}
+      <div className="">
+        <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
         <button onClick={disconnectRoom}>Logout</button>
-        {/* <select id="navOptions" onChange={hamburgerNav}>
-          <option value="">Hamburger nav placeholder</option>
-          <option value="option1">Profile Page</option>
-          <option value="option2">Game Lobby</option>
-        </select> */}
       </div>
+
       <div>
-        <h1>You are in Room {room}</h1>
-        <hr></hr>
-        {/* Attempted mapping of players into list form */}
-        <h2>
-          <strong>Current players are:</strong>{" "}
-        </h2>
-        <ul>
-          {players.map((player) => (
-            <div key={player}>
-              <li
-                style={{
-                  marginLeft: "45%",
-                  textAlign: "left",
-                }}
-              >
-                - {player}
-              </li>
-            </div>
-          ))}
-        </ul>
-        {console.log("players", players)}
         <button onClick={leaveRoom}>Leave Room</button>
-        <button onClick={disconnectRoom}>Disconnect</button>
-        <hr></hr>
+      </div>
+      
+      <div className="grid grid-cols-3 gap-1 justify-items-center mt-36">
+        <div className="bg-red-500  w-1/2 ">
+          <h2>
+            You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
+          </h2>
+          <ScoreBoard players={players} />
+        </div>
+
+        <div className="bg-yellow-500 w-full">
+          <GameBoard
+            wordHandler={wordHandler}
+            sendWord={sendWord}
+            startGame={startGame}
+            dis={dis}
+            gameStarted={gameStarted}
+            length={length}
+            guess={guess}
+            guessWord={guessWord}
+            guessWordHandler={(event) => setWord(event.target.value)}
+            guessingYourWord={guessingYourWord}
+            host={host}
+            gameOver={gameOver}
+            newGame={newGame}
+            youWon={youWon}
+            winner={winner}
+          />
+        </div>
+
+        <div className="bg-purple-500 w-1/2">
+          <GameChat room={room} players={players} userName={userName} />
+        </div>
       </div>
 
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <div style={columnStyle}>
-        <h2>
-          You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
-        </h2>
-        <ScoreBoard players={players} />
-      </div>
-
-      <div style={columnStyle}>
-        GameBoard Component placeholder
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <GameBoard
-          wordHandler={wordHandler}
-          sendWord={sendWord}
-          startGame={startGame}
-          dis={dis}
-          gameStarted={gameStarted}
-          length={length}
-          guess={guess}
-          guessWord={guessWord}
-          guessWordHandler={(event) => setWord(event.target.value)}
-          guessingYourWord={guessingYourWord}
-          host={host}
-          gameOver={gameOver}
-          newGame={newGame}
-          youWon={youWon}
-          winner={winner}
-        />
-      </div>
-
-      <div style={columnStyle}>
-        <GameChat room={room} players={players} userName={userName} />
-      </div>
     </div>
   );
 }

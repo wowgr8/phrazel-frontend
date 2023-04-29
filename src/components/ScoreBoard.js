@@ -13,66 +13,70 @@ function ScoreBoard({ players }) {
     });
   }, [gameScore]);
 
-  // Attempted separate columns for players & their score in scoreboard, so wouldn't have to also have list of players above in GameRoom file (not working yet, but Brendan & Cesar will work on Tues.--also commented out below)
-
-  // const miniColumn = {
-  //   display: "inline-block", // Creates column effect
-  //   width: "15%", // creates spacing in between text
-  //   verticalAlign: "top", // each div has the same top starting point
-  // };
-
   return (
-    <>
-      <h3>ScoreBoard Component</h3>
-
-      {showData ? (
-        <>
-          <div>
-            {gameScore
-              .sort((a, b) => b.roundsWon - a.roundsWon)
-              .map((sortedScore) => {
+    <div className="border border-blue-200  h-full overflow-y-scroll rounded-lg shadow-md bg-blue-50 mr-2.5 mt-4 hover:shadow-xl hover:shadow-cyan-500/50 opacity-90">
+      {showData ? 
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-sm text-left text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Player
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Score
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {gameScore
+                .sort((a, b) => b.roundsWon - a.roundsWon)
+                .map((sortedScore) => {
+                  return (
+                    <tr key={sortedScore.player} className="bg-white border-b hover:bg-gray-50">
+                      <th scope="row" className="px-6 py-4 text-xl text-gray-900 whitespace-nowrap">
+                        {sortedScore.player}
+                      </th>
+                      <td className="px-6 py-4">
+                        {sortedScore.roundsWon}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+      : 
+        <div className="relative overflow-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-sm text-left text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+              <tr>
+                <th scope="col" className="px-6 py-3 ">
+                  Player
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Score
+                </th>
+              </tr>
+            </thead>
+            <tbody className="relative">
+              {players.map((player) => {
                 return (
-                  <div key={sortedScore.player}>
-                    <h6>Player Name: {sortedScore.player} </h6>
-                    <h6>Score: {sortedScore.roundsWon} </h6>
-                  </div>
+                  <tr key={player} className="bg-white border-b hover:bg-gray-50">
+                    <th scope="row" className="w-full px-6 py-4 text-xl text-gray-900 whitespace-nowrap">
+                      {player}
+                    </th>
+                    <td className="px-6 py-4">
+                      0
+                    </td>
+                  </tr>
                 );
               })}
-          </div>
-          {/* Attempt to put in name & score in separate columns--see comment above for miniColumn variable for context
-          
-          <div>
-            {gameScore
-              .sort((a, b) => b.roundsWon - a.roundsWon)
-              .map((sortedScore) => {
-                return (
-                  <>
-                    <div style={miniColumn} key={sortedScore.player}>
-                      <h6>Player Name: {sortedScore.player} </h6>
-                    </div>
-                    <div style={miniColumn}>
-                      <h6>Score: {sortedScore.roundsWon} </h6>
-                    </div>
-                  </>
-                );
-              })}
-          </div> */}
-        </>
-      ) : (
-        <>
-          <div>
-            {players.map((player) => {
-              return (
-                <div>
-                  <h6>Player Name: {player} </h6>
-                  <h6>Score: 0 </h6>
-                </div>
-              );
-            })}
-          </div>
-        </>
-      )}
-    </>
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
   );
 }
 
