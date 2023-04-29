@@ -15,23 +15,36 @@ function ScoreBoard({ players }) {
 
   return (
     <div className="border border-blue-200 h-96 overflow-y-scroll rounded-lg shadow-md bg-blue-50 mr-2.5 hover:shadow-xl hover:shadow-cyan-500/50">
-      <h3>ScoreBoard Component</h3>
+      {/* <h3>ScoreBoard Component</h3> */}
 
       {showData ? 
-        <>
-          <div>
-            {gameScore
-              .sort((a, b) => b.roundsWon - a.roundsWon)
-              .map((sortedScore) => {
-                return (
-                  <div key={sortedScore.player}>
-                    <h6>Player Name: {sortedScore.player} </h6>
-                    <h6>Score: {sortedScore.roundsWon} </h6>
-                  </div>
-                );
-              })}
+
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="px-6 py-3">
+                    Player
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Score
+                  </th>
+                </tr>
+              </thead>
+                {gameScore
+                  .sort((a, b) => b.roundsWon - a.roundsWon)
+                  .map((sortedScore) => {
+                    return (
+                      <div key={sortedScore.player}>
+                        <h6>Player Name: {sortedScore.player} </h6>
+                        <h6>Score: {sortedScore.roundsWon} </h6>
+                      </div>
+                    );
+                  })}
+
+            </table>
           </div>
-        </>
+
       : 
         <>
           <div>
