@@ -4,8 +4,7 @@ import {SocketContext} from '../utils/Socket';
 import { UserDataContext } from "../App";
 import { base_url } from "../config";
 
-
-function Login({userName,setUserName,userDataHandler}) {
+function Login({ userName, setUserName, setSubmitted, submitted, userDataHandler}) {
   const socket = useContext(SocketContext);
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
@@ -19,7 +18,6 @@ function Login({userName,setUserName,userDataHandler}) {
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
   };
-
 
   /* sign up form for new users */
   async function signUpForm(e) {
@@ -49,7 +47,10 @@ function Login({userName,setUserName,userDataHandler}) {
         socket.connect()
         socket.on("connect", () => {
           socket.emit('user_name',{userName,registeredUser:true})
-          if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
+          if(socket.connected) {
+            navigate('/GameLobby');
+            setSubmitted(true);
+          }
         });
     
       } else if (data.message === 'Username already exists') {
@@ -103,6 +104,7 @@ function Login({userName,setUserName,userDataHandler}) {
           if(socket.connected){
             window.alert(`Welcome ${userName}!`);
             navigate("/GameLobby");
+            setSubmitted(true);
           } 
         });
       } else if (response.status === 401) {
