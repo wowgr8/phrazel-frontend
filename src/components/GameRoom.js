@@ -21,6 +21,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const [winner, setWinner] = useState("");
   const { setUserData } = useContext(UserDataContext);
 
+  if (!socket.connected) setInRoom(false);
   let token = null; // used for cookies
   token = localStorage.getItem("token");
 
