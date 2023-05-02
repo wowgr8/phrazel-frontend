@@ -3,31 +3,21 @@ import { useNavigate } from "react-router-dom";
 
 function GameBoard(props) {
     const [wordSent, setWordSent] = useState(false);
-    // Navigation
-    let navigate = useNavigate();
 
-    function leaveRoom() {
-        props.leaveRoom()
-        navigate('/GameLobby')
-    }
-
-    function sendWord() {
+    function sendWord(){
         props.sendWord()
         setWordSent(true)
     }
 
-    function disconnectRoom() {
-        navigate('/')
-    }
-
-    function newGame() {
+    function newGame(){
         props.newGame()
         setWordSent(false)
     }
 
     return (
-        !props.gameOver ?
-            !wordSent ?
+        <div className="bg-red-800">
+            {!props.gameOver?
+            !wordSent? 
                 <div className="App">
                     Submit a word for others to guess!
                     <br />
@@ -65,10 +55,11 @@ function GameBoard(props) {
                         </div>
             :
             <div>
-                <h2>Game Over</h2>
-                {!props.youWon ? <h2>Player {props.winner} won this game!</h2> : <h2>You Won!!!</h2>}
-                <button onClick={newGame}>New Game</button>
-            </div>
+            <h2>Game Over</h2>
+            {!props.youWon?<h2>Player {props.winner} won this game!</h2>:<h2>You Won!!!</h2>}
+            <button onClick={newGame}>New Game</button>
+            </div>}
+        </div>
     )
 
 }
