@@ -105,7 +105,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   }, [socket]);
 
 
-  const [roundTimer, setRoundTimer] = useState(false);
+  const [showRoundTimer, setShowRoundTimer] = useState(false);
 
   // replace with socket.emit("timerDone", {})
   function handleTimerEnd() {
@@ -127,7 +127,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     setAllPlayersReady(false);
     setYouGuessed(false);
     setGuessingYourWord(false);
-    setRoundTimer(true);
+    setShowRoundTimer(true);
     setStartTimer(true);
   };
 
@@ -175,7 +175,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         <button onClick={disconnectRoom}>Logout</button>
       </div>
 
-      {roundTimer && (
+      {showRoundTimer && (
         <div>
           <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} />
         </div>
