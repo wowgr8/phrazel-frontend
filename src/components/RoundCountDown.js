@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function RoundCountDown({ startTimer }) {
+function RoundCountDown({ startTimer, handleTimerEnd }) {
   const [seconds, setSeconds] = useState(30);
 
   useEffect(() => {
@@ -14,8 +14,10 @@ function RoundCountDown({ startTimer }) {
 
     if (seconds === 0) {
       clearInterval(interval);
+      handleTimerEnd()
+      console.log("handleTimerEnd in RoundCountDown")
     }
-
+    
     return () => clearInterval(interval);
   }, [startTimer, seconds]);
 
