@@ -6,6 +6,7 @@ import ProfilePage from "./components/ProfilePage";
 import GameLobby from "./components/GameLobby";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {SocketContext, socket} from './utils/Socket';
+import Header from "./components/Header";
 export const UserDataContext = createContext()
 
 function App() {
@@ -27,6 +28,9 @@ const backgroundImage = {
       <UserDataContext.Provider value ={{setUserData}}>
         <div className="App" style={backgroundImage}>
           <Router>
+            <Header>
+              <Header />
+            </Header>
             <Routes>
               <Route path="/" exact element={<LandingPage userName={userName} setUserName={setUserName} />} />
               <Route path="Login" exact element={<Login userName={userName} setUserName={setUserName} />} />
