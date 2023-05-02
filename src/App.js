@@ -1,23 +1,21 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, useContext } from "react";
 import "./App.css";
 import Login from "./components/Login";
 import LandingPage from "./components/LandingPage";
 import ProfilePage from "./components/ProfilePage";
 import GameLobby from "./components/GameLobby";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {SocketContext, socket} from './utils/Socket';
+import { SocketContext, socket } from './utils/Socket';
 import Header from "./components/Header";
 export const UserDataContext = createContext()
 
 function App() {
-  //User name passed as props to login and used in Game lobby
   const [userName, setUserName] = useState(""); 
   const [userData, setUserData] = useState({gamesWon:0})
-  // console.log(userData,'user data in App.js');
-
   const [showHeader, setShowHeader] = useState(false);
   const [submitted, setSubmitted] = useState(false); 
-  
+  const [inRoom, setInRoom] = useState(false);
+
   const backgroundImage = {
     backgroundImage: `url(${require('./assets/img/forest-bg.jpg')})`,
     backgroundPosition: 'top',
@@ -39,7 +37,7 @@ function App() {
       <UserDataContext.Provider value={{ setUserData }}>
         <div className="App" style={backgroundImage}>
           <Router>
-            {showHeader && <Header />}
+            {showHeader &&  <Header setInRoom={setInRoom} setShowHeader={setShowHeader} />}
             <Routes>
               <Route
                 path="/"
@@ -56,6 +54,8 @@ function App() {
                     userName={userName}
                     gamesWon={userData.gamesWon}
                     _id={userData._id}
+                    inRoom={inRoom}
+                    setInRoom={setInRoom}
                   />
                 }
               />
