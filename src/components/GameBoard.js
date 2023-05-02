@@ -37,7 +37,8 @@ function GameBoard(props) {
                     :
                     !props.guessingYourWord ?
                         <div>
-                            {/************  add synonym prop here **********/}
+                                {/************  add hint prop here **********/}
+                            <h1>Hints: {props.hint}</h1>
                             <h2>The word has {props.length} letters</h2>
                             <h1>{props.guess}</h1>
                             <input
