@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import "./App.css";
 import Login from "./components/Login";
 import LandingPage from "./components/LandingPage";
@@ -13,26 +13,39 @@ function App() {
   //User name passed as props to login and used in Game lobby
   const [userName, setUserName] = useState(""); 
   const [userData, setUserData] = useState({gamesWon:0})
-// console.log(userData,'user data in App.js');
+  // console.log(userData,'user data in App.js');
 
-const backgroundImage = {
-  backgroundImage: `url(${require('./assets/img/forest-bg.jpg')})`,
-  backgroundPosition: 'top',
-  backgroundPosition: 'center',
-  height: '100vh',
-  opacity: 0.8
-};
+  const [showHeader, setShowHeader] = useState(false);
+  const [submitted, setSubmitted] = useState(false); 
   
+  const backgroundImage = {
+    backgroundImage: `url(${require('./assets/img/forest-bg.jpg')})`,
+    backgroundPosition: 'top',
+    backgroundPosition: 'center',
+    height: '100vh',
+    opacity: 0.8
+  };
+  
+  useEffect(() => {
+    if (userName !== "") {
+      setShowHeader(true);
+    } else {
+      setShowHeader(false);
+    }
+  }, [submitted]);
+
   return (
     <SocketContext.Provider value={socket}>
-      <UserDataContext.Provider value ={{setUserData}}>
+      <UserDataContext.Provider value={{ setUserData }}>
         <div className="App" style={backgroundImage}>
           <Router>
-            <Header>
-              <Header />
-            </Header>
+            {showHeader && <Header />}
             <Routes>
-              <Route path="/" exact element={<LandingPage userName={userName} setUserName={setUserName} />} />
+              <Route
+                path="/"
+                exact
+                element={<LandingPage userName={userName} setUserName={setUserName} setSubmitted={setSubmitted} />}
+              />
               <Route path="Login" exact element={<Login userName={userName} setUserName={setUserName} />} />
               <Route path="ProfilePage" exact element={<ProfilePage />} />
               <Route
@@ -41,14 +54,15 @@ const backgroundImage = {
                 element={
                   <GameLobby
                     userName={userName}
-                    gamesWon={userData.gamesWon} _id={userData._id}
+                    gamesWon={userData.gamesWon}
+                    _id={userData._id}
                   />
                 }
               />
             </Routes>
           </Router>
         </div>
-        </UserDataContext.Provider>
+      </UserDataContext.Provider>
     </SocketContext.Provider>
   );
 }
