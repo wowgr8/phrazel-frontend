@@ -38,6 +38,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     });
 
     //Checks that all players are ready by either submitting their guesses or submitting a word to guess
+    //          SHOULD THIS BE CHANGED TO all_ready_for_next_round?
     socket.on("all_players_ready", () => setAllPlayersReady(true));
 
     //Returns the length of the word to be guessed
@@ -47,6 +48,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       setGameStarted(true);
       setGuessingYourWord(false);
       setYouGuessed(false);
+      setStartTimer(true)
     });
 
     //Blocks player from guessing in current round if their submitted word was selected to be guessed.
@@ -60,8 +62,10 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       setYouGuessed(true);
     });
 
-    socket.on("all_players_guessed", () => {
+
+    socket.on("all_ready_for_next_round", () => {
       setAllPlayersReady(true);
+      setStartTimer(true)
     });
 
     socket.on("game_over", () => setGameOver(true));
@@ -105,8 +109,16 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
   // replace with socket.emit("timerDone", {})
   function handleTimerEnd() {
-  
+    //when timer gets to 0
+    socket.emit("time_off", room)
+    setStartTimer(false)
+    console.log("handleTimerEnd in GameRoom")
   }
+
+  function handleStartTimer() {
+  }
+
+  const [startTimer, setStartTimer] = useState(false);
 
 
   const startGame = () => {
@@ -116,6 +128,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     setYouGuessed(false);
     setGuessingYourWord(false);
     setRoundTimer(true);
+    setStartTimer(true);
   };
 
   const guessWord = () => {
@@ -164,7 +177,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
       {roundTimer && (
         <div>
-          <RoundCountDown startTimer={roundTimer} />
+          <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} />
         </div>
       )}
 
@@ -202,7 +215,11 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         </div>
 
         <div className="bg-purple-500 w-1/2">
-          <GameChat room={room} players={players} userName={userName} />
+          <GameChat 
+            room={room} 
+            players={players} 
+            userName={userName} 
+            />
         </div>
       </div>
 
