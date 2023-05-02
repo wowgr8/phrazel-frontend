@@ -4,7 +4,7 @@ import Login from './Login';
 import {SocketContext} from '../utils/Socket';
 import Logo from '../assets/img/phrazel-logo.jpg'
 
-function LandingPage({ setUserName, userName }) {
+function LandingPage({ setUserName, userName, setSubmitted }) {
   const socket = useContext(SocketContext);
   let navigate = useNavigate(); 
   const [anonForm, showAnonForm] = useState(false);
@@ -31,6 +31,7 @@ function LandingPage({ setUserName, userName }) {
       socket.disconnect()
     })
     socket.on('user_name_accepted',()=>{
+      setSubmitted(true);
       navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
     })
   },[socket])
@@ -83,7 +84,7 @@ function LandingPage({ setUserName, userName }) {
 
             {anonForm 
               ? null
-              : <Login setUserName={setUserName} userName={userName}/>
+              : <Login setUserName={setUserName} userName={userName} setSubmitted={setSubmitted} />
             }    
           </div>
         </div>
