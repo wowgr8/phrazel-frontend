@@ -123,6 +123,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const disconnectRoom = () => {
     socket.disconnect();
     setInRoom(false);
+    socket.off()
   };
 
   function wordHandler(event) {
