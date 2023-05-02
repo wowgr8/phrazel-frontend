@@ -30,7 +30,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   };
 
   useEffect(() => {
-    console.log("games Won Use effect", gamesWon);
     //Receives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
       setPlayers(data);
@@ -71,7 +70,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     socket.on("winner", (data) => setWinner(data));
     //Returned if you are the winner
     async function patch() {
-      console.log(gamesWon, "games won before PATCH");
       try {
         const response = await fetch(`${base_url}api/v1/user/${_id}`, {
           method: "PATCH",
