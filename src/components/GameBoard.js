@@ -3,21 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 function GameBoard(props) {
     const [wordSent, setWordSent] = useState(false);
-  // Navigation
-  let navigate = useNavigate();
-
-    function leaveRoom(){
-        props.leaveRoom()
-        navigate('/GameLobby')
-    }
 
     function sendWord(){
         props.sendWord()
         setWordSent(true)
-    }
-
-    function disconnectRoom(){
-        navigate('/')
     }
 
     function newGame(){
