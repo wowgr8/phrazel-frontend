@@ -28,15 +28,22 @@ function RoundCountDown({ startTimer, handleTimerEnd, seconds, setSeconds, allPl
 
   const progress = 100 - Math.floor(((30 - seconds) / 30) * 100);
 
+  let progressColorClass = "bg-red-600";
+  if (seconds <= 30 && seconds >= 21) {
+    progressColorClass = "bg-green-600";
+  } else if (seconds <= 20 && seconds >= 11) {
+    progressColorClass = "bg-yellow-500";
+  }
+
   return (
-    <div className='flex justify-center'>
-      <div className='w-1/3'>
+    <div className='flex justify-center mb-1'>
+      <div className='w-full'>
         <div className="flex justify-between mb-1">
           <span className="text-base font-medium text-blue-700 dark:text-white">Timer: </span>
           <span className="text-sm font-medium text-blue-700 dark:text-white">{displayTime}</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-          <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
+          <div className={`h-2.5 rounded-full ${progressColorClass}`} style={{ width: `${progress}%` }}></div>
         </div>
       </div>
     </div>
