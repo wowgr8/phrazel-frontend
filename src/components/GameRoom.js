@@ -20,6 +20,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const [youWon, setYouWon] = useState(false);
   const [winner, setWinner] = useState("");
   const { setUserData } = useContext(UserDataContext);
+  const [hint, setHint] = useState("");
+
 
   if (!socket.connected) setInRoom(false);
   let token = null; // used for cookies
@@ -33,6 +35,11 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
     //Checks that all players are ready by either submitting their guesses or submitting a word to guess
     socket.on("all_players_ready", () => setAllPlayersReady(true));
+
+    socket.on('hint', (hint) => {
+      setHint(hint);
+    });
+
 
     //Returns the length of the word to be guessed
     socket.on("word_to_guess", (length) => {
@@ -105,9 +112,33 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     socket.emit("guess_word", { word, room });
   };
 
-  const sendWord = () => {
-    socket.emit("send_word", { word, room });
+  const sendWord = async () => {
+    if (word === "" || word === null) {
+      window.alert("Please enter a word");
+    } else {
+      const isValid = await checkWord(word.toLowerCase());
+      console.log(`Is ${word} valid? ${isValid}`);
+      if (!isValid) {
+        window.alert("Please enter a valid word");
+      } else {
+        socket.emit("send_word", { word, room });
+      }
+    }
   };
+
+  /* the function checks if words are valid english  */
+  const checkWord = async (word) => {
+    try {
+      const response = await fetch('https://api.datamuse.com/words?sp=' + word);
+      const words = await response.json();
+      const isValid = words.some(w => w.word.toLowerCase() === word.toLowerCase());
+      return isValid;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
 
   const leaveRoom = () => {
     socket.emit("leave_room", room);
@@ -164,6 +195,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
         <div className="justify-self-stretch">
           <GameBoard
+            hint={hint}
             wordHandler={wordHandler}
             sendWord={sendWord}
             startGame={startGame}
