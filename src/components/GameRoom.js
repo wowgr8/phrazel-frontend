@@ -23,6 +23,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const [seconds, setSeconds] = useState(30);
   const [startTimer, setStartTimer] = useState(false);
   const { setUserData } = useContext(UserDataContext);
+  const [hint, setHint] = useState("");
+
 
   if (!socket.connected) setInRoom(false);
   let token = null; // used for cookies
@@ -44,6 +46,11 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       setAllPlayersReady(true);
       // setStartTimer(true)
     });
+
+    socket.on('hint', (hint) => {
+      setHint(hint);
+    });
+
 
     //Returns the length of the word to be guessed
     socket.on("word_to_guess", (length) => {
@@ -124,9 +131,33 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     socket.emit("guess_word", { word, room });
   };
 
-  const sendWord = () => {
-    socket.emit("send_word", { word, room });
+  const sendWord = async () => {
+    if (word === "" || word === null) {
+      window.alert("Please enter a word");
+    } else {
+      const isValid = await checkWord(word.toLowerCase());
+      console.log(`Is ${word} valid? ${isValid}`);
+      if (!isValid) {
+        window.alert("Please enter a valid word");
+      } else {
+        socket.emit("send_word", { word, room });
+      }
+    }
   };
+
+  /* the function checks if words are valid english  */
+  const checkWord = async (word) => {
+    try {
+      const response = await fetch('https://api.datamuse.com/words?sp=' + word);
+      const words = await response.json();
+      const isValid = words.some(w => w.word.toLowerCase() === word.toLowerCase());
+      return isValid;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
 
   const leaveRoom = () => {
     socket.emit("leave_room", room);
@@ -161,14 +192,14 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     <div className="bg-orange-600 ">
       {/* To be replaced with header/nav component */}
       <div className="">
-        <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
+        <h2><span style={{ color: "#ECBE07" }}>{userName}</span> &nbsp;  Room: <span style={{ color: "#ECBE07" }}>{room}</span></h2>
         <button onClick={disconnectRoom}>Logout</button>
       </div>
 
       <div>
         <button onClick={leaveRoom}>Leave Room</button>
       </div>
-      
+
       <div className="grid grid-cols-3 gap-1 justify-items-center mt-36">
         <div className="bg-red-500  w-1/2 ">
           <h2>
@@ -183,6 +214,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
           </div>
           
           <GameBoard
+            hint={hint}
             wordHandler={wordHandler}
             sendWord={sendWord}
             startGame={startGame}
