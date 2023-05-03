@@ -20,10 +20,10 @@ function ScoreBoard({ players }) {
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-100">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-lg">
                   Player
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-lg">
                   Score
                 </th>
               </tr>
@@ -34,7 +34,7 @@ function ScoreBoard({ players }) {
                 .map((sortedScore) => {
                   return (
                     <tr key={sortedScore.player} className="bg-white border-b hover:bg-gray-50">
-                      <th scope="row" className="px-6 py-4 text-xl text-gray-900 whitespace-nowrap">
+                      <th scope="row" className="px-6 py-4 text-xl text-gray-900 whitespace-nowrap ">
                         {sortedScore.player}
                       </th>
                       <td className="px-6 py-4">
@@ -51,10 +51,10 @@ function ScoreBoard({ players }) {
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-100">
               <tr>
-                <th scope="col" className="px-6 py-3 ">
+                <th scope="col" className="px-6 py-3 text-lg">
                   Player
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-lg">
                   Score
                 </th>
               </tr>
