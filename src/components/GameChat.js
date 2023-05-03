@@ -41,9 +41,9 @@ function GameChat({ room, userName }) {
   };
 
   return (
-    <div className='opacity-90'>
+    <div className='opacity-90 relative'>
       {showEmojiPicker && 
-        <div className='flex justify-center'>
+        <div className='absolute bottom-2'>
           <EmojiPicker 
             height={250} 
             width={270}
