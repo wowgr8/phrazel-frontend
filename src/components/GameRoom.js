@@ -230,6 +230,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
             newGame={newGame}
             youWon={youWon}
             winner={winner}
+            startTimer={startTimer}
           />
         </div>
 
