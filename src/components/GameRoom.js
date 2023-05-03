@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
 import { SocketContext } from "../utils/Socket";
+import React, { useEffect, useState, useContext } from "react";
 import { UserDataContext } from "../App";
 import { base_url } from "../config";
 import ScoreBoard from "./ScoreBoard";
@@ -20,6 +20,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false);
   const [winner, setWinner] = useState("");
+  const [seconds, setSeconds] = useState(30);
+  const [startTimer, setStartTimer] = useState(false);
   const { setUserData } = useContext(UserDataContext);
 
   let token = null; // used for cookies
@@ -31,15 +33,16 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   };
 
   useEffect(() => {
-    console.log("games Won Use effect", gamesWon);
     //Receives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
       setPlayers(data);
     });
 
     //Checks that all players are ready by either submitting their guesses or submitting a word to guess
-    //          SHOULD THIS BE CHANGED TO all_ready_for_next_round?
-    socket.on("all_players_ready", () => setAllPlayersReady(true));
+    socket.on("all_players_ready", () => {
+      setAllPlayersReady(true);
+      // setStartTimer(true)
+    });
 
     //Returns the length of the word to be guessed
     socket.on("word_to_guess", (length) => {
@@ -48,7 +51,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       setGameStarted(true);
       setGuessingYourWord(false);
       setYouGuessed(false);
-      setStartTimer(true)
+      setSeconds(30)
+      setStartTimer(true) 
     });
 
     //Blocks player from guessing in current round if their submitted word was selected to be guessed.
@@ -62,10 +66,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       setYouGuessed(true);
     });
 
-
     socket.on("all_ready_for_next_round", () => {
       setAllPlayersReady(true);
-      setStartTimer(true)
     });
 
     socket.on("game_over", () => setGameOver(true));
@@ -76,7 +78,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     socket.on("winner", (data) => setWinner(data));
     //Returned if you are the winner
     async function patch() {
-      console.log(gamesWon, "games won before PATCH");
       try {
         const response = await fetch(`${base_url}api/v1/user/${_id}`, {
           method: "PATCH",
@@ -101,25 +102,11 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     }
     socket.on("you_won", patch);
     return () => socket.off("you_won", patch);
-    // socket.off("you_won")
   }, [socket]);
 
-
-  const [showRoundTimer, setShowRoundTimer] = useState(false);
-
-  // replace with socket.emit("timerDone", {})
   function handleTimerEnd() {
-    //when timer gets to 0
     socket.emit("time_off", room)
-    setStartTimer(false)
-    console.log("handleTimerEnd in GameRoom")
   }
-
-  function handleStartTimer() {
-  }
-
-  const [startTimer, setStartTimer] = useState(false);
-
 
   const startGame = () => {
     socket.emit("start_game", room);
@@ -127,8 +114,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     setAllPlayersReady(false);
     setYouGuessed(false);
     setGuessingYourWord(false);
-    setShowRoundTimer(true);
-    setStartTimer(true);
   };
 
   const guessWord = () => {
@@ -174,13 +159,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
         <button onClick={disconnectRoom}>Logout</button>
       </div>
-
-      {showRoundTimer && (
-        <div>
-          <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} />
-        </div>
-      )}
-
+      <div>
+        <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} allPlayersReady={allPlayersReady} />
+      </div>
 
       <div>
         <button onClick={leaveRoom}>Leave Room</button>
