@@ -46,7 +46,7 @@ function GameChat({ room, userName }) {
         <div className='flex justify-center'>
           <EmojiPicker 
             height={250} 
-            width={290}
+            width={270}
             className="w-full" 
             searchDisabled={true}
             skinTonesDisabled={true}
