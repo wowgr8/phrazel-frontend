@@ -25,11 +25,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let token = null; // used for cookies
   token = localStorage.getItem("token");
 
-  const logoffStyle = {   // Replace with HEADER/NAV component
-    textAlign: "right",
-    paddingRight: 30,
-  };
-
   useEffect(() => {
     //Receives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
@@ -144,11 +139,14 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let dis = players.length > 2 && allPlayersReady ? false : true;
 
   return (
-    <div className="">
-      {/* To be replaced with header/nav component */}
-      <div className="">
-        <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
-        <button onClick={disconnectRoom}>Logout</button>
+    <div>
+      <div className="bg-white border-gray-200 dark:bg-gray-900 w-1/8 ">
+        <div className="flex justify-end text-right px-2.5">
+          <h2>
+            <span className="text-xl" style={{color:"#ECBE07"}}>{userName}</span>
+              &nbsp;  <span className="text-white">Room:</span> <span style={{color:"#ECBE07"}}>{room}</span>
+          </h2>
+        </div>
       </div>
 
       <div>
