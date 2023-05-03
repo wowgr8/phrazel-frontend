@@ -117,7 +117,6 @@ function GameLobby({ userName, gamesWon, _id }) {
               <div>
                 <br></br>
 
-                <h3>The available rooms & the players within them are:</h3>
                 <AvailableRooms
                   availableRooms={availableRooms}
                   joinRoom={joinRoom}
