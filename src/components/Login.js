@@ -115,9 +115,6 @@ function Login({ userName, setUserName, setSubmitted, submitted, userDataHandler
     }
   }
 
-  useEffect(()=>{},[socket])
-
-
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
