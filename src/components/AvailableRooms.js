@@ -28,7 +28,7 @@ function AvailableRooms({ availableRooms, joinRoom, handleSetRoom }) {
       </div>
 
       {/* Div for cards with room # AND players */}
-      <div className="container" class="flex flex-wrap">
+      <div className="container" class="flex flex-wrap justify-center">
         {/* This map should make a new card for each room */}
         {availableRooms.map((roomDetails) => (
           // Div for mapping each card, includes card styling
