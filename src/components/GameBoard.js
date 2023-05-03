@@ -26,7 +26,7 @@ function GameBoard(props) {
     }
 
     return (
-        <div className="bg-red-800">
+        <div className="">
             {!props.gameOver?
             !wordSent? 
                 <div className="App">

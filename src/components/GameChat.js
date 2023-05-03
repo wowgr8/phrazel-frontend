@@ -15,7 +15,6 @@ function GameChat({ room, userName }) {
   // emits message, room, and userName to the backend
   const sendMessage = () => {
     socket.emit('send_message', { message, room, userName });
-    
     setMessage("")
   }
 
@@ -42,11 +41,12 @@ function GameChat({ room, userName }) {
   };
 
   return (
-    <div className='ml-3.5 opacity-90 '>
+    <div className='opacity-90'>
       {showEmojiPicker && 
         <div className='flex justify-center'>
           <EmojiPicker 
-            height={300} 
+            height={250} 
+            width={290}
             className="w-full" 
             searchDisabled={true}
             skinTonesDisabled={true}
