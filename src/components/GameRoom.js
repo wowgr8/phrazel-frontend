@@ -171,25 +171,28 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
   return (
     <div>
-      <div className="bg-white border-gray-200 dark:bg-gray-800 w-1/8 ">
-        <hr className="border-gray-700"></hr>
-        <div className="flex justify-end text-right px-2.5">
+      <div className="bg-white border-gray-200 dark:bg-gray-800 w-1/8 flex flex-row justify-between">
+
+        <div className="text-left px-2.5">
+          <hr className="border-gray-700"></hr>
+
+          <h2 className=" text-white">
+              You have won <span style={{color:"#ECBE07"}} > {gamesWon} </span> Game{gamesWon !== 1 && "s"}!
+          </h2>
+        </div>
+
+        <div className=" text-right px-2.5">
           <h2>
-            <span className="text-md" style={{color:"#ECBE07"}}>{userName}</span>
-              &nbsp;  <span className="text-white">Room:</span> <span style={{color:"#ECBE07"}}>{room}</span>
+            <span className="text-md uppercase" style={{color:"#ECBE07"}}>{userName}</span> &nbsp; &nbsp;
+            <button className="text-white  hover:text-blue-700" onClick={leaveRoom}>
+              Leave Room: <span style={{color:"#ECBE07"}}>{room}</span>
+            </button>
           </h2>
         </div>
       </div>
 
-      <div>
-        <button onClick={leaveRoom}>Leave Room</button>
-      </div>
-      
       <div className="grid grid-cols-3 justify-items-stretch mt-2">
         <div className="justify-self-start ml-2.5 ">
-          <h2>
-            You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
-          </h2>
           <ScoreBoard players={players} />
         </div>
 
