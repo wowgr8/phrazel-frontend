@@ -64,13 +64,12 @@ function GameLobby({ userName, gamesWon, _id }) {
                 {/* //////////////////////////////////// */}
                 {/* Create a room section */}
                 {/* //////////////////////////////////// */}
-                <h2>Create a room!</h2>
 
                 <button
                   className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                   onClick={createRoom}
                 >
-                  Create
+                  Create a room!
                 </button>
 
                 <br></br>
@@ -98,13 +97,12 @@ function GameLobby({ userName, gamesWon, _id }) {
                 {/* //////////////////////////////////// */}
                 {/* Create a room section */}
                 {/* //////////////////////////////////// */}
-                <h2>Create a room!</h2>
 
                 <button
                   className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                   onClick={createRoom}
                 >
-                  Create
+                  Create a room!
                 </button>
 
                 <br></br>
@@ -121,7 +119,6 @@ function GameLobby({ userName, gamesWon, _id }) {
 
                 <br></br>
 
-                <h2>Join a Room!</h2>
                 <h3>The available rooms & the players within them are:</h3>
                 <AvailableRooms
                   availableRooms={availableRooms}
