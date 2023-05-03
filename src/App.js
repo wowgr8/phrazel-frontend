@@ -21,7 +21,7 @@ function App() {
     backgroundPosition: 'top',
     backgroundPosition: 'center',
     height: '100vh',
-    opacity: 0.8
+    opacity: 0.9
   };
   
   useEffect(() => {
