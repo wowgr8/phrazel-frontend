@@ -38,7 +38,7 @@ function GameBoard(props) {
                 !props.gameStarted ?
                     <div className="App">
                         <h2>Waiting for the other players....</h2>
-                        {props.host && <button onClick={props.startGame} disabled={props.dis}>Start Game</button>}
+                        {props.host && <button onClick={props.startGame} disabled={props.dis} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Start Game</button>}
                     </div>
                     :
                     !props.guessingYourWord ?
@@ -58,18 +58,18 @@ function GameBoard(props) {
                                 >
                                     Send Word
                             </button>
-                            {props.host && <button onClick={props.startGame} disabled={props.dis}>Next Round</button>}
+                            {props.host && <button onClick={props.startGame} disabled={props.dis} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Next Round</button>}
                         </div>
                         :
                         <div>
                             <h2>Your word is being guessed for the other players!</h2>
-                            {props.host && <button onClick={props.startGame} disabled={props.dis}>Next Round</button>}
+                            {props.host && <button onClick={props.startGame} disabled={props.dis} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" >Next Round</button>}
                         </div>
             :
             <div>
             <h2>Game Over</h2>
             {!props.youWon?<h2>Player {props.winner} won this game!</h2>:<h2>You Won!!!</h2>}
-            <button onClick={newGame}>New Game</button>
+            <button onClick={newGame} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">New Game</button>
             </div>}
         </div>
     )
