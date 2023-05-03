@@ -115,10 +115,6 @@ function GameLobby({ userName, gamesWon, _id }) {
               <br></br>
               <br></br>
               <div>
-                <h1>
-                  <em>OR</em>
-                </h1>
-
                 <br></br>
 
                 <h3>The available rooms & the players within them are:</h3>
