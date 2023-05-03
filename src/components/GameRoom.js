@@ -60,6 +60,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     socket.on("guessing_your_word", () => {
       setGuessingYourWord(true);
       setGameStarted(true);
+      setSeconds(30)
+      setStartTimer(true)  // New location
     });
 
     //Returned when a player guesses the correct word
@@ -106,6 +108,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   }, [socket]);
 
   function handleTimerEnd() {
+    setStartTimer(false)
     socket.emit("time_off", room)
   }
 
@@ -174,7 +177,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
           <ScoreBoard players={players} />
         </div>
 
-        <div className="bg-yellow-500 w-full">
+        <div className="w-full">
           <div>
             <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} allPlayersReady={allPlayersReady} />
           </div>
