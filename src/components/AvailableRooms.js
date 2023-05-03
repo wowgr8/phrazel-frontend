@@ -31,9 +31,9 @@ function AvailableRooms({ availableRooms, joinRoom, handleSetRoom }) {
       <div className="container" class="flex flex-wrap">
         {/* This map should make a new card for each room */}
         {availableRooms.map((roomDetails) => (
-          // Div for mapping each card
+          // Div for mapping each card, includes card styling
           <div
-            class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700"
+            class="w-1/5 max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700"
             key={roomDetails.roomNumber}
           >
             <div class="flex items-center justify-between mb-4">
