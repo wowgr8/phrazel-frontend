@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 
-function RoundCountDown({ startTimer, handleTimerEnd, seconds, setSeconds, allPlayersReady}) {
-
-  // Timer does not stop count down after everyone has guessed correctly. 
+function RoundCountDown({ startTimer, handleTimerEnd, seconds, setSeconds }) {
 
   useEffect(() => {
     let interval = null;

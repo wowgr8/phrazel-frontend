@@ -210,7 +210,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
         <div className="w-full">
           <div>
-            <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} allPlayersReady={allPlayersReady} />
+            <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} />
           </div>
           
           <GameBoard
