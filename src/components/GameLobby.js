@@ -66,7 +66,7 @@ function GameLobby({ userName, gamesWon, _id }) {
                 {/* //////////////////////////////////// */}
 
                 <button
-                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mt-10 mb-2"
                   onClick={createRoom}
                 >
                   Create a room!
@@ -101,7 +101,7 @@ function GameLobby({ userName, gamesWon, _id }) {
                 {/* //////////////////////////////////// */}
 
                 <button
-                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mt-10 mb-2"
                   onClick={createRoom}
                 >
                   Create a room!
@@ -114,6 +114,15 @@ function GameLobby({ userName, gamesWon, _id }) {
               {/* //////////////////////////////////// */}
               <br></br>
               <br></br>
+              {/* Horizontal line */}
+              <div class="inline-flex items-center justify-center w-full">
+                <hr class="w-64 h-1 my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>{" "}
+                <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900 ml-1 mr-1">
+                  or
+                </span>{" "}
+              </div>
+              {/* <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700"></hr> */}
+
               <div>
                 <br></br>
 
