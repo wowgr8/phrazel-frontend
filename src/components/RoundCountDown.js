@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-function RoundCountDown({ startTimer, handleTimerEnd }) {
+function RoundCountDown({ startTimer, handleTimerEnd, seconds, setSeconds, allPlayersReady}) {
 
-  // Timer only shows up on the host's screen.
   // Timer does not stop count down after everyone has guessed correctly. 
-  // Next Round button does not restart the timer
-
-  const [seconds, setSeconds] = useState(30);
 
   useEffect(() => {
     let interval = null;
@@ -20,7 +16,6 @@ function RoundCountDown({ startTimer, handleTimerEnd }) {
     if (seconds === 0) {
       clearInterval(interval);
       handleTimerEnd()
-      console.log("handleTimerEnd in RoundCountDown")
     }
     
     return () => clearInterval(interval);
