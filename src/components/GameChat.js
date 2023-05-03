@@ -89,7 +89,7 @@ function GameChat({ room, userName }) {
             {chatLog.map((message, index) => (
               <p 
                 key={index} 
-                className="text-left ml-2.5 text-2xl"
+                className="text-left ml-2.5 text-xl"
                 style={{ 
                   color: message.userName === userName ? '#ECBE07' : 'black', 
                   padding: '10px' 
