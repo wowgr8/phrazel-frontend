@@ -16,7 +16,7 @@ function Header({ setInRoom, setShowHeader }) {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="flex items-center">
             {/* <img src="" className="h-8 mr-3" alt="Phrazel Logo" /> */}
-            <span  id="logo-nav-font" className="self-center text-3xl whitespace-nowrap text-sky-400/75 ">PHRAZ_L</span>
+            <span  id="logo-nav-font" className="self-center text-4xl whitespace-nowrap text-sky-400/75 ">PHRAZ_L</span>
         </div>
 
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
