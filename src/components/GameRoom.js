@@ -159,9 +159,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         <h2><span style={{color:"#ECBE07"}}>{userName}</span> &nbsp;  Room: <span style={{color:"#ECBE07"}}>{room}</span></h2>
         <button onClick={disconnectRoom}>Logout</button>
       </div>
-      <div>
-        <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} allPlayersReady={allPlayersReady} />
-      </div>
 
       <div>
         <button onClick={leaveRoom}>Leave Room</button>
@@ -176,6 +173,10 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         </div>
 
         <div className="bg-yellow-500 w-full">
+          <div>
+            <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} allPlayersReady={allPlayersReady} />
+          </div>
+          
           <GameBoard
             wordHandler={wordHandler}
             sendWord={sendWord}
