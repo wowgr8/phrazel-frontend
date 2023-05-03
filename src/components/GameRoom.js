@@ -140,7 +140,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
   return (
     <div>
-      <div className="bg-white border-gray-200 dark:bg-gray-900 w-1/8 ">
+      <div className="bg-white border-gray-200 dark:bg-gray-800 w-1/8 ">
+        <hr className="border-gray-700"></hr>
         <div className="flex justify-end text-right px-2.5">
           <h2>
             <span className="text-md" style={{color:"#ECBE07"}}>{userName}</span>
