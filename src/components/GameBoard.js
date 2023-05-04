@@ -2,22 +2,20 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function GameBoard(props) {
-    const [wordSent, setWordSent] = useState(false);
 
     function sendWord(){
         props.sendWord()
-        setWordSent(true)
     }
 
     function newGame(){
         props.newGame()
-        setWordSent(false)
+        props.setWordSent(false)
     }
 
     return (
         <div className="">
             {!props.gameOver?
-            !wordSent? 
+            !props.wordSent? 
                 <div className="App">
                     Submit a word for others to guess!
                     <br />
