@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import GameRoom from "./GameRoom";
 import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../utils/Socket";
+import AvailableRooms from "./AvailableRooms";
 
 function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
   const socket = useContext(SocketContext);
@@ -62,9 +63,13 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
                 {/* //////////////////////////////////// */}
                 {/* Create a room section */}
                 {/* //////////////////////////////////// */}
-                <h2>Create a room!</h2>
 
-                <button onClick={createRoom}>Create</button>
+                <button
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mt-10 mb-2"
+                  onClick={createRoom}
+                >
+                  Create a room!
+                </button>
 
                 <br></br>
                 {/* //////////////////////////////////// */}
@@ -86,14 +91,20 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
           ) : (
             <div>
               <title>Game Lobby</title>
-              <h1>Game Lobby</h1>
+              <h1 class="mb-4 mt-2 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-gray">
+                Game Lobby
+              </h1>
               <div>
                 {/* //////////////////////////////////// */}
                 {/* Create a room section */}
                 {/* //////////////////////////////////// */}
-                <h2>Create a room!</h2>
 
-                <button onClick={createRoom}>Create</button>
+                <button
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mt-10 mb-2"
+                  onClick={createRoom}
+                >
+                  Create a room!
+                </button>
 
                 <br></br>
               </div>
@@ -102,59 +113,23 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
               {/* //////////////////////////////////// */}
               <br></br>
               <br></br>
-              <div>
-                <h1>
-                  <em>OR</em>
-                </h1>
+              {/* Horizontal line */}
+              <div class="inline-flex items-center justify-center w-full">
+                <hr class="w-64 h-1 my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>{" "}
+                <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900 ml-1 mr-1">
+                  or
+                </span>{" "}
+              </div>
+              {/* <hr class="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700"></hr> */}
 
+              <div>
                 <br></br>
 
-                <h2>Join a Room!</h2>
-                <h3>The available rooms & the players within them are:</h3>
-                <ul>
-                  {availableRooms.map((roomDetails) => (
-                    <div key={roomDetails.roomNumber}>
-                      <br></br>
-
-                      <li
-                        style={{
-                          marginLeft: "30%",
-                          marginRight: "55%",
-                          textAlign: "left",
-                        }}
-                      >
-                        <strong>Room: {roomDetails.roomNumber}</strong>
-                      </li>
-                      <ul>
-                        <li
-                          key={roomDetails.players}
-                          style={{
-                            marginLeft: "35%",
-                            marginRight: "25%",
-                            textAlign: "left",
-                          }}
-                        >
-                          <u>Players</u>: {roomDetails.players.join(", ")}
-                        </li>
-                      </ul>
-                    </div>
-                  ))}
-                </ul>
-              </div>
-              <div className="justify-center items-center">
-                <input
-                  placeholder="Enter Room to Join..."
-                  style={{
-                    margin: "auto",
-                    display: "block",
-                  }}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1.2 p-2.5"
-                  onChange={(event) => {
-                    handleSetRoom(event);
-                  }}
+                <AvailableRooms
+                  availableRooms={availableRooms}
+                  joinRoom={joinRoom}
+                  handleSetRoom={handleSetRoom}
                 />
-
-                <button onClick={joinRoom}>Join</button>
               </div>
             </div>
           )}
