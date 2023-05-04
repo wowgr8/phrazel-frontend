@@ -7,7 +7,7 @@ import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
 import RoundCountDown from "./RoundCountDown";
 
-function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
+function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   const socket = useContext(SocketContext);
 
   const [allPlayersReady, setAllPlayersReady] = useState(false);
@@ -159,12 +159,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const leaveRoom = () => {
     socket.emit("leave_room", room);
     setInRoom(false);
-  };
-
-  const disconnectRoom = () => {
-    socket.disconnect();
-    setInRoom(false);
-    socket.off()
+    setHost(false)
   };
 
   function wordHandler(event) {

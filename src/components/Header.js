@@ -9,6 +9,7 @@ function Header({ setInRoom, setShowHeader }) {
     socket.disconnect();
     setInRoom(false);
     setShowHeader(false)
+    socket.off()
   };
 
   return (
