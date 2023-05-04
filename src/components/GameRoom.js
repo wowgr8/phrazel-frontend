@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
 import { SocketContext } from "../utils/Socket";
+import React, { useEffect, useState, useContext } from "react";
 import { UserDataContext } from "../App";
 import { base_url } from "../config";
 import ScoreBoard from "./ScoreBoard";
 import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
+import RoundCountDown from "./RoundCountDown";
 
 function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const socket = useContext(SocketContext);
@@ -19,6 +20,8 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false);
   const [winner, setWinner] = useState("");
+  const [seconds, setSeconds] = useState(30);
+  const [startTimer, setStartTimer] = useState(false);
   const { setUserData } = useContext(UserDataContext);
   const [hint, setHint] = useState("");
 
@@ -34,7 +37,10 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     });
 
     //Checks that all players are ready by either submitting their guesses or submitting a word to guess
-    socket.on("all_players_ready", () => setAllPlayersReady(true));
+    socket.on("all_players_ready", () => {
+      setAllPlayersReady(true);
+      // setStartTimer(true)
+    });
 
     socket.on('hint', (hint) => {
       setHint(hint);
@@ -48,12 +54,16 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       setGameStarted(true);
       setGuessingYourWord(false);
       setYouGuessed(false);
+      setSeconds(30)
+      setStartTimer(true) 
     });
 
     //Blocks player from guessing in current round if their submitted word was selected to be guessed.
     socket.on("guessing_your_word", () => {
       setGuessingYourWord(true);
       setGameStarted(true);
+      setSeconds(30)
+      setStartTimer(true)  // New location
     });
 
     //Returned when a player guesses the correct word
@@ -61,7 +71,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       setYouGuessed(true);
     });
 
-    socket.on("all_players_guessed", () => {
+    socket.on("all_ready_for_next_round", () => {
       setAllPlayersReady(true);
     });
 
@@ -97,8 +107,12 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     }
     socket.on("you_won", patch);
     return () => socket.off("you_won", patch);
-    // socket.off("you_won")
   }, [socket]);
+
+  function handleTimerEnd() {
+    setStartTimer(false)
+    socket.emit("time_off", room)
+  }
 
   const startGame = () => {
     socket.emit("start_game", room);
@@ -197,6 +211,10 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         </div>
 
         <div className="justify-self-stretch">
+          <div>
+            <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} />
+          </div>
+          
           <GameBoard
             hint={hint}
             wordHandler={wordHandler}
@@ -214,11 +232,16 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
             newGame={newGame}
             youWon={youWon}
             winner={winner}
+            startTimer={startTimer}
           />
         </div>
 
         <div className="justify-self-end mr-2.5">
-          <GameChat room={room} players={players} userName={userName} />
+          <GameChat 
+            room={room} 
+            players={players} 
+            userName={userName} 
+            />
         </div>
       </div>
 
