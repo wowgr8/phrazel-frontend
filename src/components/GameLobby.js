@@ -29,10 +29,12 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
     setInRoom(true);
   };
 
+  // Added joinRoom call below, not quite working right, sending to non-existent room
   const handleSetRoom = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     setRoom(event.target.value);
     localStorage.setItem("room", room);
+    joinRoom();
   };
 
   useEffect(() => {
