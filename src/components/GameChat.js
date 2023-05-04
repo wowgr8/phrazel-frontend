@@ -15,7 +15,6 @@ function GameChat({ room, userName }) {
   // emits message, room, and userName to the backend
   const sendMessage = () => {
     socket.emit('send_message', { message, room, userName });
-    
     setMessage("")
   }
 
@@ -42,11 +41,12 @@ function GameChat({ room, userName }) {
   };
 
   return (
-    <div className='ml-3.5 opacity-90 '>
+    <div className='opacity-90 relative'>
       {showEmojiPicker && 
-        <div className='flex justify-center'>
+        <div className='absolute bottom-2'>
           <EmojiPicker 
-            height={300} 
+            height={250} 
+            width={270}
             className="w-full" 
             searchDisabled={true}
             skinTonesDisabled={true}
@@ -89,7 +89,7 @@ function GameChat({ room, userName }) {
             {chatLog.map((message, index) => (
               <p 
                 key={index} 
-                className="text-left ml-2.5 text-2xl"
+                className="text-left ml-2.5 text-xl"
                 style={{ 
                   color: message.userName === userName ? '#ECBE07' : 'black', 
                   padding: '10px' 

@@ -4,7 +4,7 @@ import Login from './Login';
 import { SocketContext } from '../utils/Socket';
 import Logo from '../assets/img/phrazel-logo.jpg'
 
-function LandingPage({ setUserName, userName }) {
+function LandingPage({ setUserName, userName, setSubmitted }) {
   const socket = useContext(SocketContext);
   let navigate = useNavigate();
   const [anonForm, showAnonForm] = useState(false);
@@ -30,7 +30,8 @@ function LandingPage({ setUserName, userName }) {
       window.alert(`The user name "${userName}" is already taken please try with other!`)
       socket.disconnect()
     })
-    socket.on('user_name_accepted', () => {
+    socket.on('user_name_accepted',()=>{
+      setSubmitted(true);
       navigate('/GameLobby'); //navigate to GameLobby ---- add this in last.
     })
   }, [socket])
@@ -63,7 +64,7 @@ function LandingPage({ setUserName, userName }) {
                   </label>
                   <button
                     type="submit"
-                    className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                     Play!
                   </button>
                 </form>
@@ -76,15 +77,15 @@ function LandingPage({ setUserName, userName }) {
                 </button>
               </div>
               :
-              <button className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={toggleForm}>
+              <button className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={toggleForm}>
                 <p>Sign up later, PLAY NOW!!</p>
               </button>
             }
 
             {anonForm
               ? null
-              : <Login setUserName={setUserName} userName={userName} />
-            }
+              : <Login setUserName={setUserName} userName={userName} setSubmitted={setSubmitted} />
+            }    
           </div>
         </div>
       </div>

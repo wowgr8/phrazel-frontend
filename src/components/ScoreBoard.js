@@ -14,16 +14,16 @@ function ScoreBoard({ players }) {
   }, [gameScore]);
 
   return (
-    <div className="border border-blue-200  h-full overflow-y-scroll rounded-lg shadow-md bg-blue-50 mr-2.5 mt-4 hover:shadow-xl hover:shadow-cyan-500/50 opacity-90">
+    <div className="border border-blue-200  h-full overflow-y-scroll rounded-lg shadow-md bg-blue-50 mt-1 hover:shadow-xl hover:shadow-cyan-500/50 opacity-90">
       {showData ? 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-100">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-lg">
                   Player
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-lg">
                   Score
                 </th>
               </tr>
@@ -34,7 +34,7 @@ function ScoreBoard({ players }) {
                 .map((sortedScore) => {
                   return (
                     <tr key={sortedScore.player} className="bg-white border-b hover:bg-gray-50">
-                      <th scope="row" className="px-6 py-4 text-xl text-gray-900 whitespace-nowrap">
+                      <th scope="row" className="px-6 py-4 text-xl text-gray-900 whitespace-nowrap ">
                         {sortedScore.player}
                       </th>
                       <td className="px-6 py-4">
@@ -51,10 +51,10 @@ function ScoreBoard({ players }) {
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-100">
               <tr>
-                <th scope="col" className="px-6 py-3 ">
+                <th scope="col" className="px-6 py-3 text-lg">
                   Player
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-lg">
                   Score
                 </th>
               </tr>

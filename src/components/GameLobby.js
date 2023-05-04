@@ -3,10 +3,9 @@ import GameRoom from "./GameRoom";
 import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../utils/Socket";
 
-function GameLobby({ userName, gamesWon, _id }) {
+function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
   const socket = useContext(SocketContext);
   const [availableRooms, setAvailableRooms] = useState([]);
-  const [inRoom, setInRoom] = useState(false);
   const [room, setRoom] = useState("");
   const [host, setHost] = useState(false);
   let navigate = useNavigate();
