@@ -79,11 +79,14 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
                 <br></br>
 
                 <div>
-                  <p>
+                  <p class="text-lg">
                     <em>
                       <strong>Hint:</strong> No rooms available to join yet,
-                      create the first room above ^^ to play!
                     </em>
+                  </p>
+                  <p class="text-lg">
+                    <em>create the first room above</em> ☝🏿☝🏾☝🏽☝🏼☝🏻{" "}
+                    <em>to play!</em>
                   </p>
                 </div>
               </div>
