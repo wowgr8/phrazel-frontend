@@ -15,9 +15,11 @@ function AvailableRooms({ availableRooms, joinRoom, handleSetRoom }) {
             display: "block",
           }}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1.2 p-2.5"
-          onChange={(event) => {
-            handleSetRoom(event);
-          }}
+          // Commented out below onChange for now, add back if can't get clicking on cards to work
+
+          // onChange={(event) => {
+          //   handleSetRoom(event);
+          // }}
         />
         <button
           className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mt-4 mb-6"
@@ -33,9 +35,15 @@ function AvailableRooms({ availableRooms, joinRoom, handleSetRoom }) {
         {availableRooms.map((roomDetails) => (
           // Div for mapping each card, includes card styling
           <div
-            class="w-1/5 max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 m-1  overflow-auto"
+            class="w-1/5 max-w-md p-4 bg-white border border-gray-200 hover:bg-yellow-400 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 m-1  overflow-auto"
             style={{ height: "240px" }}
             key={roomDetails.roomNumber}
+            value="key"
+            // Attempted revised onClick, not sending into correct room
+            onClick={(event) => {
+              handleSetRoom(event);
+              console.log("event target value", event.target.value);
+            }}
           >
             <div class="flex items-center justify-between mb-4">
               <div class="text-xl font-bold leading-none text-gray-900 dark:text-white">
