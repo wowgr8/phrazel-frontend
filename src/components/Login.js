@@ -4,8 +4,7 @@ import {SocketContext} from '../utils/Socket';
 import { UserDataContext } from "../App";
 import { base_url } from "../config";
 
-
-function Login({userName,setUserName,userDataHandler}) {
+function Login({ userName, setUserName, setSubmitted, submitted, userDataHandler}) {
   const socket = useContext(SocketContext);
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
@@ -19,7 +18,6 @@ function Login({userName,setUserName,userDataHandler}) {
   const toggleForm = () => {
     setShowSignUpForm(!showSignUpForm);
   };
-
 
   /* sign up form for new users */
   async function signUpForm(e) {
@@ -49,7 +47,10 @@ function Login({userName,setUserName,userDataHandler}) {
         socket.connect()
         socket.on("connect", () => {
           socket.emit('user_name',{userName,registeredUser:true})
-          if(socket.connected) navigate('/GameLobby'); //navigate to GameLobby 
+          if(socket.connected) {
+            navigate('/GameLobby');
+            setSubmitted(true);
+          }
         });
     
       } else if (data.message === 'Username already exists') {
@@ -103,6 +104,7 @@ function Login({userName,setUserName,userDataHandler}) {
           if(socket.connected){
             window.alert(`Welcome ${userName}!`);
             navigate("/GameLobby");
+            setSubmitted(true);
           } 
         });
       } else if (response.status === 401) {
@@ -112,9 +114,6 @@ function Login({userName,setUserName,userDataHandler}) {
       console.log("Error occurred: ", error);
     }
   }
-
-  useEffect(()=>{},[socket])
-
 
   return (
     <div
@@ -136,7 +135,7 @@ function Login({userName,setUserName,userDataHandler}) {
             <input name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
-            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Signup!</button>
+            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Signup!</button>
           </form>
           <button className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500" onClick={toggleForm}>
             Already have an account? Sign in{" "}
@@ -154,7 +153,7 @@ function Login({userName,setUserName,userDataHandler}) {
             <input name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
-            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Login!</button>
+            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Login!</button>
           </form>
           <p id="message"></p>
           <button onClick={toggleForm}>Dont have an account? <span className="text-blue-700 hover:underline dark:text-blue-500">Register</span>  </button>
