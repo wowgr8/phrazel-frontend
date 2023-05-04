@@ -30,11 +30,6 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let token = null; // used for cookies
   token = localStorage.getItem("token");
 
-  const logoffStyle = {   // Replace with HEADER/NAV component
-    textAlign: "right",
-    paddingRight: 30,
-  };
-
   useEffect(() => {
     //Receives players from the backend who entered a specific GameRoom
     socket.on("players", (data) => {
@@ -189,26 +184,33 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   let dis = players.length > 2 && allPlayersReady ? false : true;
 
   return (
-    <div className="bg-orange-600 ">
-      {/* To be replaced with header/nav component */}
-      <div className="">
-        <h2><span style={{ color: "#ECBE07" }}>{userName}</span> &nbsp;  Room: <span style={{ color: "#ECBE07" }}>{room}</span></h2>
-        <button onClick={disconnectRoom}>Logout</button>
-      </div>
+    <div>
+      <div className="bg-white border-gray-200 dark:bg-gray-800 w-1/8 flex flex-row justify-between">
 
-      <div>
-        <button onClick={leaveRoom}>Leave Room</button>
-      </div>
+        <div className="text-left px-2.5">
+          <hr className="border-gray-700"></hr>
 
-      <div className="grid grid-cols-3 gap-1 justify-items-center mt-36">
-        <div className="bg-red-500  w-1/2 ">
-          <h2>
-            You have won {gamesWon} Game{gamesWon !== 1 && "s"}!!!
+          <h2 className=" text-white">
+              You have won <span style={{color:"#ECBE07"}} > {gamesWon} </span> Game{gamesWon !== 1 && "s"}!
           </h2>
+        </div>
+
+        <div className=" text-right px-2.5">
+          <h2>
+            <span className="text-md uppercase" style={{color:"#ECBE07"}}>{userName}</span> &nbsp; &nbsp;
+            <button className="text-white  hover:text-blue-700" onClick={leaveRoom}>
+              Leave Room: <span style={{color:"#ECBE07"}}>{room}</span>
+            </button>
+          </h2>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 justify-items-stretch mt-2">
+        <div className="justify-self-start ml-2.5 ">
           <ScoreBoard players={players} />
         </div>
 
-        <div className="w-full">
+        <div className="justify-self-stretch">
           <div>
             <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} />
           </div>
@@ -234,7 +236,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
           />
         </div>
 
-        <div className="bg-purple-500 w-1/2">
+        <div className="justify-self-end mr-2.5">
           <GameChat 
             room={room} 
             players={players} 
