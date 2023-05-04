@@ -16,7 +16,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   const [guessingYourWord, setGuessingYourWord] = useState(false);
   const [youGuessed, setYouGuessed] = useState(false);
   const [word, setWord] = useState("");
-  const [players, setPlayers] = useState(["Just you"]);
+  const [players, setPlayers] = useState([userName]);
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false);
   const [winner, setWinner] = useState("");
