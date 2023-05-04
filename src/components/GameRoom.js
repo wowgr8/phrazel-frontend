@@ -232,6 +232,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
             startTimer={startTimer}
             wordSent={wordSent} 
             setWordSent ={setWordSent}
+            numberOfPlayers={players.length}
           />
         </div>
 
