@@ -7,7 +7,7 @@ import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
 import RoundCountDown from "./RoundCountDown";
 
-function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
+function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   const socket = useContext(SocketContext);
 
   const [allPlayersReady, setAllPlayersReady] = useState(false);
@@ -16,7 +16,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const [guessingYourWord, setGuessingYourWord] = useState(false);
   const [youGuessed, setYouGuessed] = useState(false);
   const [word, setWord] = useState("");
-  const [players, setPlayers] = useState(["Just you"]);
+  const [players, setPlayers] = useState([userName]);
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false);
   const [winner, setWinner] = useState("");
@@ -24,6 +24,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const [startTimer, setStartTimer] = useState(false);
   const { setUserData } = useContext(UserDataContext);
   const [hint, setHint] = useState("");
+  const [wordSent, setWordSent] = useState(false);
 
 
   if (!socket.connected) setInRoom(false);
@@ -135,6 +136,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       if (!isValid) {
         window.alert("Please enter a valid word");
       } else {
+        setWordSent(true)
         socket.emit("send_word", { word, room });
       }
     }
@@ -143,9 +145,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   /* the function checks if words are valid english  */
   const checkWord = async (word) => {
     try {
-      const response = await fetch('https://api.datamuse.com/words?sp=' + word);
-      const words = await response.json();
-      const isValid = words.some(w => w.word.toLowerCase() === word.toLowerCase());
+      const response = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word);
+      const data = await response.json();
+      const isValid = data.title !== "No Definitions Found"
       return isValid;
     } catch (error) {
       console.error(error);
@@ -157,12 +159,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const leaveRoom = () => {
     socket.emit("leave_room", room);
     setInRoom(false);
-  };
-
-  const disconnectRoom = () => {
-    socket.disconnect();
-    setInRoom(false);
-    socket.off()
+    setHost(false)
   };
 
   function wordHandler(event) {
@@ -233,6 +230,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
             youWon={youWon}
             winner={winner}
             startTimer={startTimer}
+            wordSent={wordSent} 
+            setWordSent ={setWordSent}
+            numberOfPlayers={players.length}
           />
         </div>
 
