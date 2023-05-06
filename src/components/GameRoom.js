@@ -56,6 +56,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
       // setYouGuessed(false);
       setSeconds(30)
       setStartTimer(true) 
+      setGuess("")
     });
 
     //Blocks player from guessing in current round if their submitted word was selected to be guessed.
@@ -78,9 +79,13 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
 
     socket.on("all_ready_for_next_round", () => {
       setAllPlayersReady(true);
+      setSeconds(0)
     });
 
-    socket.on("game_over", () => setGameOver(true));
+    socket.on("game_over", () => {
+      setGameOver(true)
+      setStartTimer(false)
+    });
 
     //This is at the end of the game
 
@@ -115,6 +120,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   }, [socket]);
 
   function handleTimerEnd() {
+    console.log("Entre a handle TImer End para enviar time_off");
     setStartTimer(false)
     socket.emit("time_off", room)
   }
@@ -208,7 +214,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
 
       <div className="grid grid-cols-3 justify-items-stretch mt-2">
         <div className="justify-self-start ml-2.5 ">
-          <ScoreBoard players={players} />
+          <ScoreBoard players={players} setSeconds={setSeconds} />
         </div>
 
         <div className="justify-self-stretch">
