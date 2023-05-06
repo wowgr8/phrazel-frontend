@@ -7,16 +7,16 @@ import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
 import RoundCountDown from "./RoundCountDown";
 
-function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
+function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   const socket = useContext(SocketContext);
 
   const [allPlayersReady, setAllPlayersReady] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [length, setLength] = useState(0);
   const [guessingYourWord, setGuessingYourWord] = useState(false);
-  const [youGuessed, setYouGuessed] = useState(false);
+  const [guess, setGuess] = useState("");
   const [word, setWord] = useState("");
-  const [players, setPlayers] = useState(["Just you"]);
+  const [players, setPlayers] = useState([userName]);
   const [gameOver, setGameOver] = useState(false);
   const [youWon, setYouWon] = useState(false);
   const [winner, setWinner] = useState("");
@@ -24,7 +24,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const [startTimer, setStartTimer] = useState(false);
   const { setUserData } = useContext(UserDataContext);
   const [hint, setHint] = useState("");
-
+  const [wordSent, setWordSent] = useState(false);
 
   if (!socket.connected) setInRoom(false);
   let token = null; // used for cookies
@@ -53,9 +53,10 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       //Resets the states to play a new round
       setGameStarted(true);
       setGuessingYourWord(false);
-      setYouGuessed(false);
+      // setYouGuessed(false);
       setSeconds(30)
       setStartTimer(true) 
+      setGuess("")
     });
 
     //Blocks player from guessing in current round if their submitted word was selected to be guessed.
@@ -68,14 +69,23 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
     //Returned when a player guesses the correct word
     socket.on("right", () => {
-      setYouGuessed(true);
+      // setYouGuessed(true);
+      setGuess("You Guessed Right!!!")
+    });
+
+    socket.on("wrong", () => {
+      setGuess("Nop. Try again!!!")
     });
 
     socket.on("all_ready_for_next_round", () => {
       setAllPlayersReady(true);
+      setSeconds(0)
     });
 
-    socket.on("game_over", () => setGameOver(true));
+    socket.on("game_over", () => {
+      setGameOver(true)
+      setStartTimer(false)
+    });
 
     //This is at the end of the game
 
@@ -110,6 +120,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   }, [socket]);
 
   function handleTimerEnd() {
+    console.log("Entre a handle TImer End para enviar time_off");
     setStartTimer(false)
     socket.emit("time_off", room)
   }
@@ -118,7 +129,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     socket.emit("start_game", room);
     setGameStarted(true);
     setAllPlayersReady(false);
-    setYouGuessed(false);
+    // setYouGuessed(false);
     setGuessingYourWord(false);
   };
 
@@ -135,6 +146,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
       if (!isValid) {
         window.alert("Please enter a valid word");
       } else {
+        setWordSent(true)
         socket.emit("send_word", { word, room });
       }
     }
@@ -143,9 +155,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   /* the function checks if words are valid english  */
   const checkWord = async (word) => {
     try {
-      const response = await fetch('https://api.datamuse.com/words?sp=' + word);
-      const words = await response.json();
-      const isValid = words.some(w => w.word.toLowerCase() === word.toLowerCase());
+      const response = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word);
+      const data = await response.json();
+      const isValid = data.title !== "No Definitions Found"
       return isValid;
     } catch (error) {
       console.error(error);
@@ -157,12 +169,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
   const leaveRoom = () => {
     socket.emit("leave_room", room);
     setInRoom(false);
-  };
-
-  const disconnectRoom = () => {
-    socket.disconnect();
-    setInRoom(false);
-    socket.off()
+    setHost(false)
   };
 
   function wordHandler(event) {
@@ -178,7 +185,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
     setYouWon(false);
   }
 
-  let guess = youGuessed ? "You Guessed Right!!!" : "";
+  
 
   //Disables starting a new game/new round unless all players are ready and there are at least a minimum of 3 players
   let dis = players.length > 2 && allPlayersReady ? false : true;
@@ -207,7 +214,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
 
       <div className="grid grid-cols-3 justify-items-stretch mt-2">
         <div className="justify-self-start ml-2.5 ">
-          <ScoreBoard players={players} />
+          <ScoreBoard players={players} setSeconds={setSeconds} />
         </div>
 
         <div className="justify-self-stretch">
@@ -233,6 +240,9 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
             youWon={youWon}
             winner={winner}
             startTimer={startTimer}
+            wordSent={wordSent} 
+            setWordSent ={setWordSent}
+            numberOfPlayers={players.length}
           />
         </div>
 

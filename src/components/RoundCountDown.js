@@ -11,7 +11,7 @@ function RoundCountDown({ startTimer, handleTimerEnd, seconds, setSeconds }) {
       }, 1000);
     }
 
-    if (seconds === 0) {
+    if (startTimer&&seconds === 0) {
       clearInterval(interval);
       handleTimerEnd()
     }
