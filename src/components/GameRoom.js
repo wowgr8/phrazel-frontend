@@ -14,7 +14,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   const [gameStarted, setGameStarted] = useState(false);
   const [length, setLength] = useState(0);
   const [guessingYourWord, setGuessingYourWord] = useState(false);
-  const [youGuessed, setYouGuessed] = useState(false);
+  const [guess, setGuess] = useState("");
   const [word, setWord] = useState("");
   const [players, setPlayers] = useState([userName]);
   const [gameOver, setGameOver] = useState(false);
@@ -25,7 +25,6 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   const { setUserData } = useContext(UserDataContext);
   const [hint, setHint] = useState("");
   const [wordSent, setWordSent] = useState(false);
-
 
   if (!socket.connected) setInRoom(false);
   let token = null; // used for cookies
@@ -54,9 +53,10 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
       //Resets the states to play a new round
       setGameStarted(true);
       setGuessingYourWord(false);
-      setYouGuessed(false);
+      // setYouGuessed(false);
       setSeconds(30)
       setStartTimer(true) 
+      setGuess("")
     });
 
     //Blocks player from guessing in current round if their submitted word was selected to be guessed.
@@ -69,14 +69,23 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
 
     //Returned when a player guesses the correct word
     socket.on("right", () => {
-      setYouGuessed(true);
+      // setYouGuessed(true);
+      setGuess("You Guessed Right!!!")
+    });
+
+    socket.on("wrong", () => {
+      setGuess("Nop. Try again!!!")
     });
 
     socket.on("all_ready_for_next_round", () => {
       setAllPlayersReady(true);
+      setSeconds(0)
     });
 
-    socket.on("game_over", () => setGameOver(true));
+    socket.on("game_over", () => {
+      setGameOver(true)
+      setStartTimer(false)
+    });
 
     //This is at the end of the game
 
@@ -111,6 +120,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   }, [socket]);
 
   function handleTimerEnd() {
+    console.log("Entre a handle TImer End para enviar time_off");
     setStartTimer(false)
     socket.emit("time_off", room)
   }
@@ -119,7 +129,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
     socket.emit("start_game", room);
     setGameStarted(true);
     setAllPlayersReady(false);
-    setYouGuessed(false);
+    // setYouGuessed(false);
     setGuessingYourWord(false);
   };
 
@@ -175,7 +185,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
     setYouWon(false);
   }
 
-  let guess = youGuessed ? "You Guessed Right!!!" : "";
+  
 
   //Disables starting a new game/new round unless all players are ready and there are at least a minimum of 3 players
   let dis = players.length > 2 && allPlayersReady ? false : true;
@@ -204,7 +214,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
 
       <div className="grid grid-cols-3 justify-items-stretch mt-2">
         <div className="justify-self-start ml-2.5 ">
-          <ScoreBoard players={players} />
+          <ScoreBoard players={players} setSeconds={setSeconds} />
         </div>
 
         <div className="justify-self-stretch">
