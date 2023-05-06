@@ -52,7 +52,7 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto">
           <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-30" onClick={closeProfileModal}></div>
           {/* <!-- Modal body --> */}
-          <div className="relative z-50 bg-gray-600 rounded-lg px-60 py-44 border-2 border-cyan-600">
+          <div className="relative z-50 bg-gray-600 rounded-lg px-60 py-44 border-2 border-cyan-600 hover:shadow-xl hover:shadow-cyan-500/50">
             <div className="absolute top-0 right-0">
               <button onClick={closeProfileModal} className="text-gray-200 hover:text-gray-700">
                 <span className="sr-only">Close</span>
