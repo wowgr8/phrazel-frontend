@@ -38,11 +38,11 @@ function AvailableRooms({ availableRooms, joinRoom, handleSetRoom }) {
             class="w-1/5 max-w-md p-4 bg-white border border-gray-200 hover:bg-yellow-400 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 m-1  overflow-auto"
             style={{ height: "240px" }}
             key={roomDetails.roomNumber}
-            value="key"
+            // value="key"
             // Attempted revised onClick, not sending into correct room
-            onClick={(event) => {
-              handleSetRoom(event);
-              console.log("event target value", event.target.value);
+            onClick={() => {
+              handleSetRoom(roomDetails.roomNumber);
+              console.log("room number", roomDetails.roomNumber);
             }}
           >
             <div class="flex items-center justify-between mb-4">
