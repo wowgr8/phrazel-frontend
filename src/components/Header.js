@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { SocketContext } from "../utils/Socket";
 import ProfilePage from './ProfilePage';
 
-function Header({ setInRoom, setShowHeader }) {
+function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
   const socket = useContext(SocketContext);
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -61,7 +61,7 @@ function Header({ setInRoom, setShowHeader }) {
                 </svg>
               </button>
             </div>
-            <ProfilePage />
+            <ProfilePage userName={userName} gamesWon={gamesWon} />
           </div>
         </div>
       )}
