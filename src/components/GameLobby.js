@@ -31,6 +31,7 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
 
   // Added joinRoom call below, not quite working right, sending to non-existent room
   const handleSetRoom = (room) => {
+    console.log("handleSetRoom room:", room);
     // event.preventDefault();
     setRoom(room);
     localStorage.setItem("room", room);
@@ -147,7 +148,7 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
           setInRoom={setInRoom}
           userName={userName}
           host={host}
-          setHost = {setHost}
+          setHost={setHost}
           gamesWon={gamesWon}
           _id={_id}
         />
