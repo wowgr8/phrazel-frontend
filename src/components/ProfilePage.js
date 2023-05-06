@@ -18,13 +18,13 @@ function ProfilePage({ gamesWon, userName }) {
     // Create socket.on() for backend with same string.
 
     if (cycleUpdateForm) {
-      socket.emit("update password", {
+      socket.emit("update_password", {
         currentPassword,
         updatedPassword
       })
       setShowUpdateForm(false)
     } else {
-      socket.emit("update userName", {
+      socket.emit("update_userName", {
         currentUserName,
         updatedUserName
       })
