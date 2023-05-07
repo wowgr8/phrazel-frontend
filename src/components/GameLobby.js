@@ -25,8 +25,13 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
   };
 
   const joinRoom = () => {
-    if (room !== "") socket.emit("join_room", { room, userName });
-    setInRoom(true);
+    console.log(room,'room in joinroom');
+    if (room !== "") {
+      socket.emit("join_room", { room, userName });
+      setInRoom(true);
+    } else{
+      window.alert('Please specify the room you want to join')
+    }
   };
 
   const handleSetRoom = (event) => {
@@ -42,9 +47,9 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
     });
 
     // If there's something in localStorageRoom, we set the room to the localStorage room upon refreshing.
-    if (localStorageRoom) {
-      setRoom(localStorageRoom);
-    }
+    // if (localStorageRoom) {
+    //   setRoom(localStorageRoom);
+    // }
 
     socket.on("available_rooms", (rooms) => {
       setAvailableRooms(rooms);
