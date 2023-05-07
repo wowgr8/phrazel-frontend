@@ -38,9 +38,9 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
     });
 
     // If there's something in localStorageRoom, we set the room to the localStorage room upon refreshing.
-    if (localStorageRoom) {
-      setRoom(localStorageRoom);
-    }
+    // if (localStorageRoom) {
+    //   setRoom(localStorageRoom);
+    // }
 
     socket.on("available_rooms", (rooms) => {
       setAvailableRooms(rooms);
