@@ -205,7 +205,7 @@ function GameRoom({ room, setInRoom, userName, host, gamesWon, _id }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 justify-items-stretch mt-2">
+      <div className="grid grid-cols-3 justify-items-stretch mt-20">
         <div className="justify-self-start ml-2.5 ">
           <ScoreBoard players={players} />
         </div>
