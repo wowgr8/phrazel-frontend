@@ -37,7 +37,7 @@ function App() {
       <UserDataContext.Provider value={{ setUserData }}>
         <div className="App" style={backgroundImage}>
           <Router>
-            {showHeader &&  <Header setInRoom={setInRoom} setShowHeader={setShowHeader} />}
+            {showHeader &&  <Header setInRoom={setInRoom} setShowHeader={setShowHeader} userName={userName} gamesWon={userData.gamesWon} />}
             <Routes>
               <Route
                 path="/"

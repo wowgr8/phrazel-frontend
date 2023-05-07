@@ -1,48 +1,99 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import {SocketContext} from '../utils/Socket';
 
-function ProfilePage() {
-  const [winLoseCount, setwinLoseCount] = useState({ wins: 0, lose: 0 });
+function ProfilePage({ gamesWon, userName }) {
+  const socket = useContext(SocketContext);
 
-  //let wins = 0; useState
-  //wins = 1; setWins
-  //<div>{wins}</div> (displays value of wins) jsx
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [cycleUpdateForm, setCycleUpdateForm] = useState(true);
+  const [updatedUserName, setUpdatedUserName] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [updatedPassword, setUpdatedPassword] = useState("");
+  const [currentEmail, setCurrentEmail] = useState("");
 
-  let navigate = useNavigate();
+  const openForm = () => {
+    setShowUpdateForm(true)
+  }
+  const submitChanges = (e) => {
+    // Create socket.on() for backend with same string.
 
-  function exitProfile(event) {
-    event.target.value === "game lobby"
-      ? navigate("/GameLobby")
-      : navigate("/GameRoom");
+    e.preventDefault();
+    console.log("button clicked")
+    if (cycleUpdateForm) {
+      socket.emit("update_password", {
+        currentPassword,
+        updatedPassword
+      })
+      console.log("current password: ", currentPassword);
+      console.log("updated password: ", updatedPassword);
+      // setShowUpdateForm(false)
+    } else {
+      socket.emit("update_userName", {
+        updatedUserName,
+        currentEmail
+      })
+      console.log("current Email: ", currentEmail);
+      console.log("updated Username: ", updatedUserName);
+      // setShowUpdateForm(false)
+    }
+  }
+
+  const cycleForm = () => {
+    setCycleUpdateForm(!cycleUpdateForm)
   }
 
   return (
-    <>
-      <h1>ProfilePage</h1>
+    <div className="">
+      <div className="text-xl uppercase" style={{color:"#ECBE07"}}>{userName}</div>
+      <p>Total Wins: {gamesWon}</p> 
 
-      <label htmlFor="hamburger dropdown"></label>
-      <select name="hamburger menu" id="navigation id" onChange={exitProfile}>
-        <option>Hamburger Menu</option>
-        <option value="game lobby">Game Lobby</option>
-        <option value="game room">Game Room</option>
-      </select>
-
-      <img></img>
-      <div>Avatar Dropdown Placeholder</div>
-      <label htmlFor="avatar dropdown">Choose your avatar</label>
-      <select name="avatar names" id="avatar id">
-        <option value="avatar1">Avatar 1</option>
-        <option value="avatar2">Avatar 2</option>
-        <option value="avatar3">Avatar 3</option>
-        <option value="avatar4">Avatar 4</option>
-        <option value="avatar5">Avatar 5</option>
-      </select>
-
-      <div>
-        <h4>wins/lose</h4>
-        {winLoseCount.wins} : {winLoseCount.lose}
-      </div>
-    </>
+      {showUpdateForm ?
+        <>
+          {cycleUpdateForm ?
+            <>
+            <form onSubmit={(e)=>submitChanges(e)}>
+              <div class="mb-6">
+                <label for="new-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New password</label>
+                <input type="password" id="new-password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required onChange={(e) => {setUpdatedPassword(e.target.value)}} />
+              </div>
+              <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current password</label>
+                <input type="password" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required onChange={(e) => {setCurrentPassword(e.target.value)}} />
+              </div>
+              <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
+            </form>
+            <button className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500" onClick={cycleForm}>
+              Update Username
+            </button>
+            </>
+          :
+            <div>
+              <form onSubmit={(e)=>submitChanges(e)}>
+                <div class="mb-6">
+                  <label for="newUsername" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Username</label>
+                  <input id="newUsername" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="" required onChange={(e) => {setUpdatedUserName(e.target.value)}} />
+                </div>
+                <div class="mb-6">
+                  <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Email</label>
+                  <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required onChange={(e) => {setCurrentEmail(e.target.value)}} />
+                </div>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
+              </form>
+              <button className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500" onClick={cycleForm}>
+                Update Password
+              </button>
+            </div>
+          }
+        </>
+      : 
+        <button 
+          className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mt-10 mb-2"
+          onClick={openForm}
+        >
+          Update Username or Password
+        </button>
+      }   
+    </div>
   );
 }
 

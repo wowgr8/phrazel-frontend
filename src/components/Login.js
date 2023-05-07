@@ -135,7 +135,7 @@ function Login({ userName, setUserName, setSubmitted, submitted, userDataHandler
             <input type="password" name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
-            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Signup!</button>
+            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2 mr-2 mb-2">Signup!</button>
           </form>
           <button className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500" onClick={toggleForm}>
             Already have an account? Sign in{" "}
@@ -153,7 +153,7 @@ function Login({ userName, setUserName, setSubmitted, submitted, userDataHandler
             <input type="password" name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
-            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Login!</button>
+            <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2 mr-2 mb-2">Login!</button>
           </form>
           <p id="message"></p>
           <button onClick={toggleForm}>Dont have an account? <span className="text-blue-700 hover:underline dark:text-blue-500">Register</span>  </button>
