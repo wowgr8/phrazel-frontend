@@ -132,7 +132,7 @@ function Login({ userName, setUserName, setSubmitted, submitted, userDataHandler
               setEmail(event.target.value);
             }}></input>
             <label className='block mb-2 text-sm font-medium text-gray-900'>password: </label>
-            <input name="password" type="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
+            <input type="password" name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
             <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2 mr-2 mb-2">Signup!</button>
@@ -150,7 +150,7 @@ function Login({ userName, setUserName, setSubmitted, submitted, userDataHandler
               setUserName(event.target.value)
             }}></input>
             <label className='block mb-2 text-sm font-medium text-gray-900'>password: </label>
-            <input name="password" type="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
+            <input type="password" name="password" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' onChange={(event) => {
               setPassword(event.target.value);
             }}></input>
             <button type="submit" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2 mr-2 mb-2">Login!</button>

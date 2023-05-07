@@ -12,6 +12,7 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
     socket.disconnect();
     setInRoom(false);
     setShowHeader(false)
+    socket.off()
   };
 
   const openProfileModal = () => {

@@ -140,6 +140,7 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
           setInRoom={setInRoom}
           userName={userName}
           host={host}
+          setHost = {setHost}
           gamesWon={gamesWon}
           _id={_id}
         />
