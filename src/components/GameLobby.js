@@ -24,15 +24,11 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
     setHost(true);
   };
 
-  const joinRoom = () => {
+  const joinRoom = (room) => {
     if (room !== "") socket.emit("join_room", { room, userName });
-    setInRoom(true);
-  };
-
-  const handleSetRoom = (event) => {
-    event.preventDefault();
-    setRoom(event.target.value);
+    setRoom(room)
     localStorage.setItem("room", room);
+    setInRoom(true);
   };
 
   useEffect(() => {
@@ -128,7 +124,6 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
                 <AvailableRooms
                   availableRooms={availableRooms}
                   joinRoom={joinRoom}
-                  handleSetRoom={handleSetRoom}
                 />
               </div>
             </div>
