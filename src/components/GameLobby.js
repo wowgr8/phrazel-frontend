@@ -54,7 +54,9 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
           {availableRooms.length === 0 ? (
             <div>
               <title>Game Lobby</title>
-              <h1>Game Lobby</h1>
+              <h1 class="mb-4 mt-2 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-gray">
+                Game Lobby
+              </h1>
               <div>
                 {/* //////////////////////////////////// */}
                 {/* Create a room section */}
@@ -75,11 +77,14 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
                 <br></br>
 
                 <div>
-                  <p>
+                  <p class="text-lg">
                     <em>
                       <strong>Hint:</strong> No rooms available to join yet,
-                      create the first room above ^^ to play!
                     </em>
+                  </p>
+                  <p class="text-lg">
+                    <em>create the first room above</em> ☝🏿☝🏾☝🏽☝🏼☝🏻{" "}
+                    <em>to play!</em>
                   </p>
                 </div>
               </div>
@@ -135,7 +140,7 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
           setInRoom={setInRoom}
           userName={userName}
           host={host}
-          setHost = {setHost}
+          setHost={setHost}
           gamesWon={gamesWon}
           _id={_id}
         />
