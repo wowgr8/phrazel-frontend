@@ -5,7 +5,6 @@ import { base_url } from "../config";
 import ScoreBoard from "./ScoreBoard";
 import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
-// import RoundCountDown from "./RoundCountDown";
 
 function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   const socket = useContext(SocketContext);
@@ -185,8 +184,6 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
     setYouWon(false);
   }
 
-  
-
   //Disables starting a new game/new round unless all players are ready and there are at least a minimum of 3 players
   let dis = players.length > 2 && allPlayersReady ? false : true;
 
@@ -217,11 +214,7 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
           <ScoreBoard players={players} setSeconds={setSeconds} />
         </div>
 
-        <div style={{padding: '0 10px'}}>
-          {/* <div>
-            <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} />
-          </div> */}
-          
+        <div style={{padding: '0 10px'}}>          
           <GameBoard
             hint={hint}
             wordHandler={wordHandler}
