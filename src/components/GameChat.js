@@ -45,7 +45,7 @@ function GameChat({ room, userName }) {
       {showEmojiPicker && 
         <div className='absolute bottom-2'>
           <EmojiPicker 
-            height={250} 
+            height={280} 
             width={270}
             className="w-full" 
             searchDisabled={true}
