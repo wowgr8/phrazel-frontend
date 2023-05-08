@@ -48,12 +48,12 @@ useEffect(()=>{
                 </div>
                 :
                 !props.gameStarted ?
-                    <div className="App text-blue-500 text-2xl">
+                    <div className="App text-blue-500 text-2xl mt-24">
                         {(3-props.numberOfPlayers)>0?
                             <h2>Waiting for {3-props.numberOfPlayers} other player{3-props.numberOfPlayers>1&&"s"}....</h2>:
-                            <h2>Waiting other players to submit a word</h2>
+                            <h2>Waiting for other players to submit a word</h2>
                         }
-                        {props.host && <button onClick={props.startGame} disabled={props.dis} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-2xl px-5 py-2.5 text-center mr-2 mb-2">Start Game</button>}
+                        {props.host && <button onClick={props.startGame} disabled={props.dis} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-2xl px-5 py-2.5 text-center mt-2 mr-2 mb-2">Start Game</button>}
                     </div>
                     :
                     !props.guessingYourWord ?
