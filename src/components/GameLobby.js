@@ -47,6 +47,11 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
     });
   }, [socket]);
 
+  //We look for available rooms once we connect
+  useEffect(() => {
+    socket.emit("search_for_rooms")
+  }, []);
+
   return (
     <div>
       {!inRoom ? (
