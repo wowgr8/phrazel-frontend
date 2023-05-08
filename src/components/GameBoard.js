@@ -93,8 +93,8 @@ useEffect(()=>{
                         </div>
             :
             <div >
-                <h2 className="text-red-500 text-2xl">Game Over</h2>
-                {!props.youWon?<h2 className="text-green-500 text-2xl">{props.winner} won this game!</h2>:<h2 className="text-green-500 text-2xl">You Won!!!</h2>}
+                <h2 className="text-red-500 text-2xl mb-3 mt-24">Game Over</h2>
+                {!props.youWon?<h2 className="text-green-500 text-2xl mb-3">{props.winner} won this game!</h2>:<h2 className="text-green-500 text-2xl mb-3">You Won!!!</h2>}
                 <button onClick={newGame} className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-2xl px-5 py-2.5 text-center mr-2 mb-2">New Game</button>
             </div>}
         </div>
