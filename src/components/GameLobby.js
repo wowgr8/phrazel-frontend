@@ -24,15 +24,11 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
     setHost(true);
   };
 
-  const joinRoom = () => {
+  const joinRoom = (room) => {
     if (room !== "") socket.emit("join_room", { room, userName });
-    setInRoom(true);
-  };
-
-  const handleSetRoom = (event) => {
-    event.preventDefault();
-    setRoom(event.target.value);
+    setRoom(room)
     localStorage.setItem("room", room);
+    setInRoom(true);
   };
 
   useEffect(() => {
@@ -42,9 +38,9 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
     });
 
     // If there's something in localStorageRoom, we set the room to the localStorage room upon refreshing.
-    if (localStorageRoom) {
-      setRoom(localStorageRoom);
-    }
+    // if (localStorageRoom) {
+    //   setRoom(localStorageRoom);
+    // }
 
     socket.on("available_rooms", (rooms) => {
       setAvailableRooms(rooms);
@@ -58,7 +54,9 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
           {availableRooms.length === 0 ? (
             <div>
               <title>Game Lobby</title>
-              <h1>Game Lobby</h1>
+              <h1 class="mb-4 mt-2 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-gray">
+                Game Lobby
+              </h1>
               <div>
                 {/* //////////////////////////////////// */}
                 {/* Create a room section */}
@@ -79,11 +77,14 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
                 <br></br>
 
                 <div>
-                  <p>
+                  <p class="text-lg">
                     <em>
                       <strong>Hint:</strong> No rooms available to join yet,
-                      create the first room above ^^ to play!
                     </em>
+                  </p>
+                  <p class="text-lg">
+                    <em>create the first room above</em> ☝🏿☝🏾☝🏽☝🏼☝🏻{" "}
+                    <em>to play!</em>
                   </p>
                 </div>
               </div>
@@ -128,7 +129,6 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
                 <AvailableRooms
                   availableRooms={availableRooms}
                   joinRoom={joinRoom}
-                  handleSetRoom={handleSetRoom}
                 />
               </div>
             </div>
@@ -140,6 +140,7 @@ function GameLobby({ userName, gamesWon, _id, setInRoom, inRoom }) {
           setInRoom={setInRoom}
           userName={userName}
           host={host}
+          setHost={setHost}
           gamesWon={gamesWon}
           _id={_id}
         />
