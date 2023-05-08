@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import {SocketContext} from '../utils/Socket';
+import { base_url } from "../config";
 
-function ProfilePage({ gamesWon, userName }) {
+function ProfilePage({ gamesWon, userName, _id }) {
   const socket = useContext(SocketContext);
 
   const [showUpdateForm, setShowUpdateForm] = useState(false);
@@ -11,30 +12,56 @@ function ProfilePage({ gamesWon, userName }) {
   const [updatedPassword, setUpdatedPassword] = useState("");
   const [currentEmail, setCurrentEmail] = useState("");
 
+  let token = null; // used for cookies
+  token = localStorage.getItem("token");
+
   const openForm = () => {
     setShowUpdateForm(true)
   }
-  const submitChanges = (e) => {
+  const submitChanges = async (e) => {
     // Create socket.on() for backend with same string.
-
-    e.preventDefault();
-    console.log("button clicked")
-    if (cycleUpdateForm) {
-      socket.emit("update_password", {
-        currentPassword,
-        updatedPassword
-      })
-      console.log("current password: ", currentPassword);
-      console.log("updated password: ", updatedPassword);
-      // setShowUpdateForm(false)
+    if (currentPassword === "" || updatedPassword === "" || updatedPassword.length < 6) {
+      window.alert("Please provide all values and updated password must have at least 6 characters");
     } else {
-      socket.emit("update_userName", {
-        updatedUserName,
-        currentEmail
-      })
-      console.log("current Email: ", currentEmail);
-      console.log("updated Username: ", updatedUserName);
-      // setShowUpdateForm(false)
+      e.preventDefault();
+      console.log("button clicked")
+      if (cycleUpdateForm) {
+        try {
+          const response = await fetch(`${base_url}api/v1/user/updatePassword/${_id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              oldPassword: currentPassword,
+              newPassword: updatedPassword
+            }),
+          });
+
+          console.log(`login responds with status code ${response.status}`);
+          
+          if (response.status === 200) {
+            window.alert("Password successfully updated!");
+          } else if (response.status === 401) {
+            window.alert("Invalid current password");
+          }
+        } catch (error) {
+          console.log("Error occurred: ", error);
+        }
+        
+        console.log("current password: ", currentPassword);
+        console.log("updated password: ", updatedPassword);
+        // setShowUpdateForm(false)
+      } else {
+        socket.emit("update_userName", {
+          updatedUserName,
+          currentEmail
+        })
+        console.log("current Email: ", currentEmail);
+        console.log("updated Username: ", updatedUserName);
+        // setShowUpdateForm(false)
+      }
     }
   }
 

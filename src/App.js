@@ -45,7 +45,7 @@ function App() {
                 element={<LandingPage userName={userName} setUserName={setUserName} setSubmitted={setSubmitted} />}
               />
               <Route path="Login" exact element={<Login userName={userName} setUserName={setUserName} />} />
-              <Route path="ProfilePage" exact element={<ProfilePage />} />
+              <Route path="ProfilePage" exact element={<ProfilePage _id={userData._id} />} />
               <Route
                 path="GameLobby"
                 exact
