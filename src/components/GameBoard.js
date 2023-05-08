@@ -23,7 +23,7 @@ useEffect(()=>{
 },[socket])
 
     return (
-        <div className="">
+        <div className="w-full p-4 text-center border rounded-lg shadow sm:p-8 bg-gray-800 border-cyan-500">
             {!props.gameOver?
             !props.wordSent? 
                 <div className="App">
