@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { SocketContext } from "../utils/Socket";
-
-
+import RoundCountDown from "./RoundCountDown";
 
 function GameBoard(props) {
     const [theWordWas, setTheWordWas] = useState("")
@@ -23,7 +22,10 @@ useEffect(()=>{
 },[socket])
 
     return (
-        <div className="w-full p-4 text-center border rounded-lg shadow sm:p-8 bg-gray-800 border-cyan-500">
+        <div className="w-full h-full p-4 text-center border rounded-lg shadow sm:p-8 bg-gray-700 border-cyan-500 hover:shadow-xl hover:shadow-cyan-500/50">
+            <div>
+                <RoundCountDown startTimer={props.startTimer} handleTimerEnd={props.handleTimerEnd} seconds={props.seconds} setSeconds={props.setSeconds} />
+            </div>
             {!props.gameOver?
             !props.wordSent? 
                 <div className="App">
