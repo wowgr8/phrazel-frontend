@@ -5,7 +5,7 @@ import { base_url } from "../config";
 import ScoreBoard from "./ScoreBoard";
 import GameBoard from "./GameBoard";
 import GameChat from "./GameChat";
-import RoundCountDown from "./RoundCountDown";
+// import RoundCountDown from "./RoundCountDown";
 
 function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   const socket = useContext(SocketContext);
@@ -212,15 +212,15 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 justify-items-stretch mt-20">
-        <div className="justify-self-start ml-2.5 ">
+      <div style={{display: 'grid', gridTemplateColumns: '1fr 3fr 1fr', marginTop: '80px'}}>
+        <div style={{marginLeft: '10px'}}>
           <ScoreBoard players={players} setSeconds={setSeconds} />
         </div>
 
-        <div className="justify-self-stretch">
-          <div>
+        <div style={{padding: '0 10px'}}>
+          {/* <div>
             <RoundCountDown startTimer={startTimer} handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds} />
-          </div>
+          </div> */}
           
           <GameBoard
             hint={hint}
@@ -243,10 +243,11 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
             wordSent={wordSent} 
             setWordSent ={setWordSent}
             numberOfPlayers={players.length}
+            handleTimerEnd={handleTimerEnd} seconds={seconds} setSeconds={setSeconds}
           />
         </div>
 
-        <div className="justify-self-end mr-2.5">
+        <div style={{marginRight: '10px'}}>
           <GameChat 
             room={room} 
             players={players} 
