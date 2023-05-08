@@ -23,7 +23,7 @@ useEffect(()=>{
 
     return (
         <div className="w-full h-full p-4 text-center border rounded-lg shadow sm:p-8 bg-gray-700 border-cyan-500 hover:shadow-xl hover:shadow-cyan-500/50">
-            <div className="mb-10">
+            <div className="mb-8">
                 <RoundCountDown startTimer={props.startTimer} handleTimerEnd={props.handleTimerEnd} seconds={props.seconds} setSeconds={props.setSeconds} />
             </div>
             {!props.gameOver?
