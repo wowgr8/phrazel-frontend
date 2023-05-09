@@ -45,7 +45,8 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
       setHint(hint);
     });
 
-
+     // changes
+     
     //Returns the length of the word to be guessed
     socket.on("word_to_guess", (length) => {
       setLength(length);
