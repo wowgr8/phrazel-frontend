@@ -36,35 +36,35 @@ function LandingPage({ setUserName, userName, setSubmitted }) {
     })
   }, [socket])
   return (
-    <div className='py-32 '>
-      <div className="container flex flex-col md:flex-row items-center px-6 mx-auto  space-y-0 md:space-y-0 bg-color-sky-300 columns-2 gap-x-36">
+    <div className="py-32">
+      <div className="container flex flex-col md:flex-row items-center px-6 mx-auto space-y-0 md:space-y-0 bg-color-sky-300 columns-2 gap-x-36">
         {/* Left Item */}
-        <div className='flex flex-col  space-y-12 md:w-1/2'>
-          <img src={Logo} height="550px" width="550px" />
+        <div className="flex flex-col space-y-12 md:w-1/2 mb-2">
+          <img src={Logo} className="h-80 w-80 md:h-96 md:w-96" />
         </div>
 
         {/* Right Item */}
-        <div className='w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 hover:bg-sky-100 '>
-          <div className='flex flex-col mb-32 space-y-12  items-center'>
-            {anonForm
-              ?
-              <div className=''>
+        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 hover:bg-sky-100">
+          <div className="flex flex-col mb-32 space-y-12 items-center">
+            {anonForm ? (
+              <div className="">
                 <form onSubmit={handleUsernameSubmit}>
-                  <label className='block mb-2 text-sm font-medium text-gray-900'>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
                     Enter a username:
                     <input
                       type="text"
                       defaultValue=""
                       name="username"
                       onChange={(event) => {
-                        setUserName(event.target.value)
+                        setUserName(event.target.value);
                       }}
-                      className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     />
                   </label>
                   <button
                     type="submit"
-                    className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  >
                     Play!
                   </button>
                 </form>
@@ -73,19 +73,16 @@ function LandingPage({ setUserName, userName, setSubmitted }) {
                   className="text-blue-700 hover:underline dark:text-blue-500"
                   onClick={toggleForm}
                 >
-                  <p> Back to sign in</p>
+                  Back to sign in
                 </button>
               </div>
-              :
-              <button className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-3 py-2.5 text-center mr-2 " onClick={toggleForm}>
-                <p>Sign up later, PLAY NOW!!!</p>
+            ) : (
+              <button className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-1 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-3 py-2.5 text-center mr-2" onClick={toggleForm}>
+                Sign up later, PLAY NOW!!!
               </button>
-            }
+            )}
 
-            {anonForm
-              ? null
-              : <Login setUserName={setUserName} userName={userName} setSubmitted={setSubmitted} />
-            }    
+            {anonForm ? null : <Login setUserName={setUserName} userName={userName} setSubmitted={setSubmitted} />}
           </div>
         </div>
       </div>
