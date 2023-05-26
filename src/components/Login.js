@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {SocketContext} from '../utils/Socket';
 import { UserDataContext } from "../App";
 import { base_url } from "../config";
 
-function Login({ userName, setUserName, setSubmitted, submitted, userDataHandler}) {
+function Login({ userName, setUserName, setSubmitted}) {
   const socket = useContext(SocketContext);
   // Used to conditionally render sign up or login form.
   const [showSignUpForm, setShowSignUpForm] = useState(false);
