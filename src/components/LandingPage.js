@@ -40,11 +40,11 @@ function LandingPage({ setUserName, userName, setSubmitted }) {
       <div className="container flex flex-col md:flex-row items-center px-6 mx-auto space-y-0 md:space-y-0 bg-color-sky-300 columns-2 gap-x-36">
         {/* Left Item */}
         <div className="flex flex-col space-y-12 md:w-1/2 mb-2">
-          <img src={Logo} className="h-80 w-80 md:h-96 md:w-96" />
+          <img src={Logo} className="h-82 w-82 md:h-96 md:w-96 rounded-lg" style={{ height: '540px', width: '540px'}}/>
         </div>
 
         {/* Right Item */}
-        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 hover:bg-sky-100">
+        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 hover:bg-sky-100 flex flex-col justify-center">
           <div className="flex flex-col mb-32 space-y-12 items-center">
             {anonForm ? (
               <div className="">
