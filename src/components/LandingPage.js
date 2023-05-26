@@ -47,7 +47,7 @@ function LandingPage({ setUserName, userName, setSubmitted }) {
         <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 hover:bg-sky-100 flex flex-col justify-center">
           <div className="flex flex-col mb-32 space-y-12 items-center">
             {anonForm ? (
-              <div className="">
+              <div className="pt-10 mt-10">
                 <form onSubmit={handleUsernameSubmit}>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
                     Enter a username:
