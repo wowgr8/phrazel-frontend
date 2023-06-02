@@ -70,7 +70,7 @@ function ProfilePage({ gamesWon, userName, _id }) {
   }
 
   return (
-    <div className="">
+    <div className="lg:w-1/2 md:w-3/4 sm:w-full xl:w-1/3">
       <div className="text-xl uppercase" style={{color:"#ECBE07"}}>{userName}</div>
       <p>Total Wins: {gamesWon}</p> 
 
