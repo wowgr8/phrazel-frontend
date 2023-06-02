@@ -31,7 +31,7 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
             <span  id="logo-nav-font" className="self-center text-4xl whitespace-nowrap text-sky-400/75 ">PHRAZ_L</span>
         </div>
 
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+        <div className="w-full md:block md:w-auto" id="navbar-default">
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-gray-900 bg-gray-800 border-gray-700">
             <li>
               {/* <!-- Modal Toggle --> */}
