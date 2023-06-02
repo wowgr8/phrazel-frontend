@@ -31,8 +31,8 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
             <span  id="logo-nav-font" className="self-center text-4xl whitespace-nowrap text-sky-400/75 ">PHRAZ_L</span>
         </div>
 
-        <div className="w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-gray-900 bg-gray-800 border-gray-700">
+        <div className="w-full md:w-auto flex items-center mt-4 md:mt-0">
+          <ul className="font-medium flex flex-row p-0 md:space-x-8">
             <li>
               {/* <!-- Modal Toggle --> */}
               <button onClick={openProfileModal} className="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 hover:text-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">
