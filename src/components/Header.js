@@ -37,12 +37,25 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
             <span  id="logo-nav-font" className="self-center text-4xl whitespace-nowrap text-sky-400/75 ">PHRAZ_L</span>
         </div>
 
-        <div onClick={handleNav} className='text-cyan-400'>
-          {!nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+        <ul className="hidden md:flex font-medium  flex-row p-0 md:space-x-8">
+          <li>
+            {/* <!-- Modal Toggle --> */}
+            <button onClick={openProfileModal} className="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 hover:text-blue-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">
+              Profile
+            </button>
+          </li>
+          <li>
+            <button onClick={disconnectRoom} className="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">
+              Logout
+            </button>
+          </li>
+        </ul>
           
+        <div onClick={handleNav} className='text-cyan-400 block md:hidden'>
+          {!nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
         </div>
 
-        <div className={!nav ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-red-300' : 'fixed left-[-100%]'}>
+        <div className={!nav ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-red-300 ease-in-out duration-500' : 'fixed left-[-100%]'}>
           <ul className="font-medium flex flex-row p-0 md:space-x-8">
               <li>
                 {/* <!-- Modal Toggle --> */}
@@ -60,9 +73,7 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
 
 
         {/* UL used to be here */}
-        {/* <div className="w-full md:w-auto flex items-center mt-4 md:mt-0">
-          
-        </div>         */}
+
       </div>
 
       {/* <!-- Modal content --> */}
