@@ -37,7 +37,7 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
             <span  id="logo-nav-font" className="self-center text-4xl whitespace-nowrap text-sky-400/75 ">PHRAZ_L</span>
         </div>
 
-        <div onClick={handleNav}>
+        <div onClick={handleNav} className='text-cyan-400'>
           {!nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
           
         </div>
