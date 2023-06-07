@@ -55,19 +55,19 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
           {!nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
         </div>
 
-        {/* mobile menu or regular menu ternary*/}
+        {/* mobile menu */}
         <div className={!nav ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500' : 'fixed left-[-100%]'}>
           <div className="flex items-center m-5">
             <span  id="logo-nav-font" className="self-center text-4xl whitespace-nowrap text-sky-400/75 ">PHRAZ_L</span>
           </div>
             <ul className="font-medium p-0 md:space-x-8 pt-20 uppercase text-4xl">
-              <li className='border-b border-gray-600'>
+              <li className='border-b border-cyan-600'>
                 {/* <!-- Modal Toggle --> */}
                 <button onClick={openProfileModal} className="block py-2 pl-3 pr-4 mb-8 rounded text-white hover:text-cyan-500 md:border-0 md:p-0">
                   Profile
                 </button>
               </li>
-              <li className='border-b border-gray-600'>
+              <li className='border-b border-cyan-600'>
                 <button onClick={disconnectRoom} className="block py-2 pl-3 pr-4 mb-8 mt-3 rounded text-white hover:text-cyan-500 md:border-0 md:p-0">
                   Logout
                 </button>
