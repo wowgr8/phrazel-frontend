@@ -45,8 +45,6 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
       setHint(hint);
     });
 
-     // changes
-     
     //Returns the length of the word to be guessed
     socket.on("word_to_guess", (length) => {
       setLength(length);
@@ -165,7 +163,6 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
     }
   };
 
-
   const leaveRoom = () => {
     socket.emit("leave_room", room);
     setInRoom(false);
@@ -191,12 +188,10 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
   return (
     <div>
       <div className="bg-white border-gray-200 dark:bg-gray-800 w-1/8 flex flex-row justify-between">
-
         <div className="text-left px-2.5">
           <hr className="border-gray-700"></hr>
-
           <h2 className=" text-white">
-              You have won <span style={{color:"#ECBE07"}} > {gamesWon} </span> Game{gamesWon !== 1 && "s"}!
+            You have won <span style={{color:"#ECBE07"}} > {gamesWon} </span> Game{gamesWon !== 1 && "s"}!
           </h2>
         </div>
 
@@ -249,7 +244,6 @@ function GameRoom({ room, setInRoom, userName, host, setHost, gamesWon, _id }) {
             />
         </div>
       </div>
-
     </div>
   );
 }
