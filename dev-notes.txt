@@ -1,0 +1,3 @@
+Tailwind Responsiveness video source: 
+- https://www.youtube.com/watch?v=ZU-drSVodBw&ab_channel=CodeCommerce
+- left off Minute 20.
