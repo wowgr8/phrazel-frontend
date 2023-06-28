@@ -37,7 +37,7 @@ _Winner & Game Over screen_
 
 ### Local development
 
-Trying to run the game locally? You will need to run both this front-end app & [the back-end server here] (https://github.com/wowgr8/phrazel-back) on your local machine.
+Trying to run the game locally? You will need to run both this front-end app & [the back-end server here](https://github.com/wowgr8/phrazel-back) on your local machine.
 
 Note that you can also see the history of the project for the time being on the CTD repos that the front & back-ends were forked off of--see the [old front-end repo here](https://github.com/Code-the-Dream-School/bb-practicum-team-2-front) & the [old back-end repo here](https://github.com/Code-the-Dream-School/bb-practicum-team-2-back).
 
