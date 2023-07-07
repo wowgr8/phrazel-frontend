@@ -4,6 +4,27 @@ Phrazel is a game created by Team Concurrent of [Code the Dream's](https://githu
 
 Phrazel is being deployed on Vercel on the front-end & Render on the back-end--stay tuned for the fully-deployed links.
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
+
+## Previews <a id="previews"></a>
+
+![WIP](link placeholder)
+![WIP](link placeholder)
+
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
+
+## Table of Contents
+
+1. [Previews](#previews)
+2. [Technologies Used](#technologies)
+3. [Description](#description)
+4. [Component Diagram and Hierarchy](#diagram)
+5. [Setup/Installation Requirements](#setup)
+6. [Known Bugs](#bugs)
+7. [Contact Information](#contact)
+8. [License](#license)
+
 ### Game screenshots
 
 **Landing page image**:
