@@ -8,25 +8,6 @@ Phrazel is being deployed on Vercel on the front-end & Render on the back-end--s
 
 ## Previews <a id="previews"></a>
 
-![WIP](link placeholder)
-![WIP](link placeholder)
-
-
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
-
-## Table of Contents
-
-1. [Previews](#previews)
-2. [Technologies Used](#technologies)
-3. [Description](#description)
-4. [Component Diagram and Hierarchy](#diagram)
-5. [Setup/Installation Requirements](#setup)
-6. [Known Bugs](#bugs)
-7. [Contact Information](#contact)
-8. [License](#license)
-
-### Game screenshots
-
 **Landing page image**:
 
 <img src="img/landing-page.png" alt="Landing page image" Title="Click to enlarge" width="75%" height="75%">
@@ -55,6 +36,24 @@ _Winner & Game Over screen_
 <br>
 <img src="img/game-room-3-game-over.png" alt="Winner & Game over image" Title="Click to enlarge" width="75%" height="75%">
 <br>
+
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
+
+## Table of Contents
+
+1. [Previews](#previews)
+2. [Technologies Used](#technologies)
+3. [Description](#description)
+4. [Component Diagram and Hierarchy](#diagram)
+5. [Setup/Installation Requirements](#setup)
+6. [Known Bugs](#bugs)
+7. [Contact Information](#contact)
+8. [License](#license)
+
+<!-- ### Game screenshots -->
+
+
 
 ### Local development
 
