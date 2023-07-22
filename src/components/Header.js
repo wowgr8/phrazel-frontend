@@ -52,11 +52,12 @@ function Header({ setInRoom, setShowHeader, userName, gamesWon }) {
         </ul>
           
         <div onClick={handleNav} className='text-cyan-400 block md:hidden'>
-          {!nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+          {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
         </div>
 
         {/* mobile menu */}
-        <div className={!nav ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500' : 'fixed left-[-100%]'}>
+        <div className={ nav ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500' : 'fixed left-[-100%]'}>
+        {/* <div > */}
           <div className="flex items-center m-5">
             <span  id="logo-nav-font" className="self-center text-4xl whitespace-nowrap text-sky-400/75 ">PHRAZ_L</span>
           </div>
